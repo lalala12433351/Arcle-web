@@ -100,15 +100,15 @@ Sidebar heading:  22px 'Barlow', sans-serif
 	--dark-secondary: #18191b;
 	--dark-optional: #2a2d32;
 	--white: #ffffff;
-	--color-primary: #C9F31D;
-	--color-secondary: #add40c;
+	--color-primary: #236BFF;
+	--color-secondary: #1546C8;
 	--color-heading: #04000b;
 	--color-paragraph: #666666;
 	--box-shadow-primary: -1px 3px 10px 0 rgba(0, 0, 0, 0.6);
 	--box-shadow-secondary: 0 10px 30px 0 rgba(44, 130, 237, 0.4);
 	--box-shadow-regular: 0px 2px 12px 0px #e7e7e7;
-	--bg-gray: #f2f3ef;
-	--bg-gray-secondary: #eff2e4;
+	--bg-gray: #eef3ff;
+	--bg-gray-secondary: #e4ecff;
 	--bg-gradient: linear-gradient(45deg, var(--color-secondary) 0%, var(--color-primary) 50%);
 	--bg-gradient-secondary: linear-gradient(90deg, rgba(237, 245, 255, 1) 0%, rgba(204, 223, 247, 1) 100%);
 }
@@ -1930,7 +1930,7 @@ p {
 }
 
 .btn.btn-theme {
-	color: var(--color-heading);
+	color: var(--white);
 	border: none;
 	background: var(--color-primary);
 }
@@ -1954,6 +1954,10 @@ p {
 
 .bg-dark .btn.btn-theme::after {
 	background-color: var(--white);
+}
+
+.bg-dark .btn.btn-theme {
+	color: var(--color-heading);
 }
 
 .bg-dark .btn.btn-theme:hover {
@@ -5737,7 +5741,7 @@ ul.list-style-two li:last-child {
 }
 
 .bg-dark .full-screen-portfolio-slider .content h2 {
-	background: linear-gradient(0deg, #add40c 0%, var(--white) 30%);
+	background: linear-gradient(0deg, #1546C8 0%, var(--white) 30%);
 	-webkit-background-clip: text;
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -10522,7 +10526,7 @@ ul.list-style-three li:first-child {
 	content: "";
 	height: 400px;
 	width: 400px;
-	background: #e7ff88;
+	background: #8eb6ff;
 	z-index: -1;
 	filter: blur(150px);
 	opacity: 0.3;
@@ -12177,7 +12181,7 @@ ul.contact-list li .info {
 	content: "";
 	height: 300px;
 	width: 300px;
-	background: #c9f31d;
+	background: #236BFF;
 	z-index: -1;
 	border-radius: 50%;
 	filter: blur(150px);

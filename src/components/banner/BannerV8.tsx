@@ -8,7 +8,7 @@ const BannerV8 = () => {
         <>
             <div className="banner-style-eight-area bg-cover"
                 style={{ backgroundImage: 'url(/assets/img/shape/3.jpg)' }}>
-                <div className="light-banner-active bg-gray bg-cover" style={{ backgroundImage: 'url(/assets/img/shape/4.jpg)' }} />
+                <div className="light-banner-active bg-gray bg-cover" style={{ backgroundImage: 'url(/assets/img/shape/4.jpg?v=blue)' }} />
                 <div className="container">
                     <div className="row">
                         <div className="col-xl-12">

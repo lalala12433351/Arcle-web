@@ -1,5 +1,5 @@
 .plexify-page {
-  --green: #6eff6e;
+  --green: #236BFF;
   --ink: #010101;
   --card: #161616;
   --muted: #a3a3a3;
@@ -95,23 +95,23 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.55);
-  color: #111;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: #fff;
   background: transparent;
   border-radius: 999px;
   padding: 8px 8px 8px 18px;
   font-weight: 500;
 }
 
-.px-talk i,
+.plexify-page .px-talk i,
 .px-dark-btn i {
   width: 34px;
   height: 34px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #111;
-  color: #fff;
+  background: #fff;
+  color: #111;
   font-style: normal;
 }
 
@@ -120,7 +120,7 @@
   color: #fff;
 }
 
-.px-header.on-dark .px-talk i {
+.plexify-page .px-header.on-dark .px-talk i {
   background: #fff;
   color: #111;
 }
@@ -165,8 +165,8 @@
 .px-hero {
   min-height: 100vh;
   padding: 150px 6vw 40px;
-  background: linear-gradient(180deg, #6eff6e 0%, #9dff8c 52%, #1d4a12 82%, #010101 100%);
-  color: #050505;
+  background: linear-gradient(180deg, #236BFF 0%, #6B9BFF 52%, #0d1b4a 82%, #010101 100%);
+  color: #fff;
   text-align: center;
   position: relative;
 }
@@ -220,7 +220,7 @@
   top: 0;
   bottom: 0;
   width: 14px;
-  border-color: #111;
+  border-color: #fff;
   border-style: solid;
 }
 
@@ -365,8 +365,8 @@
 .px-work {
   padding: 70px 0 40px;
   background:
-    radial-gradient(circle at 80% 20%, rgba(110, 255, 110, 0.18), transparent 28%),
-    linear-gradient(180deg, #071407 0%, #0c1c08 40%, #010101 100%);
+    radial-gradient(circle at 80% 20%, rgba(35, 107, 255, 0.22), transparent 28%),
+    linear-gradient(180deg, #070d1f 0%, #0c1830 40%, #010101 100%);
   overflow: hidden;
 }
 
@@ -591,7 +591,7 @@
   gap: 20px;
   padding: 40px 48px;
   background:
-    radial-gradient(circle at 70% 50%, rgba(110, 255, 110, 0.55), transparent 36%),
+    radial-gradient(circle at 70% 50%, rgba(35, 107, 255, 0.55), transparent 36%),
     #071207;
 }
 
@@ -756,7 +756,7 @@
   margin: 10px 6vw 0;
   border-radius: 24px;
   padding: 36px;
-  background: linear-gradient(90deg, #10210c, #1a3a10 55%, #6eff6e);
+  background: linear-gradient(90deg, #0c1838, #12306e 55%, #236BFF);
   color: #fff;
   display: flex;
   justify-content: space-between;

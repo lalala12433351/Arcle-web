@@ -8,7 +8,7 @@ import brand3 from "/assets/img/brand/3.png";
 import brand4 from "/assets/img/brand/4.png";
 import brand8 from "/assets/img/brand/8.png";
 import brand6 from "/assets/img/brand/6.png";
-import brand7 from "/assets/img/brand/7.png";
+import brand7 from "/assets/img/brand/9.png";
 import { Link } from "react-router-dom";
 import CountUp from 'react-countup';
 import handleSmoothScroll from '../utilities/handleSmoothScroll';

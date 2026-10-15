@@ -5124,8 +5124,9 @@ ul.project-meta {
 /* Banner Style Eight */
 
 .banner-style-eight-area {
+	--counter-fade: #ffffff;
 	padding-top: 200px;
-	padding-bottom: 150px;
+	padding-bottom: 40px;
 	position: relative;
 	z-index: 1;
 	overflow: hidden;
@@ -5208,7 +5209,7 @@ ul.project-meta {
 }
 
 .banner-style-eight-area .d-grid {
-	grid-template-columns: 1fr 2fr;
+	grid-template-columns: 1fr;
 }
 
 .banner-style-eight-area .d-grid h4 {
@@ -5226,6 +5227,10 @@ ul.project-meta {
 
 .bg-dark .banner-style-eight-area .d-grid .right {
 	border-top: 2px solid var(--white);
+}
+
+.bg-dark .banner-style-eight-area {
+	--counter-fade: #0e0f11;
 }
 
 .banner-style-eight-area .thumb {

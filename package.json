@@ -15,6 +15,7 @@
     "bootstrap": "^5.3.7",
     "gsap": "^3.13.0",
     "jquery": "^3.7.1",
+    "motion": "^14.2.0",
     "react": "^19.1.0",
     "react-circular-progressbar": "^2.2.0",
     "react-countup": "^6.5.3",

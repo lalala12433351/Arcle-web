@@ -4,7 +4,6 @@ import Home2 from "./pages/homePages/Home2";
 import Home3 from "./pages/homePages/Home3";
 import Home4 from "./pages/homePages/Home4";
 import Home5 from "./pages/homePages/Home5";
-import Home6 from "./pages/homePages/Home6";
 import Home7 from "./pages/homePages/Home7";
 import Home8 from "./pages/homePages/Home8";
 import Home9 from "./pages/homePages/Home9";
@@ -15,7 +14,6 @@ import Home2Light from "./pages/homePages/Home2Light";
 import Home3Light from "./pages/homePages/Home3Light";
 import Home4Light from "./pages/homePages/Home4Light";
 import Home5Light from "./pages/homePages/Home5Light";
-import Home6Light from "./pages/homePages/Home6Light";
 import Home7Light from "./pages/homePages/Home7Light";
 import Home8Light from "./pages/homePages/Home8Light";
 import Home9Light from "./pages/homePages/Home9Light";
@@ -98,7 +96,7 @@ const Routers = () => {
                 <Route path='/home-3' element={<Home3 />}></Route>
                 <Route path='/home-4' element={<Home4 />}></Route>
                 <Route path='/home-5' element={<Home5 />}></Route>
-                <Route path='/home-6' element={<Home6 />}></Route>
+                <Route path='/home-6' element={<Home1 />}></Route>
                 <Route path='/home-7' element={<Home7 />}></Route>
                 <Route path='/home-8' element={<Home8 />}></Route>
                 <Route path='/home-9' element={<Home9 />}></Route>
@@ -113,7 +111,7 @@ const Routers = () => {
                 <Route path='/home-3-light' element={<Home3Light />}></Route>
                 <Route path='/home-4-light' element={<Home4Light />}></Route>
                 <Route path='/home-5-light' element={<Home5Light />}></Route>
-                <Route path='/home-6-light' element={<Home6Light />}></Route>
+                <Route path='/home-6-light' element={<Home1Light />}></Route>
                 <Route path='/home-7-light' element={<Home7Light />}></Route>
                 <Route path='/home-8-light' element={<Home8Light />}></Route>
                 <Route path='/home-9-light' element={<Home9Light />}></Route>

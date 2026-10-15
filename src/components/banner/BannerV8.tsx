@@ -1,9 +1,16 @@
-import illustration1 from '/assets/img/illustration/best-agency.png';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import CountUp from 'react-countup';
 import SplitText from "../animation/SplitText.jsx"
+import HowItWorks from "../../../how-it-works/HowItWorks.jsx";
+import Counter from "../counter/Counter";
 
 const BannerV8 = () => {
+    const [projects, setProjects] = useState(0);
+
+    useEffect(() => {
+        setProjects(31);
+    }, []);
+
     return (
         <>
             <div className="banner-style-eight-area bg-cover"
@@ -49,12 +56,6 @@ const BannerV8 = () => {
                     <div className="row">
                         <div className="col-xl-7">
                             <div className="d-grid">
-                                <div>
-                                    <h4>Best Agency</h4>
-                                    <div className="thumb">
-                                        <img src={illustration1} alt="Best Agency" />
-                                    </div>
-                                </div>
                                 <div className="right">
                                     <p>
                                         Providing innovative solutions in branding, marketing, design, and advertising. These agencies often collaborate with clients to develop unique campaigns, visual identities, and digital strategies that resonate with target audiences. Services may include graphic design, content creation, social media management.
@@ -68,7 +69,22 @@ const BannerV8 = () => {
                                 <div className="bottom">
                                     <div className="fun-fact">
                                         <div className="counter">
-                                            <div className="timer"><CountUp end={31} enableScrollSpy /></div>
+                                            <div className="timer">
+                                                <Counter
+                                                    value={projects}
+                                                    places={[10, 1]}
+                                                    fontSize={72}
+                                                    padding={0}
+                                                    gap={2}
+                                                    horizontalPadding={0}
+                                                    borderRadius={0}
+                                                    textColor="inherit"
+                                                    fontWeight={600}
+                                                    gradientHeight={14}
+                                                    gradientFrom="var(--counter-fade, #ffffff)"
+                                                    gradientTo="transparent"
+                                                />
+                                            </div>
                                             <div className="operator">K</div>
                                         </div>
                                         <span className="medium">Completed Projects</span>
@@ -79,6 +95,7 @@ const BannerV8 = () => {
                         </div>
                     </div>
                 </div>
+                <HowItWorks embedded />
             </div>
         </>
     );

@@ -18,7 +18,7 @@ const ServicesV2 = ({ sectionClass, hasTitle }: DataType) => {
                         <div className="row">
                             <div className="col-lg-8 offset-lg-2">
                                 <div className="site-heading text-center">
-                                    <h4 className="sub-title">Services We Offer</h4>
+                                    <h4 className="sub-title">Services</h4>
                                     <h2 className="title">
                                         <SplitText
                                             delay={80}
@@ -28,7 +28,7 @@ const ServicesV2 = ({ sectionClass, hasTitle }: DataType) => {
                                             threshold={0.2}
                                             rootMargin="-50px"
                                         >
-                                            Turn Information
+                                            Everything You Need
                                         </SplitText>
                                     </h2>
                                     <h2 className="title">
@@ -40,7 +40,7 @@ const ServicesV2 = ({ sectionClass, hasTitle }: DataType) => {
                                             threshold={0.2}
                                             rootMargin="-50px"
                                         >
-                                            Into Actionable Insights
+                                            to Grow Online
                                         </SplitText>
                                     </h2>
                                 </div>

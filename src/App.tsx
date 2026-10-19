@@ -7,6 +7,8 @@ import 'react-photo-view/dist/react-photo-view.css';
 import 'react-circular-progressbar/dist/styles.css';
 import 'animate.css';
 
+import './index.css';
+
 import '../src/assets/css/animate.css';
 import '../src/assets/css/font-awesome.css';
 import '../src/assets/css/flaticon-set.css';

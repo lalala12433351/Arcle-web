@@ -13,21 +13,16 @@ const FooterV3 = () => {
                                 <div className="col-lg-6 footer-item about pr-120 pr-md-15 pr-xs-15 pr-md-15 pr-xs-15">
                                     <div className="top">
                                         <h2>Get Support?</h2>
-                                        <a className="quick-btn" href="mailto:someone@example.com">
+                                        <a className="quick-btn" href="mailto:info@arcle.in">
                                             <i className="fas fa-long-arrow-right" />
                                         </a>
                                     </div>
                                     <ul className="address-list">
                                         <li>
-                                            <h4>Australia</h4>
+                                            <h4>Registered Office</h4>
                                             <p>
-                                                Travel World House, Level 7, 17 Jones St, NSW, 2060
-                                            </p>
-                                        </li>
-                                        <li>
-                                            <h4>Dubai</h4>
-                                            <p>
-                                                Sheikh Mohammed bin Salah, #234 B - Downtown - Dubai
+                                                Arcle Technologies LLP<br />
+                                                No.71/2, 71/2A, 3rd floor, SVR Building, BBMP Khata, HSR Layout, HSR Layout police station, Bangalore South, Bangalore-560102, Karnataka, India
                                             </p>
                                         </li>
                                     </ul>
@@ -59,7 +54,7 @@ const FooterV3 = () => {
                                 </div>
                                 <div className="col-lg-6 text-end">
                                     <p>
-                                        Copyright &copy; {(new Date().getFullYear())} Arcle. All Rights Reserved
+                                        Copyright &copy; {(new Date().getFullYear())} Arcle Technologies LLP. All Rights Reserved
                                     </p>
                                 </div>
                             </div>

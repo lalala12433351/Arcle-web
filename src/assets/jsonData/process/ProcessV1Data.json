@@ -1,30 +1,44 @@
 [
     {
         "id": 1,
-        "title": "Research",
+        "title": "Audit",
         "thumb": "5.png",
         "thumbLight": "27.png",
-        "text": "Remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position."
+        "text": "We analyse your website, advertising, SEO, social media, competitors and existing digital presence."
     },
     {
         "id": 2,
-        "title": "Concept",
+        "title": "Strategy",
         "thumb": "6.png",
         "thumbLight": "28.png",
-        "text": "Terminators on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position."
+        "text": "We create a practical roadmap covering priorities, channels, campaigns, content and measurable goals."
     },
     {
         "id": 3,
-        "title": "Implement",
+        "title": "Setup",
         "thumb": "7.png",
         "thumbLight": "29.png",
-        "text": "Remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position."
+        "text": "We implement tracking, analytics, conversion events, landing pages, SEO foundations and other required infrastructure."
     },
     {
         "id": 4,
-        "title": "Handover",
+        "title": "Launch",
         "thumb": "8.png",
         "thumbLight": "30.png",
-        "text": "Trensination on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position."
+        "text": "Campaigns, content and optimisation work go live with structured testing."
+    },
+    {
+        "id": 5,
+        "title": "Optimise",
+        "thumb": "5.png",
+        "thumbLight": "27.png",
+        "text": "We continuously improve targeting, creative, keywords, landing pages and conversion rates."
+    },
+    {
+        "id": 6,
+        "title": "Scale",
+        "thumb": "6.png",
+        "thumbLight": "28.png",
+        "text": "Once we identify what works, we expand investment around the strongest opportunities."
     }
 ]

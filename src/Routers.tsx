@@ -84,6 +84,8 @@ import Home10Light from "./pages/homePages/Home10Light";
 import Home11Light from "./pages/homePages/Home11Light";
 import Home12Light from "./pages/homePages/Home12Light";
 import Home13Light from "./pages/homePages/Home13Light";
+import PrismaHeroDemo from "./pages/homePages/PrismaHeroDemo";
+import WovenLightHeroDemo from "./pages/homePages/WovenLightHeroDemo";
 
 const Routers = () => {
     return (
@@ -91,6 +93,8 @@ const Routers = () => {
             <Routes>
 
                 <Route path='/' element={<Home1 />}></Route>
+                <Route path='/prisma-hero' element={<PrismaHeroDemo />}></Route>
+                <Route path='/woven-light-hero' element={<WovenLightHeroDemo />}></Route>
                 <Route path='/plexify' element={<PlexifyHome />}></Route>
                 <Route path='/home-2' element={<Home2 />}></Route>
                 <Route path='/home-3' element={<Home3 />}></Route>

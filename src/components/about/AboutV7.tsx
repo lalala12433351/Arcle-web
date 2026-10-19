@@ -28,7 +28,7 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                                             threshold={0.2}
                                             rootMargin="-50px"
                                         >
-                                            Building the right foundation of your business
+                                            Strategy Before Spending
                                         </SplitText>
                                     </h2>
                                     <Link className="btn-animation mt-10" to="/about-2">
@@ -42,14 +42,26 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                                         <div className="left">
                                             <ul className="list-style-one">
                                                 <li>
-                                                    <strong>Work</strong> info@dexus.com
+                                                    <strong>01</strong> Business
                                                 </li>
                                                 <li>
-                                                    <strong>Company</strong> (+012)47 333 78 901
+                                                    <strong>02</strong> Audience
+                                                </li>
+                                                <li>
+                                                    <strong>03</strong> Offer
+                                                </li>
+                                                <li>
+                                                    <strong>04</strong> Channel
+                                                </li>
+                                                <li>
+                                                    <strong>05</strong> Website
+                                                </li>
+                                                <li>
+                                                    <strong>06</strong> Conversion
                                                 </li>
                                             </ul>
                                             <p>
-                                                Give lady of they such they sure it. Me contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeite. Give lady of they such they sure it. Me contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeited he something an
+                                                Before execution, we look at the complete customer journey, from follow-up through to measurement. Arcle is headquartered in Bangalore and works with businesses across Mumbai, Delhi NCR, Hyderabad, Chennai, Pune, Kolkata, Ahmedabad, Kochi and growing cities in India, as well as international markets.
                                             </p>
                                         </div>
                                         <div className="award-style-one">
@@ -58,7 +70,7 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                                                     <img src={icon16} alt="Image Not Found" />
                                                 </div>
                                                 <div className="info">
-                                                    <h4>Award winning creative digital agency</h4>
+                                                    <h4>One team for marketing and technology</h4>
                                                 </div>
                                             </div>
                                             <div className="user-card-two">

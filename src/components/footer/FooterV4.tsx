@@ -22,25 +22,20 @@ const FooterV4 = ({ sectionClass }: DataType) => {
                                 </div>
                                 <ul className="address-list">
                                     <li>
-                                        <h4>Australia</h4>
+                                        <h4>Registered Office</h4>
                                         <p>
-                                            Travel World House, Level 7, 17 Jones St, NSW, 2060
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <h4>Dubai</h4>
-                                        <p>
-                                            Sheikh Mohammed bin salah, #234 B - Downtown - Dubai
+                                            Arcle Technologies LLP<br />
+                                            No.71/2, 71/2A, 3rd floor, SVR Building, BBMP Khata, HSR Layout, HSR Layout police station, Bangalore South, Bangalore-560102, Karnataka, India
                                         </p>
                                     </li>
                                 </ul>
                                 <div className="footer-contact">
                                     <ul>
                                         <li>
-                                            <a href="mailto:someone@example.com">info@arcle.com</a>
+                                            <a href="mailto:info@arcle.in">info@arcle.in</a>
                                         </li>
                                         <li>
-                                            <a href="tel:+4733378901">+47 333 78 901</a>
+                                            <a href="tel:+919606352255">+91 96063 52255</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -73,7 +68,7 @@ const FooterV4 = ({ sectionClass }: DataType) => {
                             </div>
                             <div className="col-lg-6 text-end">
                                 <p>
-                                    Copyright &copy; {(new Date().getFullYear())} Arcle. All Rights Reserved
+                                    Copyright &copy; {(new Date().getFullYear())} Arcle Technologies LLP. All Rights Reserved
                                 </p>
                             </div>
                         </div>

@@ -3,14 +3,21 @@
         "id": 1,
         "thumb": "1.jpg",
         "thumbLight": "43.jpg",
-        "text": "Motion",
-        "textBold": "Graphics"
+        "text": "Traffic to",
+        "textBold": "Enquiries"
     },
     {
         "id": 2,
         "thumb": "2.jpg",
         "thumbLight": "42.jpg",
-        "text": "Market",
-        "textBold": "Branding"
+        "text": "Scaling Paid",
+        "textBold": "Campaigns"
+    },
+    {
+        "id": 3,
+        "thumb": "1.jpg",
+        "thumbLight": "43.jpg",
+        "text": "Building a",
+        "textBold": "Digital Brand"
     }
 ]

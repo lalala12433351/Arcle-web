@@ -38,10 +38,10 @@ const AboutV6 = ({ sectionClass }: DataType) => {
                                 <div className="info">
                                     <div className="d-flex">
                                         <Link to="/about-us"><img src={arrowIcon} alt="Image Not Found" /></Link>
-                                        <h2 className="title text">Best creative & digital agency</h2>
+                                        <h2 className="title text">Growth Starts With One Team</h2>
                                     </div>
                                     <p className="text">
-                                        Give lady of they such they sure it. Me contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeited he something an. Contrasted dissimilar get joy you instrument out reasonably
+                                        Arcle is built for businesses that want measurable growth. Our marketers, SEO specialists, designers, writers and developers connect your marketing and technology, whether you are launching a startup, expanding a business or entering a new market.
                                     </p>
                                 </div>
                                 <ul className="service-list">

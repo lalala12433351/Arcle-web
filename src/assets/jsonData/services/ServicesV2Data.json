@@ -3,30 +3,100 @@
         "id": 1,
         "activeClass": "active",
         "icon": "17.png",
-        "subTitle": "Connection",
-        "title": "Perfect UI/UX Designing",
-        "text": "Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new.",
-        "listData": ["Information architecture", "Digital Designer", "Interaction design"],
+        "subTitle": "Advertising",
+        "title": "Performance Marketing",
+        "text": "Turn advertising budgets into measurable business results. We plan, launch and optimise campaigns across Google Ads, Meta Ads, LinkedIn Ads and YouTube with a focus on qualified leads, sales and return on ad spend.",
+        "listData": ["Google Ads", "Meta Ads", "LinkedIn Ads", "YouTube Ads", "Remarketing", "Conversion Tracking", "Landing Pages", "Campaign Optimisation"],
         "illustration": "2.png"
     },
     {
         "id": 2,
         "activeClass": "",
         "icon": "18.png",
-        "subTitle": "Collaboration",
-        "title": "Social Media Marketing",
-        "text": "Regular indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new.",
-        "listData": ["Content marketing", "Affiliate marketing", "Search engine optimization"],
+        "subTitle": "Search",
+        "title": "SEO",
+        "text": "Get discovered when your customers are searching. Our SEO strategies combine technical optimisation, content, local SEO, keyword research, internal linking and authority building to improve your visibility and attract relevant organic traffic.",
+        "listData": ["Technical SEO", "On-Page SEO", "Local SEO", "Keyword Research", "Content SEO", "Link Building", "Google Business Profile", "SEO Reporting"],
         "illustration": "3.png"
     },
     {
         "id": 3,
         "activeClass": "",
         "icon": "19.png",
-        "subTitle": "Innovations",
-        "title": "Branding & Stationery",
-        "text": "Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new.",
-        "listData": ["Product branding", "Retail branding", "Service branding"],
+        "subTitle": "Search",
+        "title": "AEO & GEO",
+        "text": "Be visible beyond traditional search. We optimise your content and digital presence for Google AI results, answer engines and conversational search.",
+        "listData": ["Google AI Results", "Featured Snippets", "AI Answer Engines", "Conversational Search", "Entity Visibility", "Question-Based Searches"],
         "illustration": "4.png"
+    },
+    {
+        "id": 4,
+        "activeClass": "",
+        "icon": "17.png",
+        "subTitle": "Social",
+        "title": "Social Media Marketing",
+        "text": "Build a brand people remember. We manage social media from strategy to execution, including content planning, creative development, reels, community management and paid social campaigns.",
+        "listData": ["Instagram", "Facebook", "LinkedIn", "YouTube"],
+        "illustration": "2.png"
+    },
+    {
+        "id": 5,
+        "activeClass": "",
+        "icon": "18.png",
+        "subTitle": "Web",
+        "title": "Website Development",
+        "text": "Build a website that works as your best salesperson. We create fast, mobile-first and SEO-ready websites with WordPress, Shopify, Webflow, React, Next.js and custom development.",
+        "listData": ["Business Websites", "E-commerce", "Landing Pages", "Website Redesign", "Custom Websites", "Conversion Optimisation", "Technical SEO", "Website Maintenance"],
+        "illustration": "3.png"
+    },
+    {
+        "id": 6,
+        "activeClass": "",
+        "icon": "19.png",
+        "subTitle": "Product",
+        "title": "Web Applications",
+        "text": "Build powerful digital products around your business. We design and develop responsive web applications with React, Next.js, Node.js and APIs.",
+        "listData": ["SaaS Platforms", "Customer Portals", "Admin Dashboards", "Business Applications", "Custom Web Apps", "API Integrations"],
+        "illustration": "4.png"
+    },
+    {
+        "id": 7,
+        "activeClass": "",
+        "icon": "17.png",
+        "subTitle": "Software",
+        "title": "Desktop Applications",
+        "text": "Create software built around the way your business works. We develop custom desktop applications, from UI/UX and development through testing and deployment.",
+        "listData": ["Business Software", "Internal Tools", "Custom Desktop Apps", "Workflow Applications", "Data Management Systems", "Third-Party Integrations"],
+        "illustration": "2.png"
+    },
+    {
+        "id": 8,
+        "activeClass": "",
+        "icon": "18.png",
+        "subTitle": "Mobile",
+        "title": "App Development",
+        "text": "Turn your idea into a useful digital product. We design and develop mobile applications with Flutter, React Native, Android and iOS, from MVPs to full-scale products.",
+        "listData": ["Concept", "Wireframes", "Development", "Testing", "Launch"],
+        "illustration": "3.png"
+    },
+    {
+        "id": 9,
+        "activeClass": "",
+        "icon": "19.png",
+        "subTitle": "Creative",
+        "title": "Branding & Creative",
+        "text": "Make your business look as strong as it is. We create visual identities and marketing assets for websites, social media, advertising and other customer touchpoints.",
+        "listData": ["Logo Design", "Brand Identity", "UI/UX", "Ad Creatives", "Social Creatives", "Presentation Design", "Video Creatives"],
+        "illustration": "4.png"
+    },
+    {
+        "id": 10,
+        "activeClass": "",
+        "icon": "17.png",
+        "subTitle": "Content",
+        "title": "Content Marketing",
+        "text": "Create content that answers real customer questions. From website copy and SEO blogs to case studies and newsletters, every piece is created around your audience and business objectives.",
+        "listData": ["Website Copy", "SEO Blogs", "Case Studies", "Newsletters"],
+        "illustration": "2.png"
     }
 ]

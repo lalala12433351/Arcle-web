@@ -1,105 +1,52 @@
+import { arcleFaqs } from "../../content/arcleHome";
+
 interface DataType {
     sectionClass?: string
+    hasTitle?: boolean
 }
 
-const FaqV1 = ({ sectionClass }: DataType) => {
+const FaqV1 = ({ sectionClass, hasTitle }: DataType) => {
+    const columns = [arcleFaqs.slice(0, 6), arcleFaqs.slice(6)];
+
     return (
         <>
             <div className={`faq-area default-padding ${sectionClass ? sectionClass : ""}`}>
                 <div className="container">
+                    {hasTitle &&
+                        <div className="row">
+                            <div className="col-lg-8 offset-lg-2">
+                                <div className="site-heading text-center">
+                                    <h4 className="sub-title">FAQs</h4>
+                                    <h2 className="title">Questions, Answered</h2>
+                                </div>
+                            </div>
+                        </div>
+                    }
                     <div className="row gutter-xl">
-                        <div className="col-lg-6">
-                            <div className="faq-style-one accordion" id="faqAccordion">
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header" id="headingOne">
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                            Business Innovation
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                                        <div className="accordion-body">
-                                            <p>
-                                                New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header" id="headingTwo">
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Search Engine Optimization
-                                        </button>
-                                    </h2>
-                                    <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                                        <div className="accordion-body">
-                                            <p>
-                                                Partner had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header" id="headingThree">
-                                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                            Thinking Differently
-                                        </button>
-                                    </h2>
-                                    <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                                        <div className="accordion-body">
-                                            <p>
-                                                Correcting had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius .
-                                            </p>
-                                        </div>
-                                    </div>
+                        {columns.map((column, columnIndex) => (
+                            <div className="col-lg-6" key={columnIndex}>
+                                <div className="faq-style-one accordion" id={`faqAccordion-${columnIndex}`}>
+                                    {column.map((faq, index) => {
+                                        const panelId = `faq-collapse-${columnIndex}-${index}`;
+                                        const open = columnIndex === 0 && index === 0;
+                                        return (
+                                            <div className="accordion-item" key={faq.question}>
+                                                <h2 className="accordion-header" id={`${panelId}-heading`}>
+                                                    <button className={`accordion-button${open ? "" : " collapsed"}`} type="button" data-bs-toggle="collapse" data-bs-target={`#${panelId}`} aria-expanded={open} aria-controls={panelId}>
+                                                        {faq.question}
+                                                    </button>
+                                                </h2>
+                                                <div id={panelId} className={`accordion-collapse collapse${open ? " show" : ""}`} aria-labelledby={`${panelId}-heading`} data-bs-parent={`#faqAccordion-${columnIndex}`}>
+                                                    <div className="accordion-body">
+                                                        <p>{faq.answer}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-lg-6">
-                            <div className="faq-style-one accordion" id="faqAccordion2">
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header" id="heading4">
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                                            Business Innovation
-                                        </button>
-                                    </h2>
-                                    <div id="collapse4" className="accordion-collapse collapse show" aria-labelledby="heading4" data-bs-parent="#faqAccordion2">
-                                        <div className="accordion-body">
-                                            <p>
-                                                Maintain had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header" id="heading5">
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-                                            Search Engine Optimization
-                                        </button>
-                                    </h2>
-                                    <div id="collapse5" className="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#faqAccordion2">
-                                        <div className="accordion-body">
-                                            <p>
-                                                Regular had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header" id="heading6">
-                                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
-                                            Thinking Differently
-                                        </button>
-                                    </h2>
-                                    <div id="collapse6" className="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#faqAccordion2">
-                                        <div className="accordion-body">
-                                            <p>
-                                                Discuss had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>

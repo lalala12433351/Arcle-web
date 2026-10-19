@@ -3,14 +3,27 @@ import SplitText from "../animation/SplitText.jsx"
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
+interface ServiceCard {
+    id: number;
+    icon: string;
+    iconLight: string;
+    title: string;
+    text: string;
+    href?: string;
+}
+
 interface DataType {
     hasTitle?: boolean;
     sectionClass?: string;
+    items?: ServiceCard[];
+    subTitle?: string;
+    title?: string;
 }
 
-const ServicesV1 = ({ hasTitle, sectionClass }: DataType) => {
+const ServicesV1 = ({ hasTitle, sectionClass, items, subTitle, title }: DataType) => {
+    const services = items ?? ServicesV1Data;
 
-    const [activeServiceId, setActiveServiceId] = useState(ServicesV1Data[0]?.id || null);
+    const [activeServiceId, setActiveServiceId] = useState(services[0]?.id || null);
 
     const handleMouseEnter = (id: number) => {
         setActiveServiceId(id);
@@ -31,7 +44,7 @@ const ServicesV1 = ({ hasTitle, sectionClass }: DataType) => {
                             <div className="row">
                                 <div className="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2 text-center">
                                     <div className="site-heading">
-                                        <h4 className="sub-title">Services we offer</h4>
+                                        <h4 className="sub-title">{subTitle || "Services we offer"}</h4>
                                         <h2 className="title split-text">
                                             <SplitText
                                                 delay={40}
@@ -41,7 +54,7 @@ const ServicesV1 = ({ hasTitle, sectionClass }: DataType) => {
                                                 threshold={0.2}
                                                 rootMargin="-50px"
                                             >
-                                                Turn Information Into Actionable Insights
+                                                {title || "Everything You Need to Grow Online"}
                                             </SplitText>
                                         </h2>
                                     </div>
@@ -54,7 +67,9 @@ const ServicesV1 = ({ hasTitle, sectionClass }: DataType) => {
                 <div className="container">
                     <div className="services-style-one-items">
                         <div className="row">
-                            {ServicesV1Data.slice(0, 4).map((service) => (
+                            {services.map((service) => {
+                                const href = "href" in service && service.href ? service.href : `/service-details/${service.id}`;
+                                return (
                                 <div
                                     className="col-xl-3 col-lg-6 col-md-6 single-item"
                                     key={service.id}
@@ -68,15 +83,16 @@ const ServicesV1 = ({ hasTitle, sectionClass }: DataType) => {
                                             <img className="light-img" src={`/assets/img/icon/${service.iconLight}`} alt="Image Not Found" width={75} height={60} />
                                         </div>
                                         <h4>
-                                            <Link to={`/service-details/${service.id}`}>{service.title}</Link>
+                                            <Link to={href}>{service.title}</Link>
                                         </h4>
                                         <p>{service.text}</p>
-                                        <Link className="btn-full" to={`/service-details/${service.id}`}>
+                                        <Link className="btn-full" to={href}>
                                             Read More <i className="fas fa-arrow-right" />
                                         </Link>
                                     </div>
                                 </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

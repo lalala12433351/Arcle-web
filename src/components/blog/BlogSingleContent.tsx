@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import team1Thumb from "/assets/img/team/9.jpg"
+import team1Thumb from "/assets/img/team/libin-ceo.jpg"
 import BlogPostComments from './BlogPostComments';
 import BlogCommentForm from './BlogCommentForm';
 import handleSmoothScroll from '../utilities/handleSmoothScroll';

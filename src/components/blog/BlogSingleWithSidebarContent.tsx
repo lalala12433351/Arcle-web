@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import team1Thumb from "/assets/img/team/9.jpg"
+import team1Thumb from "/assets/img/team/libin-ceo.jpg"
 import BlogCommentForm from './BlogCommentForm';
 import SocialShareV3 from '../social/SocialShareV3';
 import { arclePosts as BlogV3Data } from "../../content/arcleBlog";

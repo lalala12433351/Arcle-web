@@ -1,95 +1,100 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home1 from "./pages/homePages/Home1";
-import Home2 from "./pages/homePages/Home2";
-import Home3 from "./pages/homePages/Home3";
-import Home4 from "./pages/homePages/Home4";
-import Home5 from "./pages/homePages/Home5";
-import Home7 from "./pages/homePages/Home7";
-import Home8 from "./pages/homePages/Home8";
-import Home9 from "./pages/homePages/Home9";
+const Home2 = lazy(() => import("./pages/homePages/Home2"));
+const Home3 = lazy(() => import("./pages/homePages/Home3"));
+const Home4 = lazy(() => import("./pages/homePages/Home4"));
+const Home5 = lazy(() => import("./pages/homePages/Home5"));
+const Home7 = lazy(() => import("./pages/homePages/Home7"));
+const Home8 = lazy(() => import("./pages/homePages/Home8"));
+const Home9 = lazy(() => import("./pages/homePages/Home9"));
 
 // Home Light
-import Home1Light from "./pages/homePages/Home1Light";
-import Home2Light from "./pages/homePages/Home2Light";
-import Home3Light from "./pages/homePages/Home3Light";
-import Home4Light from "./pages/homePages/Home4Light";
-import Home5Light from "./pages/homePages/Home5Light";
-import Home7Light from "./pages/homePages/Home7Light";
-import Home8Light from "./pages/homePages/Home8Light";
-import Home9Light from "./pages/homePages/Home9Light";
+const Home1Light = lazy(() => import("./pages/homePages/Home1Light"));
+const Home2Light = lazy(() => import("./pages/homePages/Home2Light"));
+const Home3Light = lazy(() => import("./pages/homePages/Home3Light"));
+const Home4Light = lazy(() => import("./pages/homePages/Home4Light"));
+const Home5Light = lazy(() => import("./pages/homePages/Home5Light"));
+const Home7Light = lazy(() => import("./pages/homePages/Home7Light"));
+const Home8Light = lazy(() => import("./pages/homePages/Home8Light"));
+const Home9Light = lazy(() => import("./pages/homePages/Home9Light"));
 
 // Inner Pages 
-import AboutUsPage from "./pages/innerPages/AboutUsPage";
-import About2Page from "./pages/innerPages/About2Page";
-import TeamPage from "./pages/innerPages/TeamPage";
-import Team2Page from "./pages/innerPages/Team2Page";
-import TeamDetailsPage from "./pages/innerPages/TeamDetailsPage";
-import ProjectPage from "./pages/innerPages/ProjectPage";
-import Project2Page from "./pages/innerPages/Project2Page";
-import Project3Page from "./pages/innerPages/Project3Page";
-import ProjectDetailsPage from "./pages/innerPages/ProjectDetailsPage";
-import ContactUsPage from "./pages/innerPages/ContactUsPage";
-import FaqPage from "./pages/innerPages/FaqPage";
+const AboutUsPage = lazy(() => import("./pages/innerPages/AboutUsPage"));
+const About2Page = lazy(() => import("./pages/innerPages/About2Page"));
+const TeamPage = lazy(() => import("./pages/innerPages/TeamPage"));
+const Team2Page = lazy(() => import("./pages/innerPages/Team2Page"));
+const TeamDetailsPage = lazy(() => import("./pages/innerPages/TeamDetailsPage"));
+const ProjectPage = lazy(() => import("./pages/innerPages/ProjectPage"));
+const Project2Page = lazy(() => import("./pages/innerPages/Project2Page"));
+const Project3Page = lazy(() => import("./pages/innerPages/Project3Page"));
+const ProjectDetailsPage = lazy(() => import("./pages/innerPages/ProjectDetailsPage"));
+const ContactUsPage = lazy(() => import("./pages/innerPages/ContactUsPage"));
+const FaqPage = lazy(() => import("./pages/innerPages/FaqPage"));
 
 // Inner Light
-import AboutUsLightPage from "./pages/innerPages/AboutUsLightPage";
-import About2LightPage from "./pages/innerPages/About2LightPage";
-import TeamLightPage from "./pages/innerPages/TeamLightPage";
-import Team2LightPage from "./pages/innerPages/Team2LightPage";
-import TeamDetailsLightPage from "./pages/innerPages/TeamDetailsLightPage";
-import ProjectLightPage from "./pages/innerPages/ProjectLightPage";
-import Project2LightPage from "./pages/innerPages/Project2LightPage";
-import Project3LightPage from "./pages/innerPages/Project3LightPage";
-import ProjectDetailsLightPage from "./pages/innerPages/ProjectDetailsLightPage";
-import ContactUsLightPage from "./pages/innerPages/ContactUsLightPage";
-import FaqLightPage from "./pages/innerPages/FaqLightPage";
+const AboutUsLightPage = lazy(() => import("./pages/innerPages/AboutUsLightPage"));
+const About2LightPage = lazy(() => import("./pages/innerPages/About2LightPage"));
+const TeamLightPage = lazy(() => import("./pages/innerPages/TeamLightPage"));
+const Team2LightPage = lazy(() => import("./pages/innerPages/Team2LightPage"));
+const TeamDetailsLightPage = lazy(() => import("./pages/innerPages/TeamDetailsLightPage"));
+const ProjectLightPage = lazy(() => import("./pages/innerPages/ProjectLightPage"));
+const Project2LightPage = lazy(() => import("./pages/innerPages/Project2LightPage"));
+const Project3LightPage = lazy(() => import("./pages/innerPages/Project3LightPage"));
+const ProjectDetailsLightPage = lazy(() => import("./pages/innerPages/ProjectDetailsLightPage"));
+const ContactUsLightPage = lazy(() => import("./pages/innerPages/ContactUsLightPage"));
+const FaqLightPage = lazy(() => import("./pages/innerPages/FaqLightPage"));
 
 // Services Page
-import ServicesPage from "./pages/servicesPages/ServicesPage";
-import Services2Page from "./pages/servicesPages/Services2Page";
-import Services3Page from "./pages/servicesPages/Services3Page";
-import Services4Page from "./pages/servicesPages/Services4Page";
-import ServiceDetailsPage from "./pages/servicesPages/ServiceDetailsPage";
+const ServicesPage = lazy(() => import("./pages/servicesPages/ServicesPage"));
+const Services2Page = lazy(() => import("./pages/servicesPages/Services2Page"));
+const Services3Page = lazy(() => import("./pages/servicesPages/Services3Page"));
+const Services4Page = lazy(() => import("./pages/servicesPages/Services4Page"));
+const ServiceDetailsPage = lazy(() => import("./pages/servicesPages/ServiceDetailsPage"));
 
 // Services Light
-import ServicesLightPage from "./pages/servicesPages/ServicesLightPage";
-import Services2LightPage from "./pages/servicesPages/Services2LightPage";
-import Services3LightPage from "./pages/servicesPages/Services3LightPage";
-import ServiceDetailsLightPage from "./pages/servicesPages/ServiceDetailsLightPage";
-import Services4LightPage from "./pages/servicesPages/Services4LightPage";
+const ServicesLightPage = lazy(() => import("./pages/servicesPages/ServicesLightPage"));
+const Services2LightPage = lazy(() => import("./pages/servicesPages/Services2LightPage"));
+const Services3LightPage = lazy(() => import("./pages/servicesPages/Services3LightPage"));
+const ServiceDetailsLightPage = lazy(() => import("./pages/servicesPages/ServiceDetailsLightPage"));
+const Services4LightPage = lazy(() => import("./pages/servicesPages/Services4LightPage"));
 
 // Blog Pages
-import BlogStandardPage from "./pages/blogPages/BlogStandardPage";
-import BlogWithSidebarPage from "./pages/blogPages/BlogWithSidebarPage";
-import Blog2ColumnPage from "./pages/blogPages/Blog2ColumnPage";
-import Blog3ColumnPage from "./pages/blogPages/Blog3ColumnPage";
-import BlogSinglePage from "./pages/blogPages/BlogSinglePage";
-import BlogSingleWithSidebarPage from "./pages/blogPages/BlogSingleWithSidebarPage";
+const BlogStandardPage = lazy(() => import("./pages/blogPages/BlogStandardPage"));
+const BlogWithSidebarPage = lazy(() => import("./pages/blogPages/BlogWithSidebarPage"));
+const Blog2ColumnPage = lazy(() => import("./pages/blogPages/Blog2ColumnPage"));
+const Blog3ColumnPage = lazy(() => import("./pages/blogPages/Blog3ColumnPage"));
+const BlogSinglePage = lazy(() => import("./pages/blogPages/BlogSinglePage"));
+const BlogSingleWithSidebarPage = lazy(() => import("./pages/blogPages/BlogSingleWithSidebarPage"));
 
 // Blog Light
-import BlogStandardLightPage from "./pages/blogPages/BlogStandardLightPage";
-import BlogWithSidebarLightPage from "./pages/blogPages/BlogWithSidebarLightPage";
-import Blog2ColumnLightPage from "./pages/blogPages/Blog2ColumnLightPage";
-import Blog3ColumnLightPage from "./pages/blogPages/Blog3ColumnLightPage";
-import BlogSingleLightPage from "./pages/blogPages/BlogSingleLightPage";
-import BlogSingleWithSidebarLightPage from "./pages/blogPages/BlogSingleWithSidebarLightPage";
+const BlogStandardLightPage = lazy(() => import("./pages/blogPages/BlogStandardLightPage"));
+const BlogWithSidebarLightPage = lazy(() => import("./pages/blogPages/BlogWithSidebarLightPage"));
+const Blog2ColumnLightPage = lazy(() => import("./pages/blogPages/Blog2ColumnLightPage"));
+const Blog3ColumnLightPage = lazy(() => import("./pages/blogPages/Blog3ColumnLightPage"));
+const BlogSingleLightPage = lazy(() => import("./pages/blogPages/BlogSingleLightPage"));
+const BlogSingleWithSidebarLightPage = lazy(() => import("./pages/blogPages/BlogSingleWithSidebarLightPage"));
 
-import NotFoundPage from "./pages/innerPages/NotFoundPage";
-import PlexifyHome from "./pages/plexify/PlexifyHome";
-import Home10 from "./pages/homePages/Home10";
-import Home11 from "./pages/homePages/Home11";
-import Home12 from "./pages/homePages/Home12";
-import Home13 from "./pages/homePages/Home13";
-import Home10Light from "./pages/homePages/Home10Light";
-import Home11Light from "./pages/homePages/Home11Light";
-import Home12Light from "./pages/homePages/Home12Light";
-import Home13Light from "./pages/homePages/Home13Light";
-import PrismaHeroDemo from "./pages/homePages/PrismaHeroDemo";
-import WovenLightHeroDemo from "./pages/homePages/WovenLightHeroDemo";
+const NotFoundPage = lazy(() => import("./pages/innerPages/NotFoundPage"));
+const PlexifyHome = lazy(() => import("./pages/plexify/PlexifyHome"));
+const Home10 = lazy(() => import("./pages/homePages/Home10"));
+const Home11 = lazy(() => import("./pages/homePages/Home11"));
+const Home12 = lazy(() => import("./pages/homePages/Home12"));
+const Home13 = lazy(() => import("./pages/homePages/Home13"));
+const Home10Light = lazy(() => import("./pages/homePages/Home10Light"));
+const Home11Light = lazy(() => import("./pages/homePages/Home11Light"));
+const Home12Light = lazy(() => import("./pages/homePages/Home12Light"));
+const Home13Light = lazy(() => import("./pages/homePages/Home13Light"));
+const PrismaHeroDemo = lazy(() => import("./pages/homePages/PrismaHeroDemo"));
+const WovenLightHeroDemo = lazy(() => import("./pages/homePages/WovenLightHeroDemo"));
+
+const PrivacyPage = lazy(() => import("./pages/innerPages/LegalPage").then((m) => ({ default: m.PrivacyPage })));
+const TermsPage = lazy(() => import("./pages/innerPages/LegalPage").then((m) => ({ default: m.TermsPage })));
 
 const Routers = () => {
     return (
         <>
+            <Suspense fallback={<div className="arcle-route-fallback" role="status" aria-label="Loading page" />}>
             <Routes>
 
                 <Route path='/' element={<Home1 />}></Route>
@@ -188,8 +193,12 @@ const Routers = () => {
                 <Route path='/blog-single-light/:id' element={<BlogSingleLightPage />}></Route>
                 <Route path='/blog-single-with-sidebar-light/:id' element={<BlogSingleWithSidebarLightPage />}></Route>
 
+                <Route path='/privacy' element={<PrivacyPage />}></Route>
+                <Route path='/terms' element={<TermsPage />}></Route>
+
                 <Route path='*' element={<NotFoundPage />}></Route>
             </Routes>
+            </Suspense>
         </>
     );
 };

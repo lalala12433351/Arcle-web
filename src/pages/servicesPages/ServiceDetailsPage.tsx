@@ -15,11 +15,11 @@ const ServiceDetailsPage = () => {
     return (
         <>
             <Helmet>
-                <title>Arcle - Service Details</title>
+                <title>{data ? `${data.title} | Arcle` : "Services | Arcle"}</title>
             </Helmet>
 
             <LayoutV1>
-                <Breadcrumb title='Our Services' breadCrumb='service-details' />
+                <Breadcrumb title={data?.title || "Services"} breadCrumb="Services" />
                 {data && <ServiceDetailsContent serviceInfo={data} sectionClass='default-padding-bottom' />}
                 <DarkClass />
                 <ThemeDark />

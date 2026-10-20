@@ -17,7 +17,7 @@ const SingleBlogStandard = ({ blog }: { blog: DataType }) => {
             <div className="blog-style-one item">
                 <div className="thumb">
                     <Link to={`/blog-single-with-sidebar/${id}`}>
-                        <img src={`/assets/img/blog/${thumb}`} alt="Image Not Found" width={1500} height={750} />
+                        <img src={`/assets/img/blog/${thumb}`} alt={title || "Arcle insight"} width={1500} height={750} loading="lazy" decoding="async" />
                     </Link>
                 </div>
                 <div className="info">

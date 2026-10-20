@@ -195,7 +195,7 @@ export const WovenLightHero = ({
                 lineHeight: 1.7,
                 marginBottom: index === paragraphs.length - 1 ? 25 : 14,
                 maxWidth: editorial ? 640 : 520,
-                color: isDark ? "#cccccc" : "var(--color-paragraph)",
+                color: isDark ? "#e8e8e8" : "var(--color-paragraph)",
               }}
             >
               {paragraph}
@@ -239,8 +239,8 @@ const WovenCanvas = ({ isDark }: { isDark: boolean }) => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     camera.position.z = 5.6;
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     mount.appendChild(renderer.domElement);
 
     const resize = () => {
@@ -258,7 +258,7 @@ const WovenCanvas = ({ isDark }: { isDark: boolean }) => {
     const mouse = new THREE.Vector2(0, 0);
     const clock = new THREE.Clock();
 
-    const particleCount = 50000;
+    const particleCount = 8000;
     const positions = new Float32Array(particleCount * 3);
     const originalPositions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
@@ -326,44 +326,63 @@ const WovenCanvas = ({ isDark }: { isDark: boolean }) => {
     window.addEventListener("mousemove", handleMouseMove);
 
     let frameId = 0;
+    let inView = true;
+    let running = true;
+    const syncRunning = () => {
+      running = inView && document.visibilityState === "visible";
+    };
+    const onVisibility = () => syncRunning();
+    document.addEventListener("visibilitychange", onVisibility);
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      syncRunning();
+    });
+    visibilityObserver.observe(mount);
+
     const animate = () => {
       frameId = requestAnimationFrame(animate);
+      if (!running) return;
+
       const elapsedTime = clock.getElapsedTime();
-      const mouseWorld = new THREE.Vector3(mouse.x * 3, mouse.y * 3, 0);
+      const mx = mouse.x * 3;
+      const my = mouse.y * 3;
 
       for (let i = 0; i < particleCount; i++) {
         const ix = i * 3;
-        const iy = i * 3 + 1;
-        const iz = i * 3 + 2;
+        const iy = ix + 1;
+        const iz = ix + 2;
 
-        const currentPos = new THREE.Vector3(positions[ix], positions[iy], positions[iz]);
-        const originalPos = new THREE.Vector3(
-          originalPositions[ix],
-          originalPositions[iy],
-          originalPositions[iz]
-        );
-        const velocity = new THREE.Vector3(velocities[ix], velocities[iy], velocities[iz]);
+        let px = positions[ix];
+        let py = positions[iy];
+        let pz = positions[iz];
+        let vx = velocities[ix];
+        let vy = velocities[iy];
+        let vz = velocities[iz];
 
-        const dist = currentPos.distanceTo(mouseWorld);
-        if (dist < 1.5) {
-          const force = (1.5 - dist) * 0.01;
-          const direction = new THREE.Vector3().subVectors(currentPos, mouseWorld).normalize();
-          velocity.add(direction.multiplyScalar(force));
+        const dx = px - mx;
+        const dy = py - my;
+        const dz = pz;
+        const dist = Math.hypot(dx, dy, dz);
+        if (dist < 1.5 && dist > 0.0001) {
+          const force = ((1.5 - dist) * 0.01) / dist;
+          vx += dx * force;
+          vy += dy * force;
+          vz += dz * force;
         }
 
-        const returnForce = new THREE.Vector3()
-          .subVectors(originalPos, currentPos)
-          .multiplyScalar(0.001);
-        velocity.add(returnForce);
-        velocity.multiplyScalar(0.95);
+        vx += (originalPositions[ix] - px) * 0.001;
+        vy += (originalPositions[iy] - py) * 0.001;
+        vz += (originalPositions[iz] - pz) * 0.001;
+        vx *= 0.95;
+        vy *= 0.95;
+        vz *= 0.95;
 
-        positions[ix] += velocity.x;
-        positions[iy] += velocity.y;
-        positions[iz] += velocity.z;
-
-        velocities[ix] = velocity.x;
-        velocities[iy] = velocity.y;
-        velocities[iz] = velocity.z;
+        positions[ix] = px + vx;
+        positions[iy] = py + vy;
+        positions[iz] = pz + vz;
+        velocities[ix] = vx;
+        velocities[iy] = vy;
+        velocities[iz] = vz;
       }
       geometry.attributes.position.needsUpdate = true;
 
@@ -379,6 +398,8 @@ const WovenCanvas = ({ isDark }: { isDark: boolean }) => {
       cancelAnimationFrame(frameId);
       applyThemeRef.current = null;
       resizeObserver.disconnect();
+      visibilityObserver.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("mousemove", handleMouseMove);
       geometry.dispose();
       material.dispose();

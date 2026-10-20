@@ -11,7 +11,7 @@ const ProcessV1 = ({ sectionClass }: DataType) => {
             <div className={`process-style-one-items ${sectionClass ? sectionClass : ""}`}>
                 <div className="row">
                     {ProcessV1Data.map(process =>
-                        <div className="col-lg-3 col-md-6 process-style-one-item" key={process.id}>
+                            <div className="col-lg-4 col-md-6 process-style-one-item" key={process.id}>
                             <SingleProcessV1 process={process} />
                         </div>
                     )}

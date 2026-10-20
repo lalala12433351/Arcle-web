@@ -3,104 +3,104 @@
         "id": 1,
         "thumb": "37.jpg",
         "thumbFull": "1-full.jpg",
-        "title": "Photo shooting and editing",
-        "tag": "Marketing"
+        "title": "From Traffic to Enquiries",
+        "tag": "SEO & Website"
     },
     {
         "id": 2,
         "thumb": "38.jpg",
         "thumbFull": "2-full.jpg",
-        "title": "Quality pattern design solutions",
-        "tag": "Creative"
+        "title": "Scaling Paid Campaigns",
+        "tag": "Performance"
     },
     {
         "id": 3,
         "thumb": "39.jpg",
         "thumbFull": "3-full.jpg",
-        "title": "Blue business cards color",
-        "tag": "Design"
+        "title": "Building a Digital Brand",
+        "tag": "Brand"
     },
     {
         "id": 4,
         "thumb": "40.jpg",
         "thumbFull": "4-full.jpg",
-        "title": "Simple black & white design",
-        "tag": "Business"
+        "title": "A Website Built to Convert",
+        "tag": "Product"
     },
     {
         "id": 5,
         "thumb": "37.jpg",
         "thumbFull": "5-full.jpg",
-        "title": "Photo shooting and editing",
-        "tag": "Marketing"
+        "title": "From Traffic to Enquiries",
+        "tag": "SEO & Website"
     },
     {
         "id": 6,
         "thumb": "38.jpg",
         "thumbFull": "6-full.jpg",
-        "title": "Quality pattern design solutions",
-        "tag": "Creative"
+        "title": "Scaling Paid Campaigns",
+        "tag": "Performance"
     },
     {
         "id": 7,
         "thumb": "39.jpg",
         "thumbFull": "1-full.jpg",
-        "title": "Blue business cards color",
-        "tag": "Design"
+        "title": "Building a Digital Brand",
+        "tag": "Brand"
     },
     {
         "id": 8,
         "thumb": "40.jpg",
         "thumbFull": "2-full.jpg",
-        "title": "Simple black & white design",
-        "tag": "Business"
+        "title": "A Website Built to Convert",
+        "tag": "Product"
     },
     {
         "id": 9,
         "thumb": "55.jpg",
         "thumbFull": "55-full.jpg",
-        "tag": "Marketing",
+        "tag": "SEO & Website",
         "date": "February 18, 2025",
-        "title": "Photo shooting & creative product editing"
+        "title": "From Traffic to Enquiries"
     },
     {
         "id": 10,
         "thumb": "54.jpg",
         "thumbFull": "54-full.jpg",
-        "tag": "Technology",
+        "tag": "Performance",
         "date": "June 15, 2025",
-        "title": "Blue business mockup cards color standard"
+        "title": "Scaling Paid Campaigns"
     },
     {
         "id": 11,
         "thumb": "56.jpg",
         "thumbFull": "56-full.jpg",
-        "tag": "Branding",
+        "tag": "Brand",
         "date": "March 24, 2025",
-        "title": "Simple black & white interface design"
+        "title": "Building a Digital Brand"
     },
     {
         "id": 12,
         "thumb": "57.jpg",
         "thumbFull": "57-full.jpg",
-        "tag": "Business",
+        "tag": "Product",
         "date": "April 23, 2025",
-        "title": "Quality in digital standard fact mockup"
+        "title": "A Website Built to Convert"
     },
     {
         "id": 13,
         "thumb": "58.jpg",
         "thumbFull": "58-full.jpg",
-        "tag": "Technology",
+        "tag": "SEO & Website",
         "date": "June 15, 2025",
-        "title": "Photo shooting & creative product editing"
+        "title": "From Traffic to Enquiries"
     },
     {
         "id": 14,
         "thumb": "59.jpg",
         "thumbFull": "59-full.jpg",
-        "tag": "Technology",
+        "tag": "Performance",
         "date": "June 15, 2025",
-        "title": "Blue business mockup cards color standard"
+        "title": "Scaling Paid Campaigns"
     }
 ]

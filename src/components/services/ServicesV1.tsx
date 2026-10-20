@@ -66,21 +66,20 @@ const ServicesV1 = ({ hasTitle, sectionClass, items, subTitle, title }: DataType
 
                 <div className="container">
                     <div className="services-style-one-items">
-                        <div className="row">
+                        <div className="row g-0 align-items-stretch">
                             {services.map((service) => {
                                 const href = "href" in service && service.href ? service.href : `/service-details/${service.id}`;
                                 return (
                                 <div
-                                    className="col-xl-3 col-lg-6 col-md-6 single-item"
+                                    className="col-lg-3 col-md-6 single-item"
                                     key={service.id}
                                     onMouseEnter={() => handleMouseEnter(service.id)}
                                     onMouseLeave={handleMouseLeave}
                                 >
                                     <div className={`services-style-one-item ${activeServiceId === service.id ? 'active' : ''}`}>
                                         <div className="icon">
-                                            <img className="regular-img" src={`/assets/img/icon/${service.icon}`} alt="Image Not Found" width={75} height={60} />
-
-                                            <img className="light-img" src={`/assets/img/icon/${service.iconLight}`} alt="Image Not Found" width={75} height={60} />
+                                            <img className="regular-img" src={`/assets/img/icon/${service.icon}`} alt="" width={75} height={60} />
+                                            <img className="light-img" src={`/assets/img/icon/${service.iconLight}`} alt="" width={75} height={60} />
                                         </div>
                                         <h4>
                                             <Link to={href}>{service.title}</Link>

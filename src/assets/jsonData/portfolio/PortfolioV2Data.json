@@ -2,29 +2,29 @@
     {
         "id": 1,
         "thumb": "28.jpg",
-        "tag": "Marketing",
-        "date": "August, 2024",
-        "text": "Photo shooting & creative product editing"
+        "tag": "SEO",
+        "date": "Website",
+        "text": "From traffic to enquiries"
     },
     {
         "id": 2,
         "thumb": "29.jpg",
-        "tag": "Creative",
-        "date": "March, 2023",
-        "text": "Quality in digital industrial"
+        "tag": "Paid Media",
+        "date": "Campaigns",
+        "text": "Scaling paid campaigns"
     },
     {
         "id": 3,
         "thumb": "30.jpg",
-        "tag": "Design",
-        "date": "November, 2024",
-        "text": "Blue business and mockup cards color standard"
+        "tag": "Brand",
+        "date": "Creative",
+        "text": "Building a digital brand"
     },
     {
         "id": 4,
         "thumb": "31.jpg",
-        "tag": "Business",
-        "date": "September, 2024",
-        "text": "Simple black & white design"
+        "tag": "Product",
+        "date": "Web and App",
+        "text": "A website built to convert"
     }
 ]

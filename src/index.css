@@ -10,6 +10,79 @@
   --color-primary: #E1E0CC;
 }
 
+/* Tailwind's `collapse` utility fights Bootstrap's navbar/accordion class of the same name. */
+.collapse {
+  visibility: visible;
+}
+
+/* Alignment and reading rhythm for the public site */
+.services-style-one-items .row {
+  justify-content: center;
+  align-items: stretch;
+}
+.services-style-one-items .single-item {
+  display: flex;
+  margin-bottom: 24px;
+  align-self: stretch;
+}
+.services-style-one-item {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 420px;
+}
+.services-style-one-item p {
+  flex: 1 1 auto;
+}
+.services-style-one-item .btn-full {
+  margin-top: auto;
+}
+.process-style-one-item {
+  margin-bottom: 28px;
+}
+.footer-bottom .row {
+  align-items: center;
+}
+.footer-bottom p {
+  margin-bottom: 0;
+}
+.breadcrumb-item h1 {
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.woven-hero--editorial h1 {
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.arcle-prose h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+.arcle-prose p,
+.arcle-prose li {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+.arcle-route-fallback {
+  min-height: 40vh;
+}
+.navbar .nav > li > a {
+  letter-spacing: 0.01em;
+}
+.navbar .dropdown-menu {
+  max-height: 70vh;
+  overflow: auto;
+}
+@media (max-width: 991px) {
+  .footer-bottom .text-end {
+    text-align: left !important;
+  }
+  .footer-bottom .col-lg-6 + .col-lg-6 {
+    margin-top: 16px;
+  }
+}
+
 /* Film-grain overlay used by PrismaHero */
 .noise-overlay {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");

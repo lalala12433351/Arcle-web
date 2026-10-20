@@ -87,9 +87,6 @@ Sidebar heading:  22px 'Barlow', sans-serif
 
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@100;200;300;400;500;600;700;800&display=swap');
-
-
 /* Varialbes */
 :root {
 	--font-default: 'Barlow', sans-serif;
@@ -7800,9 +7797,14 @@ ul.service-list li a:hover span {
 }
 
 .services-style-one-item {
-	padding: 60px 37px;
+	padding: 50px 32px;
 	border-radius: 30px;
 	background: var(--bg-gray);
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	width: 100%;
+	min-height: 420px;
 }
 
 .bg-gray .services-style-one-item {
@@ -7817,7 +7819,9 @@ ul.service-list li a:hover span {
 
 .services-style-one-items .single-item {
 	padding: 0 1px;
-	height: 100%;
+	display: flex;
+	height: auto;
+	align-self: stretch;
 }
 
 a.btn-full {
@@ -7864,6 +7868,12 @@ a.btn-full i {
 }
 
 .bg-dark .active a.btn-full i {
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	color: var(--white);
+}
+
+.bg-dark .services-style-one-item:hover a.btn-full i {
 	background: var(--white);
 	color: var(--color-heading);
 }
@@ -7874,31 +7884,29 @@ a.btn-full i {
 }
 
 .services-style-one-item p {
-	opacity: 0;
-	transform: translateY(50px);
-	transition: all .5s;
-	transition-delay: 0.1s;
+	opacity: 1;
+	transform: none;
 	margin: 0;
 }
 
 .services-style-one-item:hover p,
 .services-style-one-item.active p {
 	opacity: 1;
-	transform: translateY(0);
+	transform: none;
 }
 
 .services-style-one-item h4 {
-	transform: translateY(60px);
-	transition: all .5s;
+	transform: none;
+	margin-bottom: 16px;
 }
 
 .services-style-one-item:hover h4,
 .services-style-one-item.active h4 {
-	transform: translateY(0);
+	transform: none;
 }
 
 .services-style-one-item .btn-full {
-	margin-top: 35px;
+	margin-top: auto;
 }
 
 

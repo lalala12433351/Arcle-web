@@ -15,4 +15,18 @@ export default defineConfig({
     },
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('three')) return 'three';
+          if (id.includes('gsap')) return 'gsap';
+          if (id.includes('swiper')) return 'swiper';
+          if (id.includes('framer-motion') || id.includes('/motion/')) return 'motion';
+          if (id.includes('react-dom') || id.includes('react-router') || id.includes('/react/')) return 'react-vendor';
+        },
+      },
+    },
+  },
 })

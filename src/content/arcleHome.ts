@@ -286,6 +286,7 @@ export const growthStack = [
     { title: "Website", text: "Your website converts visitors." },
     { title: "Remarketing", text: "Remarketing brings interested users back." },
     { title: "Apps", text: "Apps and digital products help improve customer engagement." },
+    { title: "Analytics", text: "Analytics shows which channels actually produce revenue." },
 ];
 
 export const industries = [
@@ -326,19 +327,44 @@ export const resultMetrics = [
 
 export const caseStudies = [
     {
+        id: 1,
         title: "From Traffic to Enquiries",
+        tag: "SEO & Website",
+        client: "Growing business",
         text: "How we helped a growing business improve its website, search visibility and lead generation.",
-        steps: ["Challenge", "Strategy", "Execution", "Results"],
+        summary: "The website, search foundations and enquiry path were rebuilt so visitors could understand the offer and take the next step.",
+        disciplines: ["SEO", "Website", "Content", "Conversion"],
+        points: ["Technical and on-page SEO", "Clearer service pages", "Enquiry-focused calls to action", "Reporting on leads, not just traffic"],
     },
     {
+        id: 2,
         title: "Scaling Paid Campaigns",
+        tag: "Performance",
+        client: "Lead-driven brand",
         text: "How a performance marketing strategy helped improve lead quality while controlling acquisition costs.",
-        steps: ["Challenge", "Campaign Strategy", "Optimisation", "Results"],
+        summary: "Campaign structure, landing pages and conversion tracking were aligned so spend could be judged on lead quality and acquisition cost.",
+        disciplines: ["Google Ads", "Meta Ads", "Landing Pages", "Tracking"],
+        points: ["Account and audience structure", "Landing pages matched to intent", "Conversion tracking", "Ongoing creative and keyword testing"],
     },
     {
+        id: 3,
         title: "Building a Digital Brand",
+        tag: "Brand",
+        client: "Emerging brand",
         text: "How branding, website development and social media helped create a stronger digital presence.",
-        steps: ["Challenge", "Brand Strategy", "Creative", "Results"],
+        summary: "Identity, website and social content were brought into one system so the brand looked consistent wherever a customer met it.",
+        disciplines: ["Branding", "Website", "Social", "Content"],
+        points: ["Visual identity", "Website narrative", "Social content system", "Assets ready for ads and sales"],
+    },
+    {
+        id: 4,
+        title: "A Website Built to Convert",
+        tag: "Product",
+        client: "Service business",
+        text: "A mobile-first website structured around the offer, the proof and a clear next step.",
+        summary: "The site was planned as a sales tool: fast on mobile, easy to scan, and connected to the channels that send it traffic.",
+        disciplines: ["UX", "Development", "SEO", "Analytics"],
+        points: ["Mobile-first layout", "Offer and proof above the fold", "Fast pages and technical SEO", "Analytics on enquiries"],
     },
 ];
 

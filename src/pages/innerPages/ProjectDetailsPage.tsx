@@ -15,11 +15,11 @@ const ProjectDetailsPage = () => {
     return (
         <>
             <Helmet>
-                <title>Arcle - Project Details</title>
+                <title>{data ? `${data.title} | Arcle` : "Work | Arcle"}</title>
             </Helmet>
 
             <LayoutV1>
-                <Breadcrumb title='Case Studies' breadCrumb='project-details' />
+                <Breadcrumb title={data?.title || "Work"} breadCrumb="Work" />
                 {data && <ProjectDetailsContent projectInfo={data} totalProjects={PortfolioV4Data.length} />}
                 <DarkClass />
                 <ThemeDark />

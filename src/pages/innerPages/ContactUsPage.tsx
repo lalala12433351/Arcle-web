@@ -10,11 +10,12 @@ const ContactUsPage = () => {
     return (
         <>
             <Helmet>
-                <title>Arcle - Contact Us</title>
+                <title>Contact | Arcle</title>
+                <meta name="description" content="Talk to Arcle Technologies LLP in Bangalore about a free growth audit." />
             </Helmet>
 
             <LayoutV1>
-                <Breadcrumb title='Get In Touch' breadCrumb='contact-us' />
+                <Breadcrumb title="Get in Touch" breadCrumb="Contact" />
                 <ContactV1 />
                 <ContactMap />
                 <DarkClass />

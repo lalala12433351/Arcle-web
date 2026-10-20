@@ -9,11 +9,11 @@ const ProjectPage = () => {
     return (
         <>
             <Helmet>
-                <title>Arcle - Project</title>
+                <title>Work | Arcle</title>
             </Helmet>
 
             <LayoutV1>
-                <Breadcrumb title='Case Studies' breadCrumb='Project' />
+                <Breadcrumb title="Work" breadCrumb="Work" />
                 <PortfolioV2 moreBtn={true} sectionClass='default-padding-bottom' />
                 <DarkClass />
                 <ThemeDark />

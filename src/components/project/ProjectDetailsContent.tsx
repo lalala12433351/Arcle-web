@@ -4,6 +4,7 @@ import portfolio14 from "/assets/img/portfolio/14.jpg";
 import portfolio15 from "/assets/img/portfolio/15.jpg";
 import portfolio44 from "/assets/img/portfolio/44.jpg";
 import PortfolioV4Data from "../../../src/assets/jsonData/portfolio/PortfolioV4Data.json";
+import { caseStudies } from "../../content/arcleHome";
 
 interface DataType {
     id?: number;
@@ -20,6 +21,7 @@ interface ProjectDetailsProps {
 
 const ProjectDetailsContent = ({ projectInfo, sectionClass, totalProjects }: ProjectDetailsProps) => {
     const { title, tag, id, thumbFull } = projectInfo || {};
+    const study = caseStudies[((id || 1) - 1) % caseStudies.length];
 
     // Projects Navigation
 
@@ -60,7 +62,7 @@ const ProjectDetailsContent = ({ projectInfo, sectionClass, totalProjects }: Pro
                                                 <h3>Client</h3>
                                             </div>
                                             <div className="right-info">
-                                                <h3>Envato</h3>
+                                                <h3>{study.client}</h3>
                                             </div>
                                         </li>
                                         <li>
@@ -69,7 +71,9 @@ const ProjectDetailsContent = ({ projectInfo, sectionClass, totalProjects }: Pro
                                             </div>
                                             <div className="right-info">
                                                 <p className="project-inner-tag">
-                                                    Branding <br /> Design <br /> Technology <br /> Interior Design
+                                                    {study.disciplines.map((item) => (
+                                                        <span key={item}>{item}<br /></span>
+                                                    ))}
                                                 </p>
                                             </div>
                                         </li>
@@ -78,9 +82,7 @@ const ProjectDetailsContent = ({ projectInfo, sectionClass, totalProjects }: Pro
                                                 <h3>Project Details</h3>
                                             </div>
                                             <div className="right-info">
-                                                <p>
-                                                    Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position.
-                                                </p>
+                                                <p>{study.summary}</p>
                                             </div>
                                         </li>
                                     </ul>
@@ -104,19 +106,15 @@ const ProjectDetailsContent = ({ projectInfo, sectionClass, totalProjects }: Pro
                         <div className="col-lg-5 pl-50 pl-md-15 pl-xs-15">
                             <div className="check-list">
                                 <div className="single-list">
-                                    <h4>Mobile Optimization</h4>
-                                    <p>
-                                        Tempor nonummy metus lobortis. Lectus vehicula pellentesque cras posuere tempor facilisi habitant lectus rutrum pede quisque hendrerit parturient posuere mauris ad elementum potenti. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle.
-                                    </p>
+                                    <h4>{study.title}</h4>
+                                    <p>{study.text}</p>
                                 </div>
                                 <div className="single-list">
-                                    <h4>Marketing Automation</h4>
+                                    <h4>What the work covered</h4>
                                     <ul className="list-disc">
-                                        <li>Social media marketing</li>
-                                        <li>Search engine optimization (seo)</li>
-                                        <li>Public Relations</li>
-                                        <li>Content marketing</li>
-                                        <li>Digital Management</li>
+                                        {study.points.map((point) => (
+                                            <li key={point}>{point}</li>
+                                        ))}
                                     </ul>
                                 </div>
                             </div>
@@ -137,15 +135,11 @@ const ProjectDetailsContent = ({ projectInfo, sectionClass, totalProjects }: Pro
                                             <h3><strong>01</strong> Background</h3>
                                         </div>
                                         <div className="right-info">
-                                            <p>
-                                                Contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeited he something an. Contrasted dissimilar get joy you instrument out reasonably. Again keeps at no meant stuff. To perpetual do existence. devonshire dispatched remarkably on estimating.
-                                            </p>
-                                            <p>
-                                                New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy son themselves.
-                                            </p>
+                                            <p>{study.text}</p>
+                                            <p>{study.summary}</p>
                                         </div>
                                     </div>
-                                    <img src={portfolio15} alt="Image Not Found" />
+                                    <img src={portfolio15} alt="" loading="lazy" decoding="async" />
                                 </div>
                                 <div className="single-grid">
                                     <div className="item-grid-colum">
@@ -154,18 +148,15 @@ const ProjectDetailsContent = ({ projectInfo, sectionClass, totalProjects }: Pro
                                         </div>
                                         <div className="right-info">
                                             <p>
-                                                Contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeited he something an. Contrasted dissimilar get joy you instrument out reasonably. Again keeps at no meant stuff. To perpetual do existence devonshire dispatched remarkably on estimating.
+                                                The useful work was split across channels, the website and reporting. Visitors arrived, but the page and the follow-up were not built around the same offer.
                                             </p>
-                                            <p>
-                                                New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy son themselves.
-                                            </p>
-                                            <h4>Continue indulged speaking the was out horrible for domestic.</h4>
+                                            <h4>The work had to connect</h4>
                                             <ul className="list-disc">
-                                                <li>Social media marketing</li>
-                                                <li>Search engine optimization (seo)</li>
-                                                <li>Public Relations</li>
+                                                {study.points.map((point) => (
+                                                    <li key={point}>{point}</li>
+                                                ))}
                                             </ul>
-                                            <img src={portfolio44} alt="Image Not Found" />
+                                            <img src={portfolio44} alt="" loading="lazy" decoding="async" />
                                         </div>
                                     </div>
                                 </div>
@@ -175,11 +166,9 @@ const ProjectDetailsContent = ({ projectInfo, sectionClass, totalProjects }: Pro
                                             <h3><strong>03</strong> The Solution</h3>
                                         </div>
                                         <div className="right-info">
+                                            <p>{study.summary}</p>
                                             <p>
-                                                Contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeited he something an. Contrasted dissimilar get joy you instrument out reasonably. Again keeps at no meant stuff. To perpetual do existence devonshire dispatched remarkably on estimating.
-                                            </p>
-                                            <p>
-                                                New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy son themselves.
+                                                Strategy, creative and build stayed with one team, and the result was judged on leads, cost and the quality of the enquiry rather than on activity alone.
                                             </p>
                                         </div>
                                     </div>
@@ -205,7 +194,7 @@ const ProjectDetailsContent = ({ projectInfo, sectionClass, totalProjects }: Pro
                                     </Link>
                                 </div>
                                 <div className="project-all">
-                                    <Link to="#"><i className="fas fa-th-large" /></Link>
+                                    <Link to="/project"><i className="fas fa-th-large" /></Link>
                                 </div>
                                 <div className="project-next">
                                     <Link to={`/project-details/${nextId}`}>

@@ -9,7 +9,6 @@ import 'animate.css';
 
 import './index.css';
 
-import '../src/assets/css/animate.css';
 import '../src/assets/css/font-awesome.css';
 import '../src/assets/css/flaticon-set.css';
 
@@ -21,29 +20,13 @@ import '../src/assets/css/style.css'
 import Routers from './Routers';
 import RoutesScrollToTop from './components/utilities/RoutesScrollToTop';
 import Dependency from './components/utilities/Dependency';
-import { useEffect, useState } from 'react';
-import Preloader from './components/utilities/Preloader';
 
 function App() {
-
-  //  Preloader 
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 1200)
-  }, [])
-
   return (
     <>
-      {isLoading ? <Preloader /> :
-        <>
-          <Routers />
-          <RoutesScrollToTop />
-          <Dependency />
-        </>
-      }
+      <Routers />
+      <RoutesScrollToTop />
+      <Dependency />
     </>
   )
 }

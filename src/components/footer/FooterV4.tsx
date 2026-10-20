@@ -42,16 +42,16 @@ const FooterV4 = ({ sectionClass }: DataType) => {
 
                             </div>
                             <div className="col-lg-5 offset-lg-1 footer-item">
-                                <h4 className="widget-title">Useful Link</h4>
+                                <h4 className="widget-title">Useful Links</h4>
                                 <ul className="useful-link">
-                                    <li><Link to="/about-us">About Us</Link></li>
-                                    <li><Link to="/contact-us">Contact</Link></li>
-                                    <li><Link to="/faq">FAQS</Link></li>
                                     <li><Link to="/services">Services</Link></li>
-                                    <li><Link to="/about-2">Term & Conditions</Link></li>
-                                    <li><Link to="/about-us">Privacy Policy</Link></li>
-                                    <li><Link to="/about-2">Careers</Link></li>
-                                    <li><Link to="/contact-us">Help Desk</Link></li>
+                                    <li><Link to="/project">Work</Link></li>
+                                    <li><Link to="/about-us">About Us</Link></li>
+                                    <li><Link to="/blog-standard">Insights</Link></li>
+                                    <li><Link to="/faq">FAQ</Link></li>
+                                    <li><Link to="/contact-us">Contact</Link></li>
+                                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                                    <li><Link to="/terms">Terms</Link></li>
                                 </ul>
                                 <NewsletterV2 />
                             </div>

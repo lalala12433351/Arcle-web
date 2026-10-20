@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import AboutV6 from "../../components/about/AboutV6";
 import AboutV7 from "../../components/about/AboutV7";
@@ -8,8 +8,53 @@ import ExpertiseV1 from "../../components/expertise/ExpertiseV1";
 import FaqV1 from "../../components/faq/FaqV1";
 import FlowingMenu from "../../components/flowing-menu/FlowingMenu";
 import homeMenuItems from "../../components/flowing-menu/homeMenuItems";
-import InfiniteMenu from "../../components/infinite-menu/InfiniteMenu";
 import menuItems from "../../components/infinite-menu/menuItems";
+
+const InfiniteMenu = lazy(() => import("../../components/infinite-menu/InfiniteMenu"));
+
+const DeferredInfiniteMenu = () => {
+    const frameRef = useRef<HTMLDivElement>(null);
+    const [ready, setReady] = useState(false);
+
+    useEffect(() => {
+        const node = frameRef.current;
+        if (!node) return;
+        const observer = new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) return;
+            setReady(true);
+            observer.disconnect();
+        }, { rootMargin: "240px" });
+        observer.observe(node);
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <div ref={frameRef} style={{ height: 600, position: "relative" }}>
+            {ready && (
+                <Suspense fallback={null}>
+                    <InfiniteMenu
+                        items={menuItems}
+                        count={48}
+                        tileSize={0.63}
+                        roundness={0.2}
+                        zoom={1.65}
+                        pullBack={1}
+                        stretch={0.6}
+                        inertia={0.6}
+                        autoplay={3}
+                        grayscale={true}
+                        dim={0.5}
+                        intro={true}
+                        showInfo={true}
+                        theme="dark"
+                        accentColor="#236BFF"
+                        backgroundColor="#0e0f11"
+                    />
+                </Suspense>
+            )}
+        </div>
+    );
+};
 import FooterV1 from "../../components/footer/FooterV1";
 import HeaderV1 from "../../components/header/HeaderV1";
 import ProjectIdeaV1 from "../../components/project/ProjectIdeaV1";
@@ -44,37 +89,15 @@ const toCards = (entries: { title: string; text: string }[]) =>
         href: "/services",
     }));
 
-const upsertMeta = (attribute: "name" | "property", key: string, content: string) => {
-    let el = document.head.querySelector<HTMLMetaElement>(`meta[${attribute}="${key}"]`);
-    if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute(attribute, key);
-        el.dataset.arcleSeo = "true";
-        document.head.appendChild(el);
-    }
-    el.setAttribute("content", content);
-    return el;
-};
-
 const Home1 = () => {
     useEffect(() => {
-        const metas = [
-            upsertMeta("name", "description", arcleMeta.description),
-            upsertMeta("property", "og:title", arcleMeta.title),
-            upsertMeta("property", "og:description", arcleMeta.description),
-            upsertMeta("property", "og:type", "website"),
-        ];
         const script = document.createElement("script");
         script.type = "application/ld+json";
         script.id = "arcle-faq-schema";
         script.text = JSON.stringify(faqSchema);
         document.head.appendChild(script);
-
         return () => {
             script.remove();
-            metas.forEach((el) => {
-                if (el.dataset.arcleSeo === "true") el.remove();
-            });
         };
     }, []);
 
@@ -107,26 +130,7 @@ const Home1 = () => {
                         borderColor="rgba(255, 255, 255, 0.2)"
                     />
                 </div>
-                <div style={{ height: 600, position: "relative" }}>
-                    <InfiniteMenu
-                        items={menuItems}
-                        count={160}
-                        tileSize={0.63}
-                        roundness={0.2}
-                        zoom={1.65}
-                        pullBack={1}
-                        stretch={0.6}
-                        inertia={0.6}
-                        autoplay={3}
-                        grayscale={true}
-                        dim={0.5}
-                        intro={true}
-                        showInfo={true}
-                        theme="dark"
-                        accentColor="#236BFF"
-                        backgroundColor="#0e0f11"
-                    />
-                </div>
+                <DeferredInfiniteMenu />
                 <AboutV6 sectionClass="default-padding" />
                 <AboutV7 sectionClass="bg-gray" />
                 <ServicesV1

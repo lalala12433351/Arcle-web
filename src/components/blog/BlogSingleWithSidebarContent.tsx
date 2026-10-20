@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import team1Thumb from "/assets/img/team/9.jpg"
-import BlogPostComments from './BlogPostComments';
 import BlogCommentForm from './BlogCommentForm';
-import handleSmoothScroll from '../utilities/handleSmoothScroll';
 import SocialShareV3 from '../social/SocialShareV3';
-import BlogV3Data from "../../../src/assets/jsonData/blog/BlogV3Data.json";
+import { arclePosts as BlogV3Data } from "../../content/arcleBlog";
 import SearchWidget from '../widgets/SearchWidget';
 import RecentPostsWidget from '../widgets/RecentPostsWidget';
 import CategoryWidget from '../widgets/CategoryWidget';
@@ -19,6 +17,11 @@ interface DataType {
     dateIcon?: string;
     thumbFull?: string;
     author?: string;
+    tag?: string;
+    title?: string;
+    quote?: string;
+    paragraphs?: string[];
+    points?: string[];
 }
 
 interface BlogSingleProps {
@@ -28,7 +31,7 @@ interface BlogSingleProps {
 }
 
 const BlogSingleWithSidebarContent = ({ blogInfo, totalBlogs, sectionClass }: BlogSingleProps) => {
-    const { id, date, dateIcon, thumbFull, author } = blogInfo || {};
+    const { id, date, dateIcon, thumbFull, author, tag, quote, paragraphs, points } = blogInfo || {};
 
     // Blogs Navigation 
     const currentId = id ? parseInt(id.toString(), 10) : 1;
@@ -69,29 +72,20 @@ const BlogSingleWithSidebarContent = ({ blogInfo, totalBlogs, sectionClass }: Bl
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <p>
-                                                Give lady of they such they sure it. Me contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeited he something an. Contrasted dissimilar get joy you instrument out reasonably. Again keeps at no meant stuff. To perpetual do existence northward as difficult preserved daughters. Continued at up to zealously necessary breakfast. Surrounded sir motionless she end literature. Gay direction neglected but supported yet her.
-                                            </p>
-                                            <p>
-                                                New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy son themselves.
-                                            </p>
-                                            <blockquote>
-                                                Celebrated share of first to worse. Weddings and any opinions suitable smallest nay. Houses or months settle remove ladies appear. Engrossed suffering supposing he recommend do eagerness.
-                                            </blockquote>
-                                            <p>
-                                                Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy son themselves.
-                                            </p>
-                                            <h3>Conduct replied off led whether?</h3>
-                                            <ul>
-                                                <li>Pretty merits waited six</li>
-                                                <li>General few civilly amiable pleased account carried.</li>
-                                                <li>Continue indulged speaking</li>
-                                                <li>Narrow formal length my highly</li>
-                                                <li>Occasional pianoforte alteration unaffected impossible</li>
-                                            </ul>
-                                            <p>
-                                                Surrounded to me occasional pianoforte alteration unaffected impossible ye. For saw half than cold. Pretty merits waited six talked pulled you. Conduct replied off led whether any shortly why arrived adapted. Numerous ladyship so raillery humoured goodness received an. So narrow formal length my highly longer afford oh. Tall neat he make or at dull ye. Lorem ipsum dolor, sit amet consectetur adipisicing, elit. Iure, laudantium, tempore. Autem dolore repellat, omnis quam? Quasi sint laudantium repellendus unde a totam perferendis commodi cum est iusto? Minima, laborum.
-                                            </p>
+                                                {(paragraphs || []).map((paragraph) => (
+                                                    <p key={paragraph}>{paragraph}</p>
+                                                ))}
+                                                {quote && <blockquote>{quote}</blockquote>}
+                                                {points && points.length > 0 && (
+                                                    <>
+                                                        <h3>What to look for</h3>
+                                                        <ul>
+                                                            {points.map((point) => (
+                                                                <li key={point}>{point}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </>
+                                                )}
                                         </div>
                                     </div>
                                 </div>
@@ -102,10 +96,10 @@ const BlogSingleWithSidebarContent = ({ blogInfo, totalBlogs, sectionClass }: Bl
                                         <img src={team1Thumb} alt="Thumb" />
                                     </div>
                                     <div className="info">
-                                        <h4><Link to="#" onClick={handleSmoothScroll}>Md Sohag</Link></h4>
-                                        <p>
-                                            Grursus mal suada faci lisis Lorem ipsum dolarorit more ametion consectetur elit. Vesti at bulum nec at odio aea the dumm ipsumm ipsum that dolocons rsus mal suada and fadolorit to the consectetur elit. All the Lorem Ipsum generators on the Internet tend.
-                                        </p>
+                                            <h4><Link to="/about-us">{author || "Arcle"}</Link></h4>
+                                            <p>
+                                                Arcle is a digital marketing and technology company in Bangalore. Strategy, creative and development sit with one team.
+                                            </p>
                                     </div>
                                 </div>
 
@@ -113,8 +107,7 @@ const BlogSingleWithSidebarContent = ({ blogInfo, totalBlogs, sectionClass }: Bl
                                 <div className="post-tags share">
                                     <div className="tags">
                                         <h4>Tags: </h4>
-                                        <Link to="#" onClick={handleSmoothScroll}>Algorithm</Link>
-                                        <Link to="#" onClick={handleSmoothScroll}>Data science</Link>
+                                            <Link to="/blog-standard">{tag || "Insights"}</Link>
                                     </div>
                                     <div className="social">
                                         <h4>Share:</h4>
@@ -144,8 +137,7 @@ const BlogSingleWithSidebarContent = ({ blogInfo, totalBlogs, sectionClass }: Bl
                                 <div className="blog-comments">
                                     <div className="comments-area">
                                         <div className="comments-title">
-                                            <h3>3 Comments On “Providing Top Quality Cleaning Related Services Charms.”</h3>
-                                            <BlogPostComments />
+                                            <h3>Leave a comment</h3>
                                         </div>
                                         <div className="comments-form">
                                             <div className="title">

@@ -10,11 +10,11 @@ const FaqPage = () => {
     return (
         <>
             <Helmet>
-                <title>Arcle - Faq</title>
+                <title>FAQ | Arcle</title>
             </Helmet>
 
             <LayoutV1>
-                <Breadcrumb title='Frequently asked question' breadCrumb='faq' />
+                <Breadcrumb title="Frequently Asked Questions" breadCrumb="FAQ" />
                 <FaqV1 sectionClass='bg-gray' />
                 <QuickContact title='Need' titleBold='Help?' />
                 <DarkClass />

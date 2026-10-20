@@ -9,11 +9,11 @@ const BlogStandardPage = () => {
     return (
         <>
             <Helmet>
-                <title>Arcle - Blog Standard</title>
+                <title>Insights | Arcle</title>
             </Helmet>
 
             <LayoutV1>
-                <Breadcrumb title='Blog Standard' breadCrumb='blog-standard' />
+                <Breadcrumb title="Insights" breadCrumb="Insights" />
                 <BlogStandardContent sectionClass='default-padding-bottom' />
                 <DarkClass />
                 <ThemeDark />

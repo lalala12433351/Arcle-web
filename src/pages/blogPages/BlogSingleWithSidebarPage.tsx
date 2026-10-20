@@ -3,7 +3,7 @@ import BlogSingleWithSidebarContent from "../../components/blog/BlogSingleWithSi
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import DarkClass from "../../components/classes/DarkClass";
 import LayoutV1 from "../../components/layouts/LayoutV1";
-import BlogV3Data from "../../../src/assets/jsonData/blog/BlogV3Data.json"
+import { arclePosts as BlogV3Data } from "../../content/arcleBlog";
 import { Helmet } from "react-helmet-async";
 import ThemeDark from "../../components/switcher/ThemeDark";
 
@@ -15,11 +15,11 @@ const BlogSingleWithSidebarPage = () => {
     return (
         <>
             <Helmet>
-                <title>Arcle - Blog Single With Sidebar</title>
+                <title>{data ? `${data.title} | Arcle` : "Insights | Arcle"}</title>
             </Helmet>
 
             <LayoutV1>
-                <Breadcrumb title='Blog Grid' breadCrumb='blog-single-with-sidebar' />
+                <Breadcrumb title={data?.title || "Insights"} breadCrumb="Insights" />
                 {data && <BlogSingleWithSidebarContent sectionClass='default-padding-bottom' blogInfo={data} totalBlogs={BlogV3Data.length} />}
                 <DarkClass />
                 <ThemeDark />

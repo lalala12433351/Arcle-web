@@ -16,7 +16,7 @@ const WhyChooseV1 = ({ sectionClass }: DataType) => {
                     <div className="row align-center">
                         <div className="col-lg-5">
                             <div className="thumb-style-one">
-                                <img src={thumb3} alt="Image Not Found" />
+                                <img src={thumb3} alt="Arcle studio" width={800} height={900} loading="lazy" decoding="async" />
                             </div>
                         </div>
                         <div className="col-lg-7">

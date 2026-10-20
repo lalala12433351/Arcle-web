@@ -30,7 +30,7 @@ const AboutV6 = ({ sectionClass }: DataType) => {
                     <div className="row">
                         <div className="col-xl-5 col-lg-5">
                             <div className="thumb-style-four">
-                                <img src={thumb2} alt="Image Not Found" />
+                                <img src={thumb2} alt="Arcle team working together in the studio" width={800} height={900} loading="lazy" decoding="async" />
                             </div>
                         </div>
                         <div className="col-xl-6 offset-xl-1 col-lg-7">

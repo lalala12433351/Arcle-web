@@ -11,8 +11,15 @@ const ContactForm = () => {
     const handleForm: FormEventHandler = (event) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement;
+        const data = new FormData(form);
+        const name = String(data.get("name") || "");
+        const email = String(data.get("email") || "");
+        const phone = String(data.get("phone") || "");
+        const comments = String(data.get("comments") || "");
+        const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n${comments}`;
+        window.location.href = `mailto:info@arcle.in?subject=${encodeURIComponent(`Project enquiry from ${name}`)}&body=${encodeURIComponent(body)}`;
         form.reset()
-        toast.success("Thanks For Your Email!")
+        toast.success("Your email app should open with the message to Arcle.")
     }
 
     return (
@@ -35,7 +42,7 @@ const ContactForm = () => {
                     </div>
                     <div className="col-lg-6">
                         <div className="form-group">
-                            <input className="form-control no-arrows" id="phone" name="phone" placeholder="Phone" type="number" required autoComplete="off" />
+                            <input className="form-control no-arrows" id="phone" name="phone" placeholder="Phone" type="tel" required autoComplete="off" />
                             <span className="alert-error" />
                         </div>
                     </div>

@@ -38,6 +38,187 @@
 .services-style-one-item .btn-full {
   margin-top: auto;
 }
+
+/* Stacked variant (ScrollStack) — `overflow: hidden` on the section would stop the cards from sticking */
+.services-style-one-area.services-stack-area {
+  overflow: clip;
+}
+.services-stack-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.services-stack-heading .site-heading {
+  margin-bottom: 0;
+  text-align: left;
+}
+.services-stack-heading .site-heading .title {
+  margin-bottom: 0;
+}
+/* Bootstrap's `.text-black` is !important, so the revealed colour can't use Tailwind's text-* classes */
+.services-stack-revealed {
+  color: var(--color-heading);
+}
+.bg-dark .services-stack-revealed {
+  color: var(--white);
+}
+.services-stack-heading .services-stack-cta {
+  flex: 0 0 auto;
+  min-width: 200px;
+  gap: 20px;
+}
+.bg-dark .services-stack-heading .services-stack-cta:hover i {
+  background: var(--white);
+  color: var(--color-heading);
+}
+.services-stack .scroll-stack__inner {
+  max-width: 760px;
+  margin-inline: auto;
+  padding-inline: 0;
+}
+.services-stack-card::before,
+.services-stack-card::after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(
+    from calc(var(--stack-angle, 0deg) + var(--card-index, 0) * 90deg),
+    rgba(35, 107, 255, 0) 0deg,
+    rgba(35, 107, 255, 0.95) 60deg,
+    rgba(225, 224, 204, 0.9) 120deg,
+    rgba(35, 107, 255, 0) 180deg,
+    rgba(35, 107, 255, 0) 240deg,
+    rgba(120, 160, 255, 0.7) 300deg,
+    rgba(35, 107, 255, 0) 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  transition: opacity 0.5s ease;
+}
+.services-stack-card::before {
+  inset: 0;
+  padding: 1.5px;
+  opacity: 0.45;
+}
+.services-stack-card::after {
+  inset: -6px;
+  padding: 8px;
+  filter: blur(14px);
+  opacity: 0;
+}
+.services-stack-area.is-scrolling .services-stack-card::before {
+  opacity: 1;
+}
+.services-stack-area.is-scrolling .services-stack-card::after {
+  opacity: 0.7;
+}
+@media (prefers-reduced-motion: reduce) {
+  .services-stack-card::after {
+    display: none;
+  }
+}
+.services-stack .scroll-stack-card.services-stack-card {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 2fr;
+  align-items: center;
+  gap: 32px;
+  height: auto;
+  min-height: 280px;
+  padding: 48px 52px;
+  border-radius: 30px;
+  background: var(--bg-gray);
+}
+.bg-gray .services-stack .scroll-stack-card.services-stack-card {
+  background: var(--white);
+}
+.bg-dark .services-stack .scroll-stack-card.services-stack-card {
+  background: linear-gradient(0deg, var(--dark-optional) 20%, #1d1d1d 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 -12px 40px -16px rgba(0, 0, 0, 0.6),
+    0 24px 48px -24px rgba(0, 0, 0, 0.6);
+}
+.services-stack-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  height: 100%;
+}
+.services-stack-card .icon img {
+  margin-bottom: 0;
+}
+.services-stack-card__index {
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1;
+  opacity: 0.15;
+  color: var(--color-heading);
+}
+.bg-dark .services-stack-card__index {
+  color: var(--white);
+}
+.services-stack-card__body h4 {
+  font-size: 32px;
+}
+.services-stack-card__body p {
+  font-size: 19px;
+  max-width: 560px;
+}
+@media (max-width: 767px) {
+  .services-stack-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .services-stack .scroll-stack-card.services-stack-card {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 36px 28px;
+  }
+  .services-stack-card__head {
+    height: auto;
+  }
+  .services-stack-card__body h4 {
+    font-size: 26px;
+  }
+  .services-stack-card__body p {
+    font-size: 17px;
+  }
+}
+
+.choose-us-style-one.why-arcle-statement {
+  text-align: center;
+}
+.why-arcle-statement__title {
+  margin: 0 auto 60px;
+  font-size: clamp(56px, 11vw, 170px);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--color-heading);
+}
+.bg-dark .why-arcle-statement__title {
+  color: var(--white);
+}
+.why-arcle-statement__title .shiny-text {
+  display: table;
+  margin-inline: auto;
+}
+/* Barlow has no width axis, so the letters are stretched instead */
+.why-arcle-statement__title .why-arcle-statement__wide {
+  transform: scaleX(1.25);
+}
+.why-arcle-statement__list {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: left;
+}
+
 .process-style-one-item {
   margin-bottom: 28px;
 }
@@ -74,12 +255,99 @@
   max-height: 70vh;
   overflow: auto;
 }
+nav.navbar.arcle-compact-nav .navbar-brand > img {
+  height: 32px;
+}
+@media (min-width: 1024px) {
+  nav.navbar.validnavs.navbar-default.arcle-compact-nav ul.nav > li > a {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+}
 @media (max-width: 991px) {
   .footer-bottom .text-end {
     text-align: left !important;
   }
   .footer-bottom .col-lg-6 + .col-lg-6 {
     margin-top: 16px;
+  }
+}
+
+.arcle-footer__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px 56px;
+  padding: 32px 0 72px;
+}
+.arcle-footer__brand {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+.arcle-footer__brand img {
+  height: 26px;
+  width: auto;
+}
+.arcle-footer__meta {
+  margin-left: auto;
+  max-width: 520px;
+  text-align: right;
+}
+.arcle-footer__office {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-paragraph);
+}
+.bg-dark .arcle-footer__office {
+  color: #c8c8c8;
+}
+.arcle-footer__office span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-heading);
+}
+.bg-dark .arcle-footer__office span {
+  color: #ffffff;
+}
+.arcle-footer__contacts {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 14px;
+}
+.arcle-footer__contacts a {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.arcle-footer__contacts a[href^="tel"] {
+  color: var(--color-primary);
+}
+.arcle-footer__copy {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: 0.65;
+}
+@media (max-width: 767px) {
+  .arcle-footer__bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 22px 0 88px;
+  }
+  .arcle-footer__meta,
+  .arcle-footer__contacts {
+    margin-left: 0;
+    max-width: none;
+    text-align: left;
+    justify-content: flex-start;
   }
 }
 

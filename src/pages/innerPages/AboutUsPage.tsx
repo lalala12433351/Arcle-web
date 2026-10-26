@@ -6,7 +6,6 @@ import ProcessV1 from "../../components/process/ProcessV1";
 import ProjectIdeaV1 from "../../components/project/ProjectIdeaV1";
 import ThemeDark from "../../components/switcher/ThemeDark";
 import WhyChooseV1 from "../../components/whyChoose/WhyChooseV1";
-import DarkClass from "../../components/classes/DarkClass";
 
 const AboutUsPage = () => {
     return (
@@ -36,7 +35,6 @@ const AboutUsPage = () => {
                 <div className="default-padding overflow-hidden" style={{ position: "relative" }}>
                     <ProjectIdeaV1 />
                 </div>
-                <DarkClass />
                 <ThemeDark />
             </LayoutV1>
         </>

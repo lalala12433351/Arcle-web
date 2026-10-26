@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 /** Site theme is driven by `body.bg-dark` (see ThemeDark / ThemeLight / DarkClass). */
 export const useSiteTheme = () => {
   const [isDark, setIsDark] = useState(() =>
-    typeof document !== "undefined" ? document.body.classList.contains("bg-dark") : true
+    typeof document !== "undefined" ? document.body.classList.contains("bg-dark") : false
   );
 
   useEffect(() => {

@@ -1,13 +1,9 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import AboutV6 from "../../components/about/AboutV6";
 import AboutV7 from "../../components/about/AboutV7";
 import CursorEffect from "../../components/animation/CursorEffect";
-import DarkClass from "../../components/classes/DarkClass";
 import ExpertiseV1 from "../../components/expertise/ExpertiseV1";
 import FaqV1 from "../../components/faq/FaqV1";
-import FlowingMenu from "../../components/flowing-menu/FlowingMenu";
-import homeMenuItems from "../../components/flowing-menu/homeMenuItems";
 import menuItems from "../../components/infinite-menu/menuItems";
 
 const InfiniteMenu = lazy(() => import("../../components/infinite-menu/InfiniteMenu"));
@@ -58,13 +54,14 @@ const DeferredInfiniteMenu = () => {
 import FooterV1 from "../../components/footer/FooterV1";
 import HeaderV1 from "../../components/header/HeaderV1";
 import ProjectIdeaV1 from "../../components/project/ProjectIdeaV1";
-import ProjectV1 from "../../components/project/ProjectV1";
 import ServicesV1 from "../../components/services/ServicesV1";
-import ServicesV2 from "../../components/services/ServicesV2";
 import ThemeDark from "../../components/switcher/ThemeDark";
 import WhyChooseV1 from "../../components/whyChoose/WhyChooseV1";
 import { WovenLightHero } from "@/components/ui/woven-light-hero";
-import { arcleFaqs, arcleMeta, audiences, growthStack, industries, journeySteps } from "../../content/arcleHome";
+import IndustriesVideo from "../../components/videos/IndustriesVideo";
+import GrowthTogetherVideo from "../../components/videos/GrowthTogetherVideo";
+import ClientRoster from "../../components/clients/ClientRoster";
+import { arcleFaqs, arcleMeta, journeySteps } from "../../content/arcleHome";
 
 const faqSchema = {
     "@context": "https://schema.org",
@@ -115,65 +112,33 @@ const Home1 = () => {
                 <HeaderV1 />
                 <WovenLightHero
                     layout="editorial"
-                    headline={arcleMeta.headline}
+                    brandName={arcleMeta.headline}
                     paragraphs={arcleMeta.heroParagraphs}
-                    ctaLabel="Book a free growth audit"
-                    ctaTo="/contact-us"
+                    ctaLabel={null}
                 />
-                <div style={{ height: "600px", position: "relative" }}>
-                    <FlowingMenu
-                        items={homeMenuItems}
-                        textColor="#ffffff"
-                        bgColor="#0e0f11"
-                        marqueeBgColor="#236BFF"
-                        marqueeTextColor="#ffffff"
-                        borderColor="rgba(255, 255, 255, 0.2)"
-                    />
-                </div>
                 <DeferredInfiniteMenu />
-                <AboutV6 sectionClass="default-padding" />
                 <AboutV7 sectionClass="bg-gray" />
+                <IndustriesVideo />
                 <ServicesV1
                     sectionClass="default-padding"
                     hasTitle={true}
                     subTitle="What We Do"
                     title="One Strategy. Every Channel."
                     items={toCards(journeySteps)}
+                    stacked
                 />
-                <ServicesV2 sectionClass="default-padding bg-gray" hasTitle={true} />
                 <WhyChooseV1 sectionClass="default-padding" />
                 <div className="default-padding bg-gray">
                     <ExpertiseV1 />
                 </div>
-                <ServicesV1
-                    sectionClass="default-padding"
-                    hasTitle={true}
-                    subTitle="Industries"
-                    title="Built for Your Industry"
-                    items={toCards(industries)}
-                />
-                <ServicesV1
-                    sectionClass="default-padding bg-gray"
-                    hasTitle={true}
-                    subTitle="Your Growth Stack"
-                    title="Everything Working Together"
-                    items={toCards(growthStack)}
-                />
-                <ServicesV1
-                    sectionClass="default-padding"
-                    hasTitle={true}
-                    subTitle="Who We Work With"
-                    title="From Startups to Growing Brands"
-                    items={toCards(audiences)}
-                />
-                <ProjectV1 />
+                <GrowthTogetherVideo />
+                <ClientRoster />
                 <div className="default-padding bg-gray overflow-hidden" style={{ position: "relative" }}>
                     <ProjectIdeaV1 />
                 </div>
                 <FaqV1 hasTitle={true} />
                 <CursorEffect />
                 <FooterV1 />
-                <DarkClass />
                 <ThemeDark />
             </div>
         </>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import FooterV1 from "../../components/footer/FooterV1";
 import "./plexify.css";
 
 const features = [
@@ -354,35 +354,7 @@ const PlexifyHome = () => {
                 </div>
             </section>
 
-            <footer className="px-footer-cta" id="talk">
-                <h2>Take your brand to the next level with Plexify</h2>
-                <a className="px-dark-btn" href="mailto:hello@example.com">Let’s talk <i>→</i></a>
-                <div className="px-footer">
-                    <div>
-                        <h4>Company</h4>
-                        <Link to="/plexify">Home</Link>
-                        <a href="#about-us">About us</a>
-                        <a href="#service">Service</a>
-                    </div>
-                    <div>
-                        <h4>Send a Message</h4>
-                        <a href="mailto:hello@example.com">hello@example.com</a>
-                        <a href="mailto:info@example.com">info@example.com</a>
-                    </div>
-                    <div>
-                        <h4>Call us</h4>
-                        <a href="tel:+12345678910">+1 234 567 8910</a>
-                        <a href="tel:+19876543210">+1 987 654 3210</a>
-                    </div>
-                    <div className="px-social-row">
-                        <a href="#talk">LINKEDIN</a>
-                        <a href="#talk">INTRAGRAM</a>
-                        <a href="#talk">X</a>
-                        <a href="#talk">FACEBOOK</a>
-                    </div>
-                </div>
-                <p className="px-copy">Copyright © {new Date().getFullYear()} DexignZone. All Rights Reserved</p>
-            </footer>
+            <FooterV1 />
         </div>
     );
 };

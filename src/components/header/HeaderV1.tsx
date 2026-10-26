@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MainMenu from './MainMenu';
+import { LiquidMetalButton } from "@/components/ui/liquid-metal";
 import logo from '/assets/img/logo.png';
 import logoLight from '/assets/img/logo-light.png';
 import useSidebarMenu from "../../hooks/useSidebarMenu";
@@ -11,11 +12,12 @@ const HeaderV1 = () => {
     const { isOpen, openMenu, closeMenu } = useSidebarMenu();
     const toggleSubMenu = useSubMenuToggle();
     const isMenuSticky = useStickyMenu();
+    const navigate = useNavigate();
 
     return (
         <>
             <header>
-                <nav className={`navbar mobile-sidenav navbar-sticky navbar-default validnavs navbar-fixed on menu-center ${isMenuSticky ? "sticked" : "no-background"} ${isOpen ? "navbar-responsive" : ""}`}>
+                <nav className={`navbar mobile-sidenav navbar-sticky navbar-default validnavs navbar-fixed on menu-center arcle-compact-nav ${isMenuSticky ? "sticked" : "no-background"} ${isOpen ? "navbar-responsive" : ""}`}>
                     <div className="container d-flex justify-content-between align-items-center">
                         <div className="navbar-header">
                             <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu" onClick={openMenu}>
@@ -39,7 +41,15 @@ const HeaderV1 = () => {
                             <div className="attr-nav flex">
                                 <ul>
                                     <li className="button">
-                                        <Link to="/contact-us">Get in touch</Link>
+                                        <LiquidMetalButton
+                                            type="button"
+                                            size="xs"
+                                            borderWidth={2}
+                                            onClick={() => navigate("/contact-us")}
+                                            style={{ fontFamily: "var(--font-heading)" }}
+                                        >
+                                            Get in touch
+                                        </LiquidMetalButton>
                                     </li>
                                 </ul>
                             </div>

@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import BannerV4 from "../../components/banner/BannerV4";
 import LightClassV3 from "../../components/classes/LightClassV3";
 import HeaderV5 from "../../components/header/HeaderV5";
+import FooterV1 from "../../components/footer/FooterV1";
 import ThemeLight from "../../components/switcher/ThemeLight";
 
 const Home5Light = () => {
@@ -13,6 +14,7 @@ const Home5Light = () => {
 
             <HeaderV5 />
             <BannerV4 />
+            <FooterV1 />
             <LightClassV3 />
             <ThemeLight />
         </>

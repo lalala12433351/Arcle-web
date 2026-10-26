@@ -1,5 +1,4 @@
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
-import DarkClass from "../../components/classes/DarkClass";
 import LayoutV1 from "../../components/layouts/LayoutV1";
 import ProjectDetailsContent from "../../components/project/ProjectDetailsContent";
 import PortfolioV4Data from "../../../src/assets/jsonData/portfolio/PortfolioV4Data.json";
@@ -21,7 +20,6 @@ const ProjectDetailsPage = () => {
             <LayoutV1>
                 <Breadcrumb title={data?.title || "Work"} breadCrumb="Work" />
                 {data && <ProjectDetailsContent projectInfo={data} totalProjects={PortfolioV4Data.length} />}
-                <DarkClass />
                 <ThemeDark />
             </LayoutV1>
         </>

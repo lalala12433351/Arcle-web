@@ -10,9 +10,6 @@ const MainMenu = ({ navbarPlacement, toggleSubMenu }: DataType) => {
     return (
         <>
             <ul className={`nav navbar-nav ${navbarPlacement ? navbarPlacement : ""}`} data-in="fadeInDown" data-out="fadeOutUp">
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
                 <li className="dropdown">
                     <Link to="/services" className="dropdown-toggle" data-toggle="dropdown" onClick={toggleSubMenu}>Services</Link>
                     <ul className="dropdown-menu">
@@ -26,12 +23,6 @@ const MainMenu = ({ navbarPlacement, toggleSubMenu }: DataType) => {
                 </li>
                 <li>
                     <Link to="/project">Work</Link>
-                </li>
-                <li>
-                    <Link to="/about-us">About</Link>
-                </li>
-                <li>
-                    <Link to="/blog-standard">Insights</Link>
                 </li>
                 <li>
                     <Link to="/contact-us">Contact</Link>

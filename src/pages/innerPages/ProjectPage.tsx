@@ -1,8 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
-import DarkClass from "../../components/classes/DarkClass";
 import LayoutV1 from "../../components/layouts/LayoutV1";
-import PortfolioV2 from "../../components/portfolio/PortfolioV2";
+import ProjectHeroVideo from "../../components/project/ProjectHeroVideo";
 import ThemeDark from "../../components/switcher/ThemeDark";
 
 const ProjectPage = () => {
@@ -13,9 +11,7 @@ const ProjectPage = () => {
             </Helmet>
 
             <LayoutV1>
-                <Breadcrumb title="Work" breadCrumb="Work" />
-                <PortfolioV2 moreBtn={true} sectionClass='default-padding-bottom' />
-                <DarkClass />
+                <ProjectHeroVideo />
                 <ThemeDark />
             </LayoutV1>
         </>

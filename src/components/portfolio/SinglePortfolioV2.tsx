@@ -9,7 +9,7 @@ interface DataType {
     text?: string;
 }
 
-const SinglePortfolioV2 = ({ portfolio }: { portfolio: DataType }) => {
+const SinglePortfolioV2 = ({ portfolio, hideThumb = false }: { portfolio: DataType; hideThumb?: boolean }) => {
     const { id, thumb, tag, date, text } = portfolio
 
     const containerRef = useLeftRightAnimation()
@@ -18,9 +18,11 @@ const SinglePortfolioV2 = ({ portfolio }: { portfolio: DataType }) => {
         <>
             <div className="portfolio-style-two">
                 <Link to={`/project-details/${id}`} className="cursor-target">
-                    <div className="thumb-zoom">
-                        <img className="img-reveal" src={`/assets/img/portfolio/${thumb}`} width={826} height={1067} alt="Image Not Found" ref={containerRef} />
-                    </div>
+                    {!hideThumb &&
+                        <div className="thumb-zoom">
+                            <img className="img-reveal" src={`/assets/img/portfolio/${thumb}`} width={826} height={1067} alt="Image Not Found" ref={containerRef} />
+                        </div>
+                    }
                     <div className="pf-item-info">
                         <div className="content">
                             <div className="pf-tags">

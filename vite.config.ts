@@ -15,6 +15,9 @@ export default defineConfig({
     },
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
+  optimizeDeps: {
+    include: ['motion/react'],
+  },
   build: {
     rollupOptions: {
       output: {

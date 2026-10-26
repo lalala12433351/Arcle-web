@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import DarkClassV5 from "../../components/classes/DarkClassV5";
 import BannerV12 from "../../components/banner/BannerV12";
+import FooterV1 from "../../components/footer/FooterV1";
 import HeaderV8 from "../../components/header/HeaderV8";
 
 const Home11 = () => {
@@ -12,6 +13,7 @@ const Home11 = () => {
 
             <HeaderV8 />
             <BannerV12 />
+            <FooterV1 />
             <DarkClassV5 />
         </>
     );

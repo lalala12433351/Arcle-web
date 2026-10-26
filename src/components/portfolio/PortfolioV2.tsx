@@ -7,9 +7,10 @@ interface DataType {
     hasTitle?: boolean
     moreBtn?: boolean
     sectionClass?: string
+    hideThumbs?: boolean
 }
 
-const PortfolioV2 = ({ hasTitle, moreBtn, sectionClass }: DataType) => {
+const PortfolioV2 = ({ hasTitle, moreBtn, sectionClass, hideThumbs }: DataType) => {
     return (
         <>
             <div className={`portfolio-style-two-area overflow-hidden ${sectionClass ? sectionClass : ""}`}>
@@ -45,7 +46,7 @@ const PortfolioV2 = ({ hasTitle, moreBtn, sectionClass }: DataType) => {
                             <div className="row gutter-xl">
                                 {PortfolioV2Data.map(portfolio =>
                                     <div className="col-lg-6 item-center" key={portfolio.id} >
-                                        <SinglePortfolioV2 portfolio={portfolio} />
+                                        <SinglePortfolioV2 portfolio={portfolio} hideThumb={hideThumbs} />
                                     </div>
                                 )}
                             </div>

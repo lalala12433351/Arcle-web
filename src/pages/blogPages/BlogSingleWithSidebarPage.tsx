@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import BlogSingleWithSidebarContent from "../../components/blog/BlogSingleWithSidebarContent";
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
-import DarkClass from "../../components/classes/DarkClass";
 import LayoutV1 from "../../components/layouts/LayoutV1";
 import { arclePosts as BlogV3Data } from "../../content/arcleBlog";
 import { Helmet } from "react-helmet-async";
@@ -21,7 +20,6 @@ const BlogSingleWithSidebarPage = () => {
             <LayoutV1>
                 <Breadcrumb title={data?.title || "Insights"} breadCrumb="Insights" />
                 {data && <BlogSingleWithSidebarContent sectionClass='default-padding-bottom' blogInfo={data} totalBlogs={BlogV3Data.length} />}
-                <DarkClass />
                 <ThemeDark />
             </LayoutV1>
         </>

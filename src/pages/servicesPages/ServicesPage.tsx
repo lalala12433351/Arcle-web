@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
-import DarkClass from "../../components/classes/DarkClass";
 import LayoutV1 from "../../components/layouts/LayoutV1";
 import ProcessV1 from "../../components/process/ProcessV1";
 import ProjectIdeaV1 from "../../components/project/ProjectIdeaV1";
@@ -39,7 +38,6 @@ const ServicesPage = () => {
                 <div className="default-padding overflow-hidden" style={{ position: "relative" }}>
                     <ProjectIdeaV1 />
                 </div>
-                <DarkClass />
                 <ThemeDark />
             </LayoutV1>
         </>

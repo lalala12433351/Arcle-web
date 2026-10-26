@@ -7,25 +7,31 @@ const useScrollAnimation = () => {
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
+        const owned: ScrollTrigger[] = [];
+
+        const clearOwned = () => {
+            owned.forEach((trigger) => trigger.kill());
+            owned.length = 0;
+        };
 
         const handleResize = () => {
-            if (window.innerWidth > 1023) {
-                const textElements = gsap.utils.toArray<HTMLElement>('.text');
-                textElements.forEach(text => {
-                    gsap.to(text, {
-                        backgroundSize: '100%',
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: text,
-                            start: 'center 100%',
-                            end: 'center 50%',
-                            scrub: true,
-                        },
-                    });
+            clearOwned();
+            if (window.innerWidth <= 1023) return;
+
+            const textElements = gsap.utils.toArray<HTMLElement>('.text');
+            textElements.forEach(text => {
+                const tween = gsap.to(text, {
+                    backgroundSize: '100%',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: text,
+                        start: 'center 100%',
+                        end: 'center 50%',
+                        scrub: true,
+                    },
                 });
-            } else {
-                ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-            }
+                if (tween.scrollTrigger) owned.push(tween.scrollTrigger);
+            });
         };
 
         handleResize();
@@ -33,7 +39,7 @@ const useScrollAnimation = () => {
 
         return () => {
             window.removeEventListener('resize', handleResize);
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            clearOwned();
         };
     }, []);
 

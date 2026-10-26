@@ -1,12 +1,11 @@
 export const arcleMeta = {
     title: "Digital Marketing Agency in India | Arcle",
     description:
-        "Arcle is a digital marketing agency in India offering performance marketing, SEO, social media, website and app development. Book a free growth audit.",
-    headline:
-        "Digital Marketing Agency in India That Builds, Markets and Grows Your Business",
+        "Arcle is an AI-powered digital marketing agency in India that turns your ads, SEO, social media, website and app into one engine for leads, customers and revenue.",
+    headline: "Build For\nGrowth",
     heroParagraphs: [
-        "Arcle is a full-service digital marketing and technology company headquartered in Bangalore. We help startups, small businesses and growing brands generate more leads, acquire customers and increase revenue through performance marketing, SEO, social media, website and application development, branding and creative services.",
-        "Instead of managing multiple agencies for your marketing and technology needs, you get one connected team that understands your business from strategy to execution.",
+        "Arcle is an AI-powered digital marketing agency in India that turns your ads, SEO, social media, website and app into one engine for leads, customers and revenue.",
+        "We bring data, AI and a team of marketers, designers and developers together, because you don't need more marketing. You need marketing that pays back.",
     ],
 };
 

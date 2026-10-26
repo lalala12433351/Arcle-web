@@ -1,13 +1,21 @@
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
-import * as THREE from "three";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
+import MaskedHeading from "@/components/MaskedHeading";
 
 type WovenLightHeroProps = {
   headline?: string;
+  brandName?: string;
+  /** Stacked poster lines. Used when `poster` is set. */
+  posterLines?: string[];
+  /** Word inside a poster line drawn in the site primary color. */
+  accentWord?: string;
+  /** Full-bleed stacked headline, without the side carousel. */
+  poster?: boolean;
   paragraphs?: string[];
-  ctaLabel?: string;
+  /** Pass `null` to render the hero without a call-to-action. */
+  ctaLabel?: string | null;
   ctaTo?: string;
   layout?: "display" | "editorial";
 };
@@ -15,6 +23,10 @@ type WovenLightHeroProps = {
 // --- Main Hero Component ---
 export const WovenLightHero = ({
   headline = "Woven by Light",
+  brandName,
+  posterLines,
+  accentWord,
+  poster = false,
   paragraphs = [
     "An interactive tapestry of light and motion, crafted with code and creativity.",
   ],
@@ -27,6 +39,21 @@ export const WovenLightHero = ({
   const buttonControls = useAnimation();
   const editorial = layout === "editorial";
   const words = headline.split(" ");
+  const lines = posterLines?.length ? posterLines : [headline];
+
+  const renderAccent = (line: string) => {
+    if (!accentWord) return line;
+    const parts = line.split(new RegExp(`(${accentWord})`, "ig"));
+    return parts.map((part, index) =>
+      part.toLowerCase() === accentWord.toLowerCase() ? (
+        <span key={index} className="woven-hero-poster__accent">
+          {part}
+        </span>
+      ) : (
+        <span key={index}>{part}</span>
+      )
+    );
+  };
 
   useEffect(() => {
     textControls.start((i) => ({
@@ -65,7 +92,7 @@ export const WovenLightHero = ({
 
   return (
     <section
-      className={`relative min-h-screen w-full overflow-hidden transition-colors duration-500 lg:flex lg:flex-row${editorial ? " woven-hero--editorial" : ""}`}
+      className={`relative min-h-screen w-full overflow-hidden transition-colors duration-500${editorial ? " woven-hero--editorial" : " lg:flex lg:flex-row"}${poster ? " woven-hero--poster" : ""}`}
       style={{ backgroundColor: isDark ? "var(--dark)" : "var(--white)" }}
     >
       <style>{`
@@ -104,42 +131,143 @@ export const WovenLightHero = ({
             min-height: 100vh;
           }
         }
+        .woven-hero--editorial {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
         .woven-hero--editorial .woven-hero-copy {
           position: relative;
           inset: auto;
-          align-items: flex-start;
-          padding: 132px 24px 48px;
+          width: 100%;
+          min-height: 100vh;
+          align-items: center;
+          justify-content: center;
+          padding: 120px 24px 72px;
+          text-align: center;
         }
-        .woven-hero--editorial .woven-hero-inner { max-width: 42rem; }
+        .woven-hero--editorial .woven-hero-inner {
+          width: min(94vw, 1080px);
+          max-width: 100%;
+          margin-inline: auto;
+        }
         .woven-hero--editorial .woven-hero-word {
           display: inline;
           white-space: normal;
           margin-right: 0;
         }
-        .woven-hero--editorial .woven-hero-canvas {
-          position: relative;
-          height: 42vh;
-          min-height: 280px;
+        .woven-hero--editorial .arcle-brand {
+          width: 100%;
+          margin: 0 auto 28px !important;
+        }
+        .woven-hero--editorial .woven-hero-copy p {
+          margin-left: auto;
+          margin-right: 0;
+          text-align: left;
         }
         @media (min-width: 1024px) {
-          .woven-hero--editorial .woven-hero-copy {
-            width: 56%;
-            align-items: center;
-            padding: 48px 5vw 48px 7vw;
+          .woven-hero--editorial .woven-hero-copy p {
+            margin-right: min(0px, calc((min(94vw, 1080px) - 100vw) / 2 + 36px));
           }
-          .woven-hero--editorial .woven-hero-word {
-            display: inline;
-            margin-right: 0;
-          }
-          .woven-hero--editorial .woven-hero-canvas {
-            width: 44%;
-            height: auto;
-            min-height: 100vh;
-          }
+        }
+        .woven-hero--poster {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .woven-hero--poster .woven-hero-copy {
+          position: relative;
+          inset: auto;
+          width: 100%;
+          min-height: 100vh;
+          align-items: center;
+          justify-content: center;
+          padding: 132px 6vw 72px;
+          text-align: left;
+        }
+        .woven-hero--poster .woven-hero-inner {
+          width: fit-content;
+          max-width: 100%;
+          margin-inline: auto;
+        }
+        .woven-hero--editorial.woven-hero--poster h1.woven-hero-poster {
+          margin: 0 0 32px;
+          font-family: var(--font-heading);
+          font-weight: 800;
+          font-size: clamp(40px, 9.2vw, 148px);
+          line-height: 0.82;
+          letter-spacing: -0.04em;
+          text-transform: uppercase;
+          text-wrap: wrap;
+          color: var(--color-heading);
+        }
+        .bg-dark .woven-hero--editorial.woven-hero--poster h1.woven-hero-poster {
+          color: var(--white);
+        }
+        .woven-hero-poster__line {
+          display: block;
+        }
+        .woven-hero-poster__accent {
+          color: var(--color-primary);
+        }
+        .woven-hero--poster .woven-hero-copy p {
+          margin-left: 0;
+          margin-right: 0;
+          max-width: 34rem;
         }
       `}</style>
       <div className="woven-hero-copy">
         <div className="woven-hero-inner">
+          {poster ? (
+            <h1 className="woven-hero-poster">
+              {lines.map((line, i) => (
+                <motion.span
+                  key={line}
+                  className="woven-hero-poster__line"
+                  custom={i}
+                  initial={{ opacity: 0, y: 36 }}
+                  animate={textControls}
+                >
+                  {renderAccent(line)}
+                </motion.span>
+              ))}
+            </h1>
+          ) : null}
+          {!poster && brandName ? (
+            <MaskedHeading
+              tag="h1"
+              className="arcle-brand"
+              text={brandName}
+              mediaType="video"
+              src="/assets/video/waves-3.mp4"
+              poster="/assets/hero/carousel-video.jpg"
+              fillScale={1.25}
+              parallax={0}
+              reveal="rise"
+              trigger="load"
+              spotlight={false}
+              outline={false}
+              duration={1.1}
+              stagger={0.12}
+              drift={14}
+              hoverZoom={0}
+              align="center"
+              brightness={0.72}
+              saturation={0.35}
+              grayscale={true}
+              tint="rgba(10, 32, 78, 0.55)"
+              outlineWidth={1}
+              weight={700}
+              tracking={-0.03}
+              lineHeight={0.92}
+              textScale={0.192}
+              style={{
+                fontFamily: "var(--font-heading)",
+                color: isDark ? "var(--white)" : "var(--color-heading)",
+              }}
+            />
+          ) : null}
+          {!poster && !brandName ? (
           <h1
             className={editorial ? undefined : "uppercase"}
             style={{
@@ -182,6 +310,7 @@ export const WovenLightHero = ({
               </span>
             ))}
           </h1>
+          ) : null}
           {paragraphs.map((paragraph, index) => (
             <motion.p
               key={index}
@@ -201,215 +330,21 @@ export const WovenLightHero = ({
               {paragraph}
             </motion.p>
           ))}
-          <motion.div initial={{ opacity: 0 }} animate={buttonControls}>
-            {ctaTo ? (
-              <Link to={ctaTo} style={ctaStyle}>
-                {ctaLabel}
-              </Link>
-            ) : (
-              <button className={editorial ? undefined : "uppercase"} style={ctaStyle}>
-                {ctaLabel}
-              </button>
-            )}
-          </motion.div>
+          {ctaLabel && (
+            <motion.div initial={{ opacity: 0 }} animate={buttonControls}>
+              {ctaTo ? (
+                <Link to={ctaTo} style={ctaStyle}>
+                  {ctaLabel}
+                </Link>
+              ) : (
+                <button className={editorial ? undefined : "uppercase"} style={ctaStyle}>
+                  {ctaLabel}
+                </button>
+              )}
+            </motion.div>
+          )}
         </div>
-      </div>
-      <div className="woven-hero-canvas absolute inset-0 z-0 h-full w-full">
-        <WovenCanvas isDark={isDark} />
       </div>
     </section>
   );
-};
-
-// --- Three.js Canvas Component ---
-const WovenCanvas = ({ isDark }: { isDark: boolean }) => {
-  const mountRef = useRef<HTMLDivElement>(null);
-  const themeRef = useRef(isDark);
-  const applyThemeRef = useRef<((dark: boolean) => void) | null>(null);
-
-  useEffect(() => {
-    themeRef.current = isDark;
-    applyThemeRef.current?.(isDark);
-  }, [isDark]);
-
-  useEffect(() => {
-    const mount = mountRef.current;
-    if (!mount) return;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.z = 5.6;
-    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
-    mount.appendChild(renderer.domElement);
-
-    const resize = () => {
-      const width = mount.clientWidth;
-      const height = mount.clientHeight;
-      if (width === 0 || height === 0) return;
-      const aspect = width / height;
-      camera.aspect = aspect;
-      camera.position.z = aspect < 0.7 ? 5 : aspect < 0.85 ? 5.6 : 5.3;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-    };
-    resize();
-
-    const mouse = new THREE.Vector2(0, 0);
-    const clock = new THREE.Clock();
-
-    const particleCount = 8000;
-    const positions = new Float32Array(particleCount * 3);
-    const originalPositions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-    const velocities = new Float32Array(particleCount * 3);
-    const hues = new Float32Array(particleCount);
-
-    const geometry = new THREE.BufferGeometry();
-    const torusKnot = new THREE.TorusKnotGeometry(1.5, 0.5, 200, 32);
-
-    for (let i = 0; i < particleCount; i++) {
-      const vertexIndex = i % torusKnot.attributes.position.count;
-      const x = torusKnot.attributes.position.getX(vertexIndex);
-      const y = torusKnot.attributes.position.getY(vertexIndex);
-      const z = torusKnot.attributes.position.getZ(vertexIndex);
-
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
-      originalPositions[i * 3] = x;
-      originalPositions[i * 3 + 1] = y;
-      originalPositions[i * 3 + 2] = z;
-
-      hues[i] = Math.random();
-      velocities[i * 3] = 0;
-      velocities[i * 3 + 1] = 0;
-      velocities[i * 3 + 2] = 0;
-    }
-
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-      size: 0.02,
-      vertexColors: true,
-      transparent: true,
-    });
-
-    const applyTheme = (dark: boolean) => {
-      const color = new THREE.Color();
-      for (let i = 0; i < particleCount; i++) {
-        // Dark: bright additive glow. Light: deeper ink tones on white.
-        color.setHSL(hues[i], dark ? 0.75 : 0.55, dark ? 0.65 : 0.42);
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
-      }
-      geometry.attributes.color.needsUpdate = true;
-      material.blending = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
-      material.opacity = dark ? 0.85 : 0.95;
-      material.needsUpdate = true;
-    };
-
-    applyTheme(themeRef.current);
-    applyThemeRef.current = applyTheme;
-
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
-
-    const handleMouseMove = (event: MouseEvent) => {
-      const rect = mount.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return;
-      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-
-    let frameId = 0;
-    let inView = true;
-    let running = true;
-    const syncRunning = () => {
-      running = inView && document.visibilityState === "visible";
-    };
-    const onVisibility = () => syncRunning();
-    document.addEventListener("visibilitychange", onVisibility);
-    const visibilityObserver = new IntersectionObserver(([entry]) => {
-      inView = entry.isIntersecting;
-      syncRunning();
-    });
-    visibilityObserver.observe(mount);
-
-    const animate = () => {
-      frameId = requestAnimationFrame(animate);
-      if (!running) return;
-
-      const elapsedTime = clock.getElapsedTime();
-      const mx = mouse.x * 3;
-      const my = mouse.y * 3;
-
-      for (let i = 0; i < particleCount; i++) {
-        const ix = i * 3;
-        const iy = ix + 1;
-        const iz = ix + 2;
-
-        let px = positions[ix];
-        let py = positions[iy];
-        let pz = positions[iz];
-        let vx = velocities[ix];
-        let vy = velocities[iy];
-        let vz = velocities[iz];
-
-        const dx = px - mx;
-        const dy = py - my;
-        const dz = pz;
-        const dist = Math.hypot(dx, dy, dz);
-        if (dist < 1.5 && dist > 0.0001) {
-          const force = ((1.5 - dist) * 0.01) / dist;
-          vx += dx * force;
-          vy += dy * force;
-          vz += dz * force;
-        }
-
-        vx += (originalPositions[ix] - px) * 0.001;
-        vy += (originalPositions[iy] - py) * 0.001;
-        vz += (originalPositions[iz] - pz) * 0.001;
-        vx *= 0.95;
-        vy *= 0.95;
-        vz *= 0.95;
-
-        positions[ix] = px + vx;
-        positions[iy] = py + vy;
-        positions[iz] = pz + vz;
-        velocities[ix] = vx;
-        velocities[iy] = vy;
-        velocities[iz] = vz;
-      }
-      geometry.attributes.position.needsUpdate = true;
-
-      points.rotation.y = elapsedTime * 0.05;
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(mount);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-      applyThemeRef.current = null;
-      resizeObserver.disconnect();
-      visibilityObserver.disconnect();
-      document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("mousemove", handleMouseMove);
-      geometry.dispose();
-      material.dispose();
-      torusKnot.dispose();
-      renderer.dispose();
-      if (mount.contains(renderer.domElement)) {
-        mount.removeChild(renderer.domElement);
-      }
-    };
-  }, []);
-
-  return <div ref={mountRef} className="absolute inset-0 z-0" />;
 };

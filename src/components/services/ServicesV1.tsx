@@ -126,14 +126,19 @@ const ServicesV1 = ({ hasTitle, sectionClass, items, subTitle, title, stacked, c
                     <ScrollStack
                         className="services-stack"
                         useWindowScroll
-                        smoothScroll={false}
                         stackPosition="18%"
-                        itemDistance={80}
-                        itemStackDistance={28}
-                        itemScale={0.04}
-                        baseScale={0.86}
-                        dimAmount={0.25}
-                        holdDistance={120}
+                        itemDistance={100}
+                        itemStackDistance={30}
+                        itemScale={0.045}
+                        baseScale={0.82}
+                        dimAmount={0.45}
+                        tiltAmount={48}
+                        mobileTiltAmount={18}
+                        depthAmount={240}
+                        mobileDepthAmount={100}
+                        liftAmount={22}
+                        mobileLiftAmount={10}
+                        holdDistance={140}
                     >
                         {services.map((service, index) => {
                             const href = "href" in service && service.href ? service.href : `/service-details/${service.id}`;

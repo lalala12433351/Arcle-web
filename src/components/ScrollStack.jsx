@@ -1,7 +1,11 @@
 'use client';
 
 import { Children, Fragment, isValidElement, useLayoutEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './ScrollStack.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const resolveOffset = (value, size) => {
   if (typeof value === 'number') return value;
@@ -12,16 +16,10 @@ const resolveOffset = (value, size) => {
 
 const toLength = value => (typeof value === 'number' ? `${value}px` : value);
 
-const scrollsInside = (node, stop, delta) => {
-  for (let element = node; element && element !== stop; element = element.parentElement) {
-    if (element.scrollHeight <= element.clientHeight + 1) continue;
-    const overflow = getComputedStyle(element).overflowY;
-    if (overflow !== 'auto' && overflow !== 'scroll') continue;
-    if (delta > 0 ? element.scrollTop + element.clientHeight < element.scrollHeight - 1 : element.scrollTop > 0) {
-      return true;
-    }
-  }
-  return false;
+/** Soften cover progress so tilt/scale never snap at the edges. */
+const easeCover = t => {
+  const x = Math.min(1, Math.max(0, t));
+  return x * x * (3 - 2 * x);
 };
 
 export const ScrollStackItem = ({ children, itemClassName = '', style }) => (
@@ -31,6 +29,11 @@ export const ScrollStackItem = ({ children, itemClassName = '', style }) => (
   </div>
 );
 
+/**
+ * Sticky project/service stack with Alt Shift–style scroll-linked 3D recess.
+ * Driven by GSAP ScrollTrigger (scrubbed to scroll). Does not create Lenis —
+ * if Lenis already updates ScrollTrigger elsewhere, this stays in sync.
+ */
 const ScrollStack = ({
   children,
   className = '',
@@ -38,14 +41,17 @@ const ScrollStack = ({
   itemStackDistance = 24,
   stackPosition = '15%',
   itemScale = 0.05,
-  baseScale = 0.8,
-  dimAmount = 0.2,
+  baseScale = 0.86,
+  dimAmount = 0.25,
   blurAmount = 0,
-  tiltAmount = 0,
+  tiltAmount = 48,
+  mobileTiltAmount = 18,
+  depthAmount = 220,
+  mobileDepthAmount = 90,
+  liftAmount = 18,
+  mobileLiftAmount = 8,
   rotationAmount = 0,
   holdDistance = 200,
-  smoothScroll = true,
-  snap = false,
   useWindowScroll = false,
   onStackComplete
 }) => {
@@ -53,7 +59,6 @@ const ScrollStack = ({
   const innerRef = useRef(null);
   const endRef = useRef(null);
   const settingsRef = useRef(null);
-  const scheduleRef = useRef(null);
   const items = Children.toArray(children);
 
   useLayoutEffect(() => {
@@ -66,13 +71,15 @@ const ScrollStack = ({
       dimAmount,
       blurAmount,
       tiltAmount,
+      mobileTiltAmount,
+      depthAmount,
+      mobileDepthAmount,
+      liftAmount,
+      mobileLiftAmount,
       rotationAmount,
       holdDistance,
-      smoothScroll,
-      snap,
       onStackComplete
     };
-    scheduleRef.current?.();
   });
 
   useLayoutEffect(() => {
@@ -82,224 +89,233 @@ const ScrollStack = ({
     if (!root || !inner || !end) return undefined;
 
     const windowed = useWindowScroll;
-    const target = windowed ? window : root;
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const cache = new Map();
-    let frame = 0;
-    let glide = 0;
-    let rest = 0;
     let complete = false;
-    let gliding = false;
-    let pressed = false;
-    let current = 0;
-    let goal = 0;
-    let written = 0;
-    let last = 0;
-    let points = [];
-    let reach = 0;
+    let layoutFrame = 0;
 
-    const readScroll = () => (windowed ? window.scrollY : root.scrollTop);
-    const maxScroll = () =>
-      windowed ? document.documentElement.scrollHeight - window.innerHeight : root.scrollHeight - root.clientHeight;
-    const writeScroll = value => {
-      written = value;
-      target.scrollTo({ top: value, behavior: 'instant' });
-    };
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
 
-    const write = (key, value, apply) => {
-      if (cache.get(key) === value) return false;
-      cache.set(key, value);
-      apply(value);
-      return true;
-    };
+      mm.add(
+        {
+          isDesktop: '(min-width: 768px)',
+          isMobile: '(max-width: 767px)',
+          reduceMotion: '(prefers-reduced-motion: reduce)'
+        },
+        context => {
+          const { isMobile, reduceMotion } = context.conditions;
+          const cache = new Map();
 
-    const update = () => {
-      frame = 0;
-      const settings = settingsRef.current;
-      const slots = Array.from(inner.children).filter(child => child.hasAttribute('data-stack-slot'));
-      if (!settings || !slots.length) return;
+          const write = (key, value, apply) => {
+            if (cache.get(key) === value) return false;
+            cache.set(key, value);
+            apply(value);
+            return true;
+          };
 
-      const viewHeight = windowed ? window.innerHeight : root.clientHeight;
-      const viewTop = windowed ? 0 : root.getBoundingClientRect().top + root.clientTop;
-      const stackTop = resolveOffset(settings.stackPosition, viewHeight);
-      const offset = settings.itemStackDistance;
-      const heights = slots.map(slot => slot.offsetHeight);
-      const tops = slots.map(slot => slot.getBoundingClientRect().top);
-      const lastPin = stackTop + (slots.length - 1) * offset;
-      const padTop = windowed ? 0 : stackTop;
-      const endHeight =
-        settings.holdDistance + (windowed ? 0 : Math.max(0, viewHeight - lastPin - heights[heights.length - 1]));
+          const resetCard = card => {
+            gsap.set(card, {
+              clearProps: 'transform,filter',
+              transformPerspective: 0,
+              rotateX: 0,
+              rotateZ: 0,
+              y: 0,
+              z: 0,
+              scale: 1,
+              force3D: true
+            });
+            card.style.setProperty('--scroll-stack-dim', '0');
+            card.style.filter = '';
+          };
 
-      let moved = write('padTop', padTop, value => {
-        inner.style.paddingTop = `${value}px`;
-      });
-      moved =
-        write('endHeight', endHeight, value => {
-          end.style.height = `${value}px`;
-        }) || moved;
+          const updateLayout = () => {
+            const settings = settingsRef.current;
+            const slots = Array.from(inner.children).filter(child => child.hasAttribute('data-stack-slot'));
+            if (!settings || !slots.length) return slots;
 
-      let flow = inner.getBoundingClientRect().top - viewTop + readScroll() + padTop;
-      points = heights.map((height, i) => {
-        const point = flow - stackTop - i * offset;
-        flow += height + settings.itemDistance;
-        return point;
-      });
-      reach = Math.max(40, (heights[0] + settings.itemDistance - offset) / 2);
+            const viewHeight = windowed ? window.innerHeight : root.clientHeight;
+            const stackTop = resolveOffset(settings.stackPosition, viewHeight);
+            const heights = slots.map(slot => slot.offsetHeight);
+            const lastPin = stackTop + (slots.length - 1) * settings.itemStackDistance;
+            const padTop = windowed ? 0 : stackTop;
+            const endHeight =
+              settings.holdDistance +
+              (windowed ? 0 : Math.max(0, viewHeight - lastPin - heights[heights.length - 1]));
 
-      const depths = slots.map(() => 0);
-      let lastCover = 0;
-      for (let j = 1; j < slots.length; j++) {
-        const pinBefore = viewTop + stackTop + (j - 1) * offset;
-        const start = pinBefore + heights[j - 1];
-        const span = Math.max(1, start - pinBefore - offset);
-        const cover = Math.min(1, Math.max(0, (start - tops[j]) / span));
-        for (let i = 0; i < j; i++) depths[i] += cover;
-        lastCover = cover;
-      }
+            write('padTop', padTop, value => {
+              inner.style.paddingTop = `${value}px`;
+            });
+            write('endHeight', endHeight, value => {
+              end.style.height = `${value}px`;
+            });
 
-      const dimStep = Math.min(Math.max(settings.dimAmount, 0), 1);
-      slots.forEach((slot, i) => {
-        const card = slot.firstElementChild;
-        if (!card) return;
-        const depth = depths[i];
-        const lean = Math.min(depth, 1);
-        const scale = Math.max(Math.min(settings.baseScale, 1), 1 - depth * settings.itemScale);
-        const tilt = -lean * settings.tiltAmount;
-        const turn = lean * settings.rotationAmount * (i % 2 ? -1 : 1);
-        const blur = depth * settings.blurAmount;
-        const dim = 1 - Math.pow(1 - dimStep, depth);
-        const transform =
-          depth < 0.0005
-            ? ''
-            : `perspective(1200px) rotateX(${tilt.toFixed(2)}deg) rotate(${turn.toFixed(2)}deg) scale(${scale.toFixed(4)})`;
-        write(`transform${i}`, transform, value => {
-          card.style.transform = value;
-        });
-        write(`filter${i}`, blur > 0.01 ? `blur(${blur.toFixed(2)}px)` : '', value => {
-          card.style.filter = value;
-        });
-        write(`dim${i}`, dim.toFixed(3), value => {
-          card.style.setProperty('--scroll-stack-dim', value);
-        });
-      });
+            return slots;
+          };
 
-      const done = slots.length > 1 && lastCover >= 0.999;
-      if (done !== complete) {
-        complete = done;
-        if (done) settings.onStackComplete?.();
-      }
+          const updateTransforms = () => {
+            const settings = settingsRef.current;
+            const slots = updateLayout();
+            if (!settings || !slots.length) return;
 
-      if (moved) schedule();
-    };
+            const viewTop = windowed ? 0 : root.getBoundingClientRect().top + root.clientTop;
+            const viewHeight = windowed ? window.innerHeight : root.clientHeight;
+            const stackTop = resolveOffset(settings.stackPosition, viewHeight);
+            const offset = settings.itemStackDistance;
+            const tops = slots.map(slot => slot.getBoundingClientRect().top);
+            const heights = slots.map(slot => slot.offsetHeight);
 
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
+            if (reduceMotion) {
+              slots.forEach(slot => {
+                const card = slot.firstElementChild;
+                if (card) resetCard(card);
+              });
+              return;
+            }
 
-    const step = now => {
-      const dt = Math.min(0.05, (now - last) / 1000);
-      last = now;
-      if (Math.abs(readScroll() - written) > 2) {
-        gliding = false;
-        glide = 0;
-        settleSoon();
-        return;
-      }
-      current += (goal - current) * (1 - Math.pow(0.9, dt * 60));
-      if (Math.abs(goal - current) < 0.5) current = goal;
-      writeScroll(current);
-      if (current === goal) {
-        gliding = false;
-        glide = 0;
-        settleSoon();
-        return;
-      }
-      glide = requestAnimationFrame(step);
-    };
+            const tiltCap = isMobile
+              ? Math.max(0, settings.mobileTiltAmount ?? Math.min(settings.tiltAmount, 18))
+              : Math.max(0, settings.tiltAmount);
+            const depthPx = isMobile
+              ? Math.max(0, settings.mobileDepthAmount ?? Math.min(settings.depthAmount, 90))
+              : Math.max(0, settings.depthAmount);
+            const liftPx = isMobile
+              ? Math.max(0, settings.mobileLiftAmount ?? Math.min(settings.liftAmount, 8))
+              : Math.max(0, settings.liftAmount ?? 18);
+            const scaleStep = isMobile ? settings.itemScale * 0.55 : settings.itemScale;
+            // Keep mobile titles readable — lighter shade overlay than desktop.
+            const dimStep = Math.min(Math.max(isMobile ? settings.dimAmount * 0.5 : settings.dimAmount, 0), 1);
+            const perspective = isMobile ? 700 : 900;
 
-    const glideTo = value => {
-      goal = Math.min(Math.max(value, 0), maxScroll());
-      if (motion.matches) {
-        writeScroll(goal);
-        return;
-      }
-      if (gliding) return;
-      gliding = true;
-      current = readScroll();
-      written = current;
-      last = performance.now();
-      glide = requestAnimationFrame(step);
-    };
+            const depths = slots.map(() => 0);
+            let lastCover = 0;
+            for (let j = 1; j < slots.length; j++) {
+              const pinBefore = viewTop + stackTop + (j - 1) * offset;
+              const start = pinBefore + heights[j - 1];
+              const span = Math.max(1, start - pinBefore - offset);
+              const cover = easeCover((start - tops[j]) / span);
+              for (let i = 0; i < j; i++) depths[i] += cover;
+              lastCover = cover;
+            }
 
-    const settle = () => {
-      rest = 0;
-      if (!settingsRef.current?.snap || gliding || pressed || !points.length) return;
-      const now = readScroll();
-      const nearest = points.reduce((best, point) => (Math.abs(point - now) < Math.abs(best - now) ? point : best));
-      const gap = Math.abs(nearest - now);
-      if (gap > 1 && gap < reach) glideTo(nearest);
-    };
+            slots.forEach((slot, i) => {
+              const card = slot.firstElementChild;
+              if (!card) return;
 
-    const settleSoon = () => {
-      window.clearTimeout(rest);
-      rest = window.setTimeout(settle, 140);
-    };
+              const depth = depths[i];
+              // First cover drives the square tip; extra depth keeps older cards further back.
+              const fold = Math.min(depth, 1);
+              const stack = Math.max(0, depth - 1);
+              const scale = Math.max(Math.min(settings.baseScale, 1), 1 - depth * scaleStep);
+              // Top-edge hinge: negative rotateX swings the square BACK into the distance.
+              // Cap so stacked cards stay readable as tipped panels, not edge-on lines.
+              const tilt = -Math.min(fold * tiltCap + stack * tiltCap * 0.22, tiltCap * 1.15);
+              const turn = fold * settings.rotationAmount * (i % 2 ? -1 : 1);
+              const recess = -(fold * depthPx + stack * depthPx * 0.35);
+              const lift = -(fold * liftPx * 0.55 + stack * liftPx * 0.25);
+              const blur = depth * settings.blurAmount;
+              const dim = 1 - Math.pow(1 - dimStep, depth);
 
-    const onScroll = () => {
-      schedule();
-      if (!gliding) settleSoon();
-    };
+              gsap.set(card, {
+                transformOrigin: '50% 0%',
+                force3D: true,
+                transformPerspective: perspective,
+                rotateX: tilt,
+                rotateZ: turn,
+                y: lift,
+                z: recess,
+                scale,
+                filter: blur > 0.01 ? `blur(${blur.toFixed(2)}px)` : 'none'
+              });
+              write(`dim${i}`, dim.toFixed(3), value => {
+                card.style.setProperty('--scroll-stack-dim', value);
+              });
+            });
 
-    const onWheel = event => {
-      if (!settingsRef.current?.smoothScroll || motion.matches || event.defaultPrevented || event.ctrlKey) return;
-      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-      const page = windowed ? window.innerHeight : root.clientHeight;
-      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? page : 1);
-      if (!delta || scrollsInside(event.target, windowed ? document.body : root, delta)) return;
-      const base = gliding ? goal : readScroll();
-      if ((delta < 0 && base <= 0) || (delta > 0 && base >= maxScroll() - 0.5)) return;
-      event.preventDefault();
-      window.clearTimeout(rest);
-      glideTo(base + delta);
-    };
+            const done = slots.length > 1 && lastCover >= 0.999;
+            if (done !== complete) {
+              complete = done;
+              if (done) settings.onStackComplete?.();
+            }
+          };
 
-    const onPress = () => {
-      pressed = true;
-      window.clearTimeout(rest);
-    };
+          const schedule = () => {
+            if (!layoutFrame) {
+              layoutFrame = requestAnimationFrame(() => {
+                layoutFrame = 0;
+                updateTransforms();
+              });
+            }
+          };
 
-    const onRelease = () => {
-      if (!pressed) return;
-      pressed = false;
-      settleSoon();
-    };
+          // Clear any leftover parent perspective from older builds — it breaks sticky.
+          gsap.set(inner, { clearProps: 'perspective,transformStyle' });
+          inner.style.perspective = 'none';
+          inner.style.webkitPerspective = 'none';
 
-    const observer = new ResizeObserver(schedule);
-    observer.observe(root);
-    observer.observe(inner);
-    target.addEventListener('scroll', onScroll, { passive: true });
-    target.addEventListener('wheel', onWheel, { passive: false });
-    target.addEventListener('pointerdown', onPress, { passive: true });
-    window.addEventListener('pointerup', onRelease, { passive: true });
-    window.addEventListener('pointercancel', onRelease, { passive: true });
-    window.addEventListener('resize', schedule);
-    scheduleRef.current = schedule;
-    update();
+          const slots = Array.from(inner.children).filter(child => child.hasAttribute('data-stack-slot'));
+          slots.forEach(slot => {
+            const card = slot.firstElementChild;
+            if (!card) return;
+            gsap.set(card, {
+              transformOrigin: '50% 0%',
+              force3D: true,
+              transformPerspective: isMobile ? 700 : 900,
+              rotateX: 0,
+              y: 0,
+              z: 0,
+              scale: 1
+            });
+          });
+
+          // Drive transforms from scroll progress. ScrollTrigger.scroll events also fire when
+          // an existing Lenis instance calls ScrollTrigger.update — no second smooth-scroll.
+          const trigger = ScrollTrigger.create({
+            trigger: root,
+            start: 'top bottom',
+            end: 'bottom top',
+            invalidateOnRefresh: true,
+            onUpdate: schedule,
+            onRefresh: schedule
+          });
+
+          const onScrollTriggerScroll = () => schedule();
+          ScrollTrigger.addEventListener('scroll', onScrollTriggerScroll);
+
+          const scrollTarget = windowed ? window : root;
+          scrollTarget.addEventListener('scroll', schedule, { passive: true });
+          // Lenis smooth-scrolls the document; native scroll alone can miss frames without this.
+          window.addEventListener('resize', schedule, { passive: true });
+
+          const observer = new ResizeObserver(() => {
+            schedule();
+            ScrollTrigger.refresh();
+          });
+          observer.observe(root);
+          observer.observe(inner);
+
+          updateTransforms();
+
+          return () => {
+            cancelAnimationFrame(layoutFrame);
+            layoutFrame = 0;
+            observer.disconnect();
+            trigger.kill();
+            ScrollTrigger.removeEventListener('scroll', onScrollTriggerScroll);
+            scrollTarget.removeEventListener('scroll', schedule);
+            window.removeEventListener('resize', schedule);
+            slots.forEach(slot => {
+              const card = slot.firstElementChild;
+              if (card) resetCard(card);
+            });
+          };
+        }
+      );
+    }, root);
 
     return () => {
-      cancelAnimationFrame(frame);
-      cancelAnimationFrame(glide);
-      window.clearTimeout(rest);
-      observer.disconnect();
-      target.removeEventListener('scroll', onScroll);
-      target.removeEventListener('wheel', onWheel);
-      target.removeEventListener('pointerdown', onPress);
-      window.removeEventListener('pointerup', onRelease);
-      window.removeEventListener('pointercancel', onRelease);
-      window.removeEventListener('resize', schedule);
-      scheduleRef.current = null;
+      cancelAnimationFrame(layoutFrame);
+      ctx.revert();
     };
-  }, [useWindowScroll]);
+  }, [useWindowScroll, items.length]);
 
   return (
     <div

@@ -112,7 +112,7 @@ const Home1 = () => {
                 <HeaderV1 />
                 <WovenLightHero
                     layout="editorial"
-                    brandName={arcleMeta.headline}
+                    headline={arcleMeta.headline}
                     paragraphs={arcleMeta.heroParagraphs}
                     ctaLabel={null}
                 />

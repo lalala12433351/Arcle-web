@@ -2,7 +2,7 @@ export const arcleMeta = {
     title: "Digital Marketing Agency in India | Arcle",
     description:
         "Arcle is an AI-powered digital marketing agency in India that turns your ads, SEO, social media, website and app into one engine for leads, customers and revenue.",
-    headline: "Build For\nGrowth",
+    headline: "Build your\nbrand",
     heroParagraphs: [
         "Arcle is an AI-powered digital marketing agency in India that turns your ads, SEO, social media, website and app into one engine for leads, customers and revenue.",
         "We bring data, AI and a team of marketers, designers and developers together, because you don't need more marketing. You need marketing that pays back.",

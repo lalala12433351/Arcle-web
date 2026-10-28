@@ -5,17 +5,17 @@ Author: validthemes
 Description:
 Version: 1.5
 
-Main Font    : Barlow
+Main Font    : Manrope
 Main Color   : #f63b3b
 
 -------------------------------------
 
 [Typography]
 
-Body copy:    15px 'Barlow', sans-serif
-Header:     36px 'Barlow', sans-serif
-Input, textarea:  16px 'Barlow', sans-serif
-Sidebar heading:  22px 'Barlow', sans-serif
+Body copy:    15px 'Manrope', sans-serif
+Header:     36px 'Manrope', sans-serif
+Input, textarea:  16px 'Manrope', sans-serif
+Sidebar heading:  22px 'Manrope', sans-serif
 
 >>> TABLE OF CONTENTS:
 =======================
@@ -89,8 +89,10 @@ Sidebar heading:  22px 'Barlow', sans-serif
 
 /* Varialbes */
 :root {
-	--font-default: 'Barlow', sans-serif;
-	--font-heading: 'Barlow', sans-serif;
+	--font-default: 'Manrope', sans-serif;
+	--font-heading: 'Manrope', sans-serif;
+	--bs-font-sans-serif: 'Manrope', sans-serif;
+	--bs-body-font-family: 'Manrope', sans-serif;
 	--fontawesome: "Font Awesome 5 Pro";
 	--black: #000000;
 	--dark: #0e0f11;
@@ -345,8 +347,12 @@ strong {
     # Template Default Styles
 =================================================================== */
 
+html,
 body {
 	font-family: var(--font-default);
+}
+
+body {
 	font-size: 17px;
 	font-weight: 400;
 	line-height: 1.7;
@@ -7794,6 +7800,10 @@ ul.service-list li a:hover span {
 
 .services-style-one-area {
 	overflow: hidden;
+}
+
+.services-style-one-area.services-stack-area {
+	overflow: visible;
 }
 
 .services-style-one-item {

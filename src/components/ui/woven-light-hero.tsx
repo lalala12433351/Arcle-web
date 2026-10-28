@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
 import MaskedHeading from "@/components/MaskedHeading";
 
@@ -20,6 +22,30 @@ type WovenLightHeroProps = {
   layout?: "display" | "editorial";
 };
 
+const maskedHeadingShared = {
+  mediaType: "video" as const,
+  // Content production still + brand/motion fill for marketing feel
+  src: "/assets/video/times-square-timelapse.mp4",
+  poster: "/assets/hero/carousel-content.jpg",
+  fillScale: 1.35,
+  parallax: 0,
+  spotlight: false,
+  outline: false,
+  duration: 0.55,
+  stagger: 0.055,
+  drift: 14,
+  hoverZoom: 0,
+  align: "center" as const,
+  brightness: 1.08,
+  saturation: 0.85,
+  grayscale: false,
+  tint: "",
+  outlineWidth: 1,
+  weight: 700,
+  tracking: -0.03,
+  lineHeight: 0.92,
+};
+
 // --- Main Hero Component ---
 export const WovenLightHero = ({
   headline = "Woven by Light",
@@ -37,9 +63,14 @@ export const WovenLightHero = ({
   const isDark = useSiteTheme();
   const textControls = useAnimation();
   const buttonControls = useAnimation();
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleLayerRef = useRef<HTMLDivElement>(null);
+  const copyLayerRef = useRef<HTMLDivElement>(null);
   const editorial = layout === "editorial";
-  const words = headline.split(" ");
+  const scrollScale = Boolean(editorial && !poster && !brandName);
+  const words = headline.split(/\s+/).filter(Boolean);
   const lines = posterLines?.length ? posterLines : [headline];
+  const headingColor = isDark ? "var(--white)" : "var(--color-heading)";
 
   const renderAccent = (line: string) => {
     if (!accentWord) return line;
@@ -56,6 +87,7 @@ export const WovenLightHero = ({
   };
 
   useEffect(() => {
+    if (scrollScale) return;
     textControls.start((i) => ({
       opacity: 1,
       y: 0,
@@ -69,10 +101,66 @@ export const WovenLightHero = ({
       opacity: 1,
       transition: { delay: editorial ? 0.8 : 1.4, duration: 0.8 },
     });
-  }, [textControls, buttonControls, editorial]);
+  }, [textControls, buttonControls, editorial, scrollScale]);
+
+  useEffect(() => {
+    if (!scrollScale) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    const section = sectionRef.current;
+    const titleLayer = titleLayerRef.current;
+    const copyLayer = copyLayerRef.current;
+    if (!section || !titleLayer || !copyLayer) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ctx = gsap.context(() => {
+      if (reduceMotion) {
+        gsap.set(titleLayer, { scale: 0.42, y: -36 });
+        gsap.set(copyLayer, { opacity: 1, y: 0 });
+        return;
+      }
+
+      gsap.set(titleLayer, { scale: 1, y: 0, transformOrigin: "50% 50%" });
+      gsap.set(copyLayer, { opacity: 0, y: 28 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=140%",
+          pin: true,
+          scrub: 1.05,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      tl.to(
+        titleLayer,
+        {
+          scale: 0.42,
+          y: -48,
+          ease: "none",
+          duration: 1,
+        },
+        0
+      ).to(
+        copyLayer,
+        {
+          opacity: 1,
+          y: 0,
+          ease: "none",
+          duration: 0.35,
+        },
+        0.45
+      );
+    }, section);
+
+    return () => ctx.revert();
+  }, [scrollScale, headline]);
 
   const ctaStyle = {
-    fontFamily: "var(--font-heading)",
+    fontFamily: '"Manrope", var(--font-heading), sans-serif',
     fontWeight: 600,
     fontSize: editorial ? 16 : 18,
     letterSpacing: 0,
@@ -90,12 +178,28 @@ export const WovenLightHero = ({
     textDecoration: "none",
   } as const;
 
+  const titleStyle = {
+    fontFamily: '"Manrope", var(--font-heading), sans-serif',
+    color: headingColor,
+  } as const;
+
   return (
     <section
-      className={`relative min-h-screen w-full overflow-hidden transition-colors duration-500${editorial ? " woven-hero--editorial" : " lg:flex lg:flex-row"}${poster ? " woven-hero--poster" : ""}`}
+      ref={sectionRef}
+      className={`relative min-h-screen w-full transition-colors duration-500${scrollScale ? "" : " overflow-hidden"}${editorial ? " woven-hero--editorial" : " lg:flex lg:flex-row"}${poster ? " woven-hero--poster" : ""}${scrollScale ? " woven-hero--scroll-scale" : ""}`}
       style={{ backgroundColor: isDark ? "var(--dark)" : "var(--white)" }}
     >
       <style>{`
+        .woven-hero--editorial,
+        .woven-hero--poster,
+        .woven-hero-copy,
+        .woven-hero-copy h1,
+        .woven-hero-copy p,
+        .woven-hero-copy a,
+        .woven-hero-copy .arcle-brand,
+        .woven-hero-copy .masked-heading {
+          font-family: "Manrope", var(--font-heading), sans-serif;
+        }
         .woven-hero-copy {
           position: absolute;
           inset: 0;
@@ -160,6 +264,22 @@ export const WovenLightHero = ({
           width: 100%;
           margin: 0 auto 28px !important;
         }
+        .woven-hero-title-scale {
+          width: 100%;
+          margin: 0 auto 28px;
+          will-change: transform;
+          transform-origin: 50% 50%;
+        }
+        .woven-hero-title-scale .arcle-brand {
+          margin-bottom: 0 !important;
+        }
+        .woven-hero--scroll-scale .masked-heading__tint {
+          mix-blend-mode: color;
+          opacity: 0.88;
+        }
+        .woven-hero-scroll-copy {
+          will-change: transform, opacity;
+        }
         .woven-hero--editorial .woven-hero-copy p {
           margin-left: auto;
           margin-right: 0;
@@ -192,7 +312,7 @@ export const WovenLightHero = ({
         }
         .woven-hero--editorial.woven-hero--poster h1.woven-hero-poster {
           margin: 0 0 32px;
-          font-family: var(--font-heading);
+          font-family: "Manrope", var(--font-heading), sans-serif;
           font-weight: 800;
           font-size: clamp(40px, 9.2vw, 148px);
           line-height: 0.82;
@@ -233,115 +353,145 @@ export const WovenLightHero = ({
               ))}
             </h1>
           ) : null}
+          {scrollScale ? (
+            <div ref={titleLayerRef} className="woven-hero-title-scale">
+              <MaskedHeading
+                tag="h1"
+                className="arcle-brand"
+                text={headline}
+                {...maskedHeadingShared}
+                reveal="rise"
+                trigger="load"
+                duration={0.4}
+                stagger={0.06}
+                textScale={0.22}
+                style={titleStyle}
+              />
+            </div>
+          ) : null}
           {!poster && brandName ? (
             <MaskedHeading
               tag="h1"
               className="arcle-brand"
               text={brandName}
-              mediaType="video"
-              src="/assets/video/waves-3.mp4"
-              poster="/assets/hero/carousel-video.jpg"
-              fillScale={1.25}
-              parallax={0}
+              {...maskedHeadingShared}
               reveal="rise"
               trigger="load"
-              spotlight={false}
-              outline={false}
-              duration={1.1}
-              stagger={0.12}
-              drift={14}
-              hoverZoom={0}
-              align="center"
-              brightness={0.72}
-              saturation={0.35}
-              grayscale={true}
-              tint="rgba(10, 32, 78, 0.55)"
-              outlineWidth={1}
-              weight={700}
-              tracking={-0.03}
-              lineHeight={0.92}
               textScale={0.192}
-              style={{
-                fontFamily: "var(--font-heading)",
-                color: isDark ? "var(--white)" : "var(--color-heading)",
-              }}
+              style={titleStyle}
             />
           ) : null}
-          {!poster && !brandName ? (
-          <h1
-            className={editorial ? undefined : "uppercase"}
-            style={{
-              fontFamily: "var(--font-heading)",
-              fontWeight: 600,
-              letterSpacing: 0,
-              lineHeight: editorial ? 1.12 : 1,
-              fontSize: editorial ? "clamp(34px, 3.3vw, 58px)" : "clamp(48px, 5.2vw, 88px)",
-              marginBottom: 25,
-              color: isDark ? "var(--white)" : "var(--color-heading)",
-            }}
-          >
-            {words.map((word, i) => (
-              <span key={i} className="woven-hero-word">
-                {editorial ? (
-                  <>
-                    <motion.span
-                      custom={i}
-                      initial={{ opacity: 0, y: 24 }}
-                      animate={textControls}
-                      style={{ display: "inline" }}
-                    >
-                      {word}
-                    </motion.span>
-                    {i < words.length - 1 ? " " : null}
-                  </>
-                ) : (
-                  word.split("").map((char, j) => (
-                    <motion.span
-                      key={j}
-                      custom={i * 5 + j}
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={textControls}
-                      style={{ display: "inline-block" }}
-                    >
-                      {char}
-                    </motion.span>
-                  ))
-                )}
-              </span>
-            ))}
-          </h1>
-          ) : null}
-          {paragraphs.map((paragraph, index) => (
-            <motion.p
-              key={index}
-              custom={words.length + index}
-              initial={{ opacity: 0, y: 30 }}
-              animate={textControls}
+          {!poster && !brandName && !scrollScale ? (
+            <h1
+              className={editorial ? undefined : "uppercase"}
               style={{
-                fontFamily: "var(--font-default)",
-                fontWeight: 400,
-                fontSize: 17,
-                lineHeight: 1.7,
-                marginBottom: index === paragraphs.length - 1 ? 25 : 14,
-                maxWidth: editorial ? 640 : 520,
-                color: isDark ? "#e8e8e8" : "var(--color-paragraph)",
+                fontFamily: '"Manrope", var(--font-heading), sans-serif',
+                fontWeight: 600,
+                letterSpacing: 0,
+                lineHeight: editorial ? 1.12 : 1,
+                fontSize: editorial ? "clamp(34px, 3.3vw, 58px)" : "clamp(48px, 5.2vw, 88px)",
+                marginBottom: 25,
+                color: headingColor,
               }}
             >
-              {paragraph}
-            </motion.p>
-          ))}
-          {ctaLabel && (
-            <motion.div initial={{ opacity: 0 }} animate={buttonControls}>
-              {ctaTo ? (
-                <Link to={ctaTo} style={ctaStyle}>
-                  {ctaLabel}
-                </Link>
-              ) : (
-                <button className={editorial ? undefined : "uppercase"} style={ctaStyle}>
-                  {ctaLabel}
-                </button>
+              {words.map((word, i) => (
+                <span key={i} className="woven-hero-word">
+                  {editorial ? (
+                    <>
+                      <motion.span
+                        custom={i}
+                        initial={{ opacity: 0, y: 24 }}
+                        animate={textControls}
+                        style={{ display: "inline" }}
+                      >
+                        {word}
+                      </motion.span>
+                      {i < words.length - 1 ? " " : null}
+                    </>
+                  ) : (
+                    word.split("").map((char, j) => (
+                      <motion.span
+                        key={j}
+                        custom={i * 5 + j}
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={textControls}
+                        style={{ display: "inline-block" }}
+                      >
+                        {char}
+                      </motion.span>
+                    ))
+                  )}
+                </span>
+              ))}
+            </h1>
+          ) : null}
+          {scrollScale ? (
+            <div ref={copyLayerRef} className="woven-hero-scroll-copy" style={{ opacity: 0 }}>
+              {paragraphs.map((paragraph, index) => (
+                <p
+                  key={index}
+                  style={{
+                    fontFamily: '"Manrope", var(--font-default), sans-serif',
+                    fontWeight: 400,
+                    fontSize: 17,
+                    lineHeight: 1.7,
+                    marginBottom: index === paragraphs.length - 1 ? 25 : 14,
+                    maxWidth: editorial ? 640 : 520,
+                    color: isDark ? "#e8e8e8" : "var(--color-paragraph)",
+                  }}
+                >
+                  {paragraph}
+                </p>
+              ))}
+              {ctaLabel && (
+                <div>
+                  {ctaTo ? (
+                    <Link to={ctaTo} style={ctaStyle}>
+                      {ctaLabel}
+                    </Link>
+                  ) : (
+                    <button className={editorial ? undefined : "uppercase"} style={ctaStyle}>
+                      {ctaLabel}
+                    </button>
+                  )}
+                </div>
               )}
-            </motion.div>
+            </div>
+          ) : (
+            <>
+              {paragraphs.map((paragraph, index) => (
+                <motion.p
+                  key={index}
+                  custom={words.length + index}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={textControls}
+                  style={{
+                    fontFamily: '"Manrope", var(--font-default), sans-serif',
+                    fontWeight: 400,
+                    fontSize: 17,
+                    lineHeight: 1.7,
+                    marginBottom: index === paragraphs.length - 1 ? 25 : 14,
+                    maxWidth: editorial ? 640 : 520,
+                    color: isDark ? "#e8e8e8" : "var(--color-paragraph)",
+                  }}
+                >
+                  {paragraph}
+                </motion.p>
+              ))}
+              {ctaLabel && (
+                <motion.div initial={{ opacity: 0 }} animate={buttonControls}>
+                  {ctaTo ? (
+                    <Link to={ctaTo} style={ctaStyle}>
+                      {ctaLabel}
+                    </Link>
+                  ) : (
+                    <button className={editorial ? undefined : "uppercase"} style={ctaStyle}>
+                      {ctaLabel}
+                    </button>
+                  )}
+                </motion.div>
+              )}
+            </>
           )}
         </div>
       </div>

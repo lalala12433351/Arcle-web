@@ -29,6 +29,7 @@ const ProjectPage = lazy(() => import("./pages/innerPages/ProjectPage"));
 const Project2Page = lazy(() => import("./pages/innerPages/Project2Page"));
 const Project3Page = lazy(() => import("./pages/innerPages/Project3Page"));
 const ProjectDetailsPage = lazy(() => import("./pages/innerPages/ProjectDetailsPage"));
+const ProjectWorkDetailPage = lazy(() => import("./pages/innerPages/ProjectWorkDetailPage"));
 const ContactUsPage = lazy(() => import("./pages/innerPages/ContactUsPage"));
 const FaqPage = lazy(() => import("./pages/innerPages/FaqPage"));
 
@@ -136,6 +137,9 @@ const Routers = () => {
                 <Route path='/team-2' element={<Team2Page />}></Route>
                 <Route path='/team-details/:id' element={<TeamDetailsPage />}></Route>
                 <Route path='/project' element={<ProjectPage />}></Route>
+                <Route path='/projects' element={<ProjectPage />}></Route>
+                <Route path='/project/:slug' element={<ProjectWorkDetailPage />}></Route>
+                <Route path='/projects/:slug' element={<ProjectWorkDetailPage />}></Route>
                 <Route path='/project-2' element={<Project2Page />}></Route>
                 <Route path='/project-3' element={<Project3Page />}></Route>
                 <Route path='/project-details/:id' element={<ProjectDetailsPage />}></Route>

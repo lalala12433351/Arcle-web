@@ -46,7 +46,7 @@ const HeaderV7 = () => {
                                             size="xs"
                                             borderWidth={2}
                                             onClick={() => navigate("/contact-us")}
-                                            style={{ fontFamily: "var(--font-heading)" }}
+                                            style={{ fontFamily: '"Manrope", var(--font-heading), sans-serif' }}
                                         >
                                             Get in touch
                                         </LiquidMetalButton>

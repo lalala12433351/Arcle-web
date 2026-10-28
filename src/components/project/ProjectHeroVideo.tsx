@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { works } from "../../content/works";
 import "./ProjectHeroVideo.css";
 
-type ProjectVideoProps = {
+type CoverVideoProps = {
     src: string;
+    poster?: string;
     label: string;
+    playing: boolean;
+    objectPosition?: string;
 };
 
-const ProjectVideo = ({ src, label }: ProjectVideoProps) => {
+const CoverVideo = ({ src, poster, label, playing, objectPosition }: CoverVideoProps) => {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const userPaused = useRef(false);
-    const [playing, setPlaying] = useState(true);
 
     useEffect(() => {
         const video = videoRef.current;
@@ -20,135 +23,98 @@ const ProjectVideo = ({ src, label }: ProjectVideoProps) => {
         video.loop = true;
         video.playsInline = true;
 
-        const start = () => {
-            if (userPaused.current) return;
-            video.muted = true;
-            const pending = video.play();
-            if (pending) pending.catch(() => setPlaying(false));
+        const showStill = () => {
+            try {
+                if (video.currentTime < 0.05) video.currentTime = 0.05;
+            } catch {
+                // Ignore seek errors before media is ready.
+            }
         };
 
-        if (video.readyState >= 2) start();
-        else video.addEventListener("loadeddata", start);
+        if (video.readyState >= 2) showStill();
+        else video.addEventListener("loadeddata", showStill);
 
-        return () => video.removeEventListener("loadeddata", start);
+        return () => video.removeEventListener("loadeddata", showStill);
     }, [src]);
 
-    const togglePlayback = () => {
+    useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
 
-        if (video.paused) {
-            userPaused.current = false;
+        if (playing) {
             video.muted = true;
-            void video.play();
-        } else {
-            userPaused.current = true;
-            video.pause();
+            const pending = video.play();
+            if (pending) pending.catch(() => undefined);
+            return;
         }
-    };
+
+        video.pause();
+        try {
+            video.currentTime = 0.05;
+        } catch {
+            // Ignore seek errors while resetting the still frame.
+        }
+    }, [playing]);
 
     return (
-        <div className="project-hero-video__hover">
-        <div className="project-hero-video__frame">
-            <video
-                ref={videoRef}
-                src={src}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                aria-label={label}
-                onPlay={() => setPlaying(true)}
-                onPause={() => setPlaying(false)}
-                onClick={togglePlayback}
-            />
-            <button
-                type="button"
-                className="project-hero-video__toggle"
-                onClick={togglePlayback}
-                aria-label={playing ? `Pause ${label}` : `Play ${label}`}
-                aria-pressed={playing}
-            >
-                {playing ? (
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <rect x="6" y="5" width="4" height="14" rx="1" />
-                        <rect x="14" y="5" width="4" height="14" rx="1" />
-                    </svg>
-                ) : (
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M8 5.5v13l11-6.5-11-6.5z" />
-                    </svg>
-                )}
-            </button>
-        </div>
-        </div>
-    );
-};
-
-type ProjectCaseProps = {
-    name: string;
-    subtitle: string;
-    scope: string[];
-    yearLabel: string;
-    year: string;
-    description: string;
-};
-
-const ProjectCase = ({ name, subtitle, scope, yearLabel, year, description }: ProjectCaseProps) => {
-    return (
-        <article className="project-case" aria-label={name}>
-            <div className="project-case__identity">
-                <h2>{name}</h2>
-                <p>{subtitle}</p>
-            </div>
-            <div className="project-case__scope">
-                <h3>Scope</h3>
-                <ul>
-                    {scope.map((item) => (
-                        <li key={item}>{item}</li>
-                    ))}
-                </ul>
-            </div>
-            <div className="project-case__about">
-                <h3>About</h3>
-                <p className="project-case__year"><span>{yearLabel}</span> {year}</p>
-                <p>{description}</p>
-            </div>
-        </article>
+        <video
+            ref={videoRef}
+            className="work-gallery__video"
+            src={src}
+            poster={poster}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-label={label}
+            style={objectPosition ? { objectPosition } : undefined}
+        />
     );
 };
 
 const ProjectHeroVideo = () => {
+    const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+
     return (
-        <section className="project-hero-video" aria-label="Featured work">
-            <ProjectVideo src="/assets/video/kite-institute.mp4?v=5" label="Kite Aviation Institute" />
-            <ProjectCase
-                name="Kite Aviation Institute"
-                subtitle="Aviation & Hospitality Training"
-                scope={["Aviation", "Hospitality", "Practical training", "Industry careers"]}
-                yearLabel="Year:"
-                year="2025"
-                description="KITE Institute of Aviation & Hospitality is based in Bangalore. It offers aviation and hospitality courses. Practical training builds students' confidence and skills. It prepares them for industry careers. Skykite Institute of Aviation and Hospitality Pvt. Ltd. was incorporated on 16 April 2025."
-            />
-            <ProjectVideo src="/assets/video/office-interior.mp4?v=5" label="Design Arc Interiors" />
-            <ProjectCase
-                name="Design Arc Interiors"
-                subtitle="Bangalore-based commercial interior design company"
-                scope={["Office interiors", "Turnkey fit-outs"]}
-                yearLabel="Established:"
-                year="March 2012"
-                description="Design Arc Interiors is a Bangalore-based commercial interior design company. It specialises in office interiors and turnkey fit-outs. Its spaces combine thoughtful design with everyday functionality. The team delivers workplaces that reflect each client's brand. Established in March 2012, according to its official website. The exact day isn't listed."
-            />
-            <ProjectVideo src="/assets/video/mirai.mp4?v=5" label="Mirai" />
-            <ProjectCase
-                name="Mirai"
-                subtitle="Bangalore-based furniture brand"
-                scope={["Ergonomic chairs", "Modular workstations", "Lounge seating"]}
-                yearLabel="Incorporated:"
-                year="8 January 2026"
-                description="Mirai is a Bangalore-based furniture brand. It offers ergonomic chairs, modular workstations, and lounge seating. Its designs combine comfort, style, and functionality. Mirai creates furniture for modern, productive workspaces. The brand's exact launch date isn't confirmed. A company listing records Mirai Furnishing LLP's incorporation as 8 January 2026, which may differ from the brand's founding date."
-            />
+        <section className="work-gallery" aria-label="Selected work">
+            <div className="work-gallery__grid">
+                {works.map((work) => {
+                    const isHovered = hoveredSlug === work.slug;
+
+                    return (
+                        <Link
+                            key={work.slug}
+                            to={`/project/${work.slug}`}
+                            className={`work-gallery__item${isHovered ? " is-hovered" : ""}`}
+                            aria-label={`View ${work.name}`}
+                            onMouseEnter={() => setHoveredSlug(work.slug)}
+                            onMouseLeave={() => setHoveredSlug(null)}
+                            onFocus={() => setHoveredSlug(work.slug)}
+                            onBlur={() => setHoveredSlug(null)}
+                        >
+                            {work.poster && (
+                                <img
+                                    className="work-gallery__poster"
+                                    src={work.poster}
+                                    alt=""
+                                    aria-hidden="true"
+                                    draggable={false}
+                                    style={work.coverPosition ? { objectPosition: work.coverPosition } : undefined}
+                                />
+                            )}
+                            <CoverVideo
+                                src={work.cover}
+                                poster={work.poster}
+                                label={work.name}
+                                playing={isHovered}
+                                objectPosition={work.coverPosition}
+                            />
+                            <span className="work-gallery__shade" aria-hidden="true" />
+                            <span className="work-gallery__label">{work.name}</span>
+                        </Link>
+                    );
+                })}
+            </div>
         </section>
     );
 };

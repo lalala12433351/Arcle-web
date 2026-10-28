@@ -41,6 +41,13 @@ const MaskedHeading = ({
   duration = 1.1,
   stagger = 0.09,
   trigger = 'view',
+  /** 0–1 ref; when set, drives a scrubbed letter reveal instead of `trigger`. */
+  scrollProgress,
+  /**
+   * `enter`: 0 = hidden, 1 = visible (rise/scale in).
+   * `exit`: 0 = visible, 1 = gone (letters leave upward, first letter first).
+   */
+  scrollMode = 'enter',
   align = 'center',
   weight = 700,
   tracking = -0.03,
@@ -362,8 +369,8 @@ const MaskedHeading = ({
     if (!states.length) return undefined;
 
     const em = () => parseFloat(window.getComputedStyle(root).fontSize) || 48;
-    const wordDelay = i => glyphs[i].w * stagger;
     const letterDelay = i => i * stagger * 0.35;
+    const easeOut = t => 1 - Math.pow(1 - t, 4);
 
     const clearLayer = () => {
       gsap.set(layer, { opacity: 1, scale: 1 });
@@ -386,6 +393,7 @@ const MaskedHeading = ({
       if (reveal === 'rise') {
         states.forEach(st => {
           st.y = size * 1.15;
+          st.s = 1;
         });
       } else if (reveal === 'scale') {
         states.forEach(st => {
@@ -406,10 +414,102 @@ const MaskedHeading = ({
       renderGlyphs();
     };
 
+    const applyScrollProgress = progress => {
+      const size = em();
+      const count = Math.max(states.length, 1);
+      const step = stagger * 0.35;
+      const total = duration + Math.max(count - 1, 0) * step;
+      const elapsed = clamp(progress, 0, 1) * total;
+      const exiting = scrollMode === 'exit';
+      clearLayer();
+      states.forEach((st, i) => {
+        const t = easeOut(clamp((elapsed - i * step) / duration, 0, 1));
+        if (exiting) {
+          // 0 = fully visible, 1 = letter has left upward
+          st.x = 0;
+          st.y = -size * 1.2 * t;
+          st.s = reveal === 'scale' ? Math.max(0.0001, 1 - t) : 1;
+        } else if (reveal === 'scale') {
+          st.x = 0;
+          st.y = size * 0.1 * (1 - t);
+          st.s = t;
+        } else {
+          st.x = 0;
+          st.y = size * 1.15 * (1 - t);
+          st.s = 1;
+        }
+      });
+      renderGlyphs();
+    };
+
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
     if (reveal === 'none' || reduce) {
       settle();
       return undefined;
+    }
+
+    if (scrollProgress) {
+      let exitArmed = scrollMode !== 'exit';
+      const tick = () => {
+        if (scrollMode === 'exit' && !exitArmed) return;
+        applyScrollProgress(scrollProgress.current ?? 0);
+      };
+      gsap.ticker.add(tick);
+
+      if (scrollMode === 'exit') {
+        const armExit = () => {
+          settle();
+          exitArmed = true;
+          tick();
+        };
+        if (trigger === 'load' || trigger === 'view') {
+          rest();
+          // Entrance plays first; exit scrub arms when letters have settled in.
+          const size = em();
+          clearLayer();
+          if (reveal === 'scale') {
+            tweenRef.current = gsap.fromTo(
+              states,
+              { x: 0, y: size * 0.1, s: 0 },
+              {
+                y: 0,
+                s: 1,
+                duration,
+                stagger: letterDelay,
+                ease: 'expo.out',
+                overwrite: 'auto',
+                onUpdate: renderGlyphs,
+                onComplete: armExit,
+              }
+            );
+          } else {
+            tweenRef.current = gsap.fromTo(
+              states,
+              { x: 0, y: size * 1.15, s: 1 },
+              {
+                y: 0,
+                duration,
+                stagger: letterDelay,
+                ease: 'power4.out',
+                overwrite: 'auto',
+                onUpdate: renderGlyphs,
+                onComplete: armExit,
+              }
+            );
+          }
+          renderGlyphs();
+        } else {
+          armExit();
+        }
+      } else {
+        rest();
+        tick();
+      }
+
+      return () => {
+        gsap.ticker.remove(tick);
+        tweenRef.current?.kill();
+      };
     }
 
     const play = () => {
@@ -420,7 +520,7 @@ const MaskedHeading = ({
         tweenRef.current = gsap.fromTo(
           states,
           { x: 0, y: size * 1.15, s: 1 },
-          { y: 0, duration, stagger: wordDelay, ease: 'power4.out', overwrite: 'auto', onUpdate: renderGlyphs }
+          { y: 0, duration, stagger: letterDelay, ease: 'power4.out', overwrite: 'auto', onUpdate: renderGlyphs }
         );
         renderGlyphs();
       } else if (reveal === 'scale') {
@@ -507,7 +607,7 @@ const MaskedHeading = ({
 
     play();
     return () => tweenRef.current?.kill();
-  }, [reveal, trigger, duration, stagger, glyphs, renderGlyphs]);
+  }, [reveal, trigger, duration, stagger, glyphs, renderGlyphs, scrollProgress, scrollMode]);
 
   const Tag = tag;
 

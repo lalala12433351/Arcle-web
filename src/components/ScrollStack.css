@@ -12,6 +12,11 @@
 .scroll-stack__inner {
   position: relative;
   padding-inline: clamp(1rem, 6%, 5rem);
+  /* Do NOT set perspective here — it creates a containing block and breaks sticky */
+}
+
+.scroll-stack--window .scroll-stack__inner {
+  padding-bottom: 2rem;
 }
 
 .scroll-stack__slot {
@@ -31,8 +36,13 @@
     0 0 0 1px light-dark(rgb(0 0 0 / 0.06), rgb(255 255 255 / 0.08)),
     0 -12px 40px -16px rgb(0 0 0 / 0.35),
     0 24px 48px -24px rgb(0 0 0 / 0.4);
-  transform-origin: 50% 0;
+  /* Hinge at the top edge so the square tips BACK into depth */
+  transform-origin: 50% 0%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
   will-change: transform;
+  /* Keep foreshortened edges crisp while tipping */
+  -webkit-font-smoothing: antialiased;
 }
 
 .scroll-stack-card__shade {
@@ -42,4 +52,17 @@
   background: #000;
   opacity: var(--scroll-stack-dim, 0);
   pointer-events: none;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-stack-card {
+    transform: none !important;
+    filter: none !important;
+    will-change: auto;
+  }
+
+  .scroll-stack-card__shade {
+    opacity: 0 !important;
+  }
 }

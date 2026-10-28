@@ -8,6 +8,19 @@
 
 @theme {
   --color-primary: #E1E0CC;
+  --font-sans: "Manrope", sans-serif;
+  --font-heading: "Manrope", sans-serif;
+  --default-font-family: "Manrope", sans-serif;
+}
+
+/* Site-wide Manrope — covers Bootstrap, Tailwind, and component defaults */
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: "Manrope", var(--font-default), sans-serif;
 }
 
 /* Tailwind's `collapse` utility fights Bootstrap's navbar/accordion class of the same name. */
@@ -39,9 +52,9 @@
   margin-top: auto;
 }
 
-/* Stacked variant (ScrollStack) — `overflow: hidden` on the section would stop the cards from sticking */
+/* Beat theme `.services-style-one-area { overflow:hidden }` — that kills sticky + 3D stack */
 .services-style-one-area.services-stack-area {
-  overflow: clip;
+  overflow: visible !important;
 }
 .services-stack-heading {
   display: flex;
@@ -131,6 +144,7 @@
   padding: 48px 52px;
   border-radius: 30px;
   background: var(--bg-gray);
+  transform-origin: 50% 0%;
 }
 .bg-gray .services-stack .scroll-stack-card.services-stack-card {
   background: var(--white);
@@ -189,6 +203,13 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .services-stack .scroll-stack-card.services-stack-card {
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
 .choose-us-style-one.why-arcle-statement {
   text-align: center;
 }
@@ -209,7 +230,7 @@
   display: table;
   margin-inline: auto;
 }
-/* Barlow has no width axis, so the letters are stretched instead */
+/* Manrope has no width axis, so the letters are stretched instead */
 .why-arcle-statement__title .why-arcle-statement__wide {
   transform: scaleX(1.25);
 }

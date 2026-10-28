@@ -2,36 +2,61 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { Work, WorkVideo } from "../../content/works";
 import { works } from "../../content/works";
+import MiraiPosterStack from "./MiraiPosterStack";
 import "./ProjectWorkDetail.css";
 
+type MediaLayout = "full" | "portrait" | "solo";
+
 type DetailMediaProps = WorkVideo & {
-    layout: "full" | "portrait";
+    layout: MediaLayout;
 };
 
-const mediaClass = ({ layout, width, height }: DetailMediaProps) =>
+const mediaClass = ({ layout, width, height, fit, tall }: DetailMediaProps) =>
     [
         "work-detail__media",
         `work-detail__media--${layout}`,
         width && height ? "work-detail__media--framed" : "",
+        fit === "contain" ? "work-detail__media--contain" : "",
+        tall ? "work-detail__media--tall" : "",
     ]
         .filter(Boolean)
         .join(" ");
 
-const mediaFrameStyle = ({ width, height }: DetailMediaProps) =>
-    width && height
-        ? ({
-              maxWidth: width,
-              aspectRatio: `${width} / ${height}`,
-          } as const)
-        : undefined;
+const mediaFrameStyle = ({ width, height, layout, tall }: DetailMediaProps) => {
+    if (!width || !height) return undefined;
+
+    const ratio = width / height;
+    const isGalleryFrame = layout === "portrait" || layout === "solo";
+
+    // Gallery: size from native ratio (width capped, height follows) so assets aren't cropped
+    if (isGalleryFrame) {
+        const maxHeight = tall ? "min(68vh, 660px)" : "min(58vh, 560px)";
+        const maxWidth = layout === "solo" ? "min(100%, 560px)" : "100%";
+        return {
+            aspectRatio: `${width} / ${height}`,
+            width: `min(${maxWidth}, calc(${maxHeight} * ${ratio}))`,
+            height: "auto",
+        } as const;
+    }
+
+    return {
+        aspectRatio: `${width} / ${height}`,
+    } as const;
+};
 
 const DetailImage = (props: DetailMediaProps) => (
     <div className={mediaClass(props)} style={mediaFrameStyle(props)}>
-        <img src={props.src} alt={props.label} loading="lazy" decoding="async" />
+        <img
+            src={props.src}
+            alt={props.label}
+            loading="lazy"
+            decoding="async"
+            style={props.objectPosition ? { objectPosition: props.objectPosition } : undefined}
+        />
     </div>
 );
 
-const DetailVideo = ({ src, label, layout, width, height }: DetailMediaProps) => {
+const DetailVideo = ({ src, label, layout, width, height, fit, tall, objectPosition }: DetailMediaProps) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const userPaused = useRef(false);
     const [playing, setPlaying] = useState(true);
@@ -74,8 +99,8 @@ const DetailVideo = ({ src, label, layout, width, height }: DetailMediaProps) =>
 
     return (
         <div
-            className={mediaClass({ src, label, layout, width, height })}
-            style={mediaFrameStyle({ src, label, layout, width, height })}
+            className={mediaClass({ src, label, layout, width, height, fit, tall })}
+            style={mediaFrameStyle({ src, label, layout, width, height, fit, tall })}
         >
             <video
                 ref={videoRef}
@@ -86,6 +111,7 @@ const DetailVideo = ({ src, label, layout, width, height }: DetailMediaProps) =>
                 playsInline
                 preload="auto"
                 aria-label={label}
+                style={objectPosition ? { objectPosition } : undefined}
                 onPlay={() => setPlaying(true)}
                 onPause={() => setPlaying(false)}
                 onClick={togglePlayback}
@@ -117,9 +143,9 @@ const DetailMedia = (props: DetailMediaProps) =>
 
 const isPortrait = (item: WorkVideo) => item.orientation === "portrait";
 
-/** Studio Sorted-style rows: landscapes full-bleed; consecutive portraits pair side-by-side. */
+/** Landscapes full-width; consecutive portraits pair; lone portraits center as solo. */
 const buildMediaRows = (items: WorkVideo[]) => {
-    const rows: Array<{ layout: "full" | "portrait"; items: WorkVideo[] }> = [];
+    const rows: Array<{ layout: MediaLayout; items: WorkVideo[] }> = [];
     let index = 0;
 
     while (index < items.length) {
@@ -129,6 +155,12 @@ const buildMediaRows = (items: WorkVideo[]) => {
         if (isPortrait(current) && next && isPortrait(next)) {
             rows.push({ layout: "portrait", items: [current, next] });
             index += 2;
+            continue;
+        }
+
+        if (isPortrait(current)) {
+            rows.push({ layout: "solo", items: [current] });
+            index += 1;
             continue;
         }
 
@@ -144,17 +176,21 @@ type ProjectWorkDetailProps = {
 };
 
 const ProjectWorkDetail = ({ work }: ProjectWorkDetailProps) => {
+    const isMirai = work.slug === "mirai";
     const [featured, ...gallery] = work.videos;
-    const mediaRows = buildMediaRows(gallery);
+    const miraiPosters = isMirai ? gallery.filter((item) => item.type === "image") : [];
+    const galleryItems = isMirai ? gallery.filter((item) => item.type !== "image") : gallery;
+    const mediaRows = buildMediaRows(galleryItems);
     const currentIndex = works.findIndex((item) => item.slug === work.slug);
     const previous = works[(currentIndex - 1 + works.length) % works.length];
     const next = works[(currentIndex + 1) % works.length];
+    const heroLayout: MediaLayout = featured && isPortrait(featured) ? "portrait" : "full";
 
     return (
         <section className="work-detail" aria-label={work.name}>
             {featured && (
                 <div className="work-detail__hero">
-                    <DetailMedia {...featured} layout="full" />
+                    <DetailMedia {...featured} layout={heroLayout} />
                 </div>
             )}
 
@@ -185,8 +221,13 @@ const ProjectWorkDetail = ({ work }: ProjectWorkDetailProps) => {
                 </div>
             </article>
 
+            {isMirai && <MiraiPosterStack posters={miraiPosters} />}
+
             {mediaRows.length > 0 && (
-                <div className="work-detail__gallery" aria-label="Project media">
+                <div
+                    className={`work-detail__gallery${isMirai ? " work-detail__gallery--mirai-videos" : ""}`}
+                    aria-label="Project media"
+                >
                     {mediaRows.map((row) =>
                         row.items.map((item) => (
                             <DetailMedia

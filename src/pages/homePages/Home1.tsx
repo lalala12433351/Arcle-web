@@ -57,7 +57,7 @@ import ProjectIdeaV1 from "../../components/project/ProjectIdeaV1";
 import ServicesV1 from "../../components/services/ServicesV1";
 import ThemeDark from "../../components/switcher/ThemeDark";
 import WhyChooseV1 from "../../components/whyChoose/WhyChooseV1";
-import { WovenLightHero } from "@/components/ui/woven-light-hero";
+import SculptureHero from "@/components/ui/liquid-sculpture-hero";
 import IndustriesVideo from "../../components/videos/IndustriesVideo";
 import GrowthTogetherVideo from "../../components/videos/GrowthTogetherVideo";
 import ClientRoster from "../../components/clients/ClientRoster";
@@ -110,11 +110,28 @@ const Home1 = () => {
 
             <div className="smooth-scroll-container">
                 <HeaderV1 />
-                <WovenLightHero
-                    layout="editorial"
+                <SculptureHero
+                    brand="Arcle"
+                    showNav={false}
+                    theme="dark"
+                    themeToggle={false}
+                    showCredit={false}
+                    eyebrow="AI-powered digital marketing — India"
                     headline={arcleMeta.headline}
-                    paragraphs={arcleMeta.heroParagraphs}
-                    ctaLabel={null}
+                    headlineAccent="brand"
+                    body={arcleMeta.heroParagraphs[0]}
+                    primaryCta={{ label: "Start a project", href: "/contact-us" }}
+                    secondaryCta={{ label: "Our services", href: "/services" }}
+                    backdropText="arcle"
+                    darkBackground="#0e0f11"
+                    hint="Move across the form"
+                    hintTouch="Touch the form"
+                    headingFont='"Manrope", var(--font-heading), sans-serif'
+                    accentFont='"Manrope", var(--font-heading), sans-serif'
+                    bodyFont='"Manrope", var(--font-default), sans-serif'
+                    loadFonts={false}
+                    intro
+                    style={{ paddingTop: "72px" }}
                 />
                 <DeferredInfiniteMenu />
                 <AboutV7 sectionClass="bg-gray" />

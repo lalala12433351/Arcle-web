@@ -129,7 +129,7 @@ const IndustriesVideo = () => {
                     ref={videoBoxRef}
                     style={{ height: "80vh", width: "100%", overflow: "hidden", willChange: "clip-path" }}
                 >
-                    <LazyVideo src="/assets/video/real-estate.mp4?v=3" poster="/assets/img/real-estate-poster.jpg?v=3" />
+                    <LazyVideo src="/assets/client/direct-keys/real-estate.mp4" poster="/assets/client/direct-keys/real-estate-poster.jpg" />
                 </div>
                 <h3 ref={labelRef} style={{ ...labelStyle, willChange: "transform" }}>Real Estate</h3>
             </div>

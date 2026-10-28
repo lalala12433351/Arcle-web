@@ -1,22 +1,97 @@
 .work-detail {
+    --work-detail-max: 1120px;
+    --work-detail-pad: 16px;
+    --work-detail-gap: 24px;
     width: 100%;
     padding: 110px 0 64px;
+    box-sizing: border-box;
+    overflow-x: clip;
+}
+
+.work-detail__case,
+.work-detail__nav {
+    width: min(var(--work-detail-max), calc(100% - (var(--work-detail-pad) * 2)));
+    margin-inline: auto;
     box-sizing: border-box;
 }
 
 .work-detail__hero {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
 }
 
-/* Studio Sorted-style: 2-col grid; full items span both columns */
+/* Portrait hero: viewport-bounded 9:16 card, centered in content column */
+.work-detail__hero .work-detail__media--portrait {
+    width: min(
+        calc(100% - (var(--work-detail-pad) * 2)),
+        calc(min(85vh, 880px) * 9 / 16),
+        480px
+    );
+    aspect-ratio: 9 / 16;
+}
+
+/* Landscape hero: full-bleed 16:9 — video covers the frame (no letterbox, no stretch) */
+.work-detail__hero .work-detail__media--full {
+    width: 100%;
+    height: min(calc(100vw * 9 / 16), 78vh);
+    aspect-ratio: auto;
+    background: #111;
+}
+
+.work-detail__hero .work-detail__media--full.work-detail__media--framed {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+}
+
+.work-detail__hero .work-detail__media--full video,
+.work-detail__hero .work-detail__media--full img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
 .work-detail__gallery {
     width: 100%;
-    margin: 96px 0 0;
-    padding-inline: clamp(16px, 4vw, 48px);
-    box-sizing: border-box;
+    margin-top: 10px;
+    margin-inline: 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 36px;
+    gap: 0;
+    align-items: stretch;
+    box-sizing: border-box;
+}
+
+/* Mirai: two reels side-by-side, ~15% larger than the default reel frame */
+.work-detail__gallery--mirai-videos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(20px, 3vw, 40px);
+    margin-top: clamp(32px, 6vw, 64px);
+    margin-bottom: clamp(16px, 3vw, 32px);
+    padding-inline: clamp(12px, 3vw, 24px);
+    box-sizing: border-box;
+}
+
+.work-detail__gallery--mirai-videos .work-detail__media--portrait,
+.work-detail__gallery--mirai-videos .work-detail__media--solo,
+.work-detail__gallery--mirai-videos .work-detail__media--framed {
+    /* Definite width so aspect-ratio resolves with absolutely positioned <video> */
+    flex: 0 1 414px;
+    width: min(414px, 42vw) !important;
+    max-width: 414px;
+    height: auto !important;
+    aspect-ratio: 9 / 16 !important;
+    margin-inline: 0;
+    border-radius: 24px;
+    overflow: hidden;
 }
 
 .work-detail__media {
@@ -26,63 +101,79 @@
     padding: 0;
     overflow: hidden;
     background: #111;
+    border-radius: 0;
 }
 
 .work-detail__media--full {
     grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
 }
 
 .work-detail__media--portrait {
     grid-column: span 1;
-}
-
-/* Fixed display frame (e.g. 1024×337) — centered, stacked full-width */
-.work-detail__media--framed {
     width: 100%;
-    max-width: 1024px;
-    margin-inline: auto;
-    overflow: hidden;
+    aspect-ratio: 9 / 16;
 }
 
-.work-detail__media--framed video,
-.work-detail__media--framed img {
+/* Lone portrait: full-width row, same 9:16 proportion */
+.work-detail__media--solo {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-inline: 0;
+    aspect-ratio: 9 / 16;
+}
+
+/* Full-bleed gallery columns: cap height so 9:16 reels stay presentable */
+.work-detail__gallery .work-detail__media--portrait,
+.work-detail__gallery .work-detail__media--solo {
+    aspect-ratio: auto;
+    height: min(58vh, 560px);
+}
+
+.work-detail__gallery .work-detail__media--tall {
+    height: min(68vh, 660px);
+}
+
+/* Custom aspect from width/height (inline) — overrides orientation defaults */
+.work-detail__media--framed {
+    aspect-ratio: auto;
+}
+
+.work-detail__media--full.work-detail__media--framed {
+    width: 100%;
+}
+
+/* Native-ratio gallery frames: size comes from inline width/height (see mediaFrameStyle) */
+.work-detail__gallery .work-detail__media--portrait.work-detail__media--framed,
+.work-detail__gallery .work-detail__media--solo.work-detail__media--framed {
+    height: auto;
+    justify-self: center;
+    margin-inline: auto;
+}
+
+.work-detail__media--contain {
+    background: #0c0c0c;
+}
+
+.work-detail__media video,
+.work-detail__media img {
+    position: absolute;
+    inset: 0;
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
+    background: #111;
 }
 
-/* Native aspect — no forced crop, no quality-lossy cover scaling */
-.work-detail__media video,
-.work-detail__media img {
-    display: block;
-    width: 100%;
-    height: auto;
-    vertical-align: top;
-    background: #111;
+.work-detail__media--contain video,
+.work-detail__media--contain img {
+    object-fit: contain;
 }
 
 .work-detail__media video {
     cursor: pointer;
-}
-
-/* Stills: smaller, centered, with breathing room */
-.work-detail__media--full:has(> img),
-.work-detail__media--portrait:has(> img) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 24px;
-    background: transparent;
-    overflow: visible;
-}
-
-.work-detail__media--full img {
-    width: 62%;
-}
-
-.work-detail__media--portrait img {
-    width: 72%;
 }
 
 .work-detail__toggle {
@@ -114,16 +205,14 @@
 }
 
 .work-detail__case {
-    width: min(1120px, calc(100% - 32px));
-    margin: 36px auto 0;
-    box-sizing: border-box;
+    margin-top: 36px;
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr) minmax(0, 1.3fr);
     gap: 36px 40px;
     align-items: start;
     padding: 48px 40px 52px;
     border-radius: 0;
-    background: #f3f1e6;
+    background: transparent;
     color: #161616;
 }
 
@@ -225,8 +314,7 @@
 }
 
 .work-detail__nav {
-    width: min(1120px, calc(100% - 32px));
-    margin: 56px auto 0;
+    margin-top: 56px;
     display: flex;
     justify-content: space-between;
     gap: 24px;
@@ -264,6 +352,17 @@
     text-decoration: underline;
 }
 
+@media (max-width: 1024px) {
+    .work-detail {
+        --work-detail-gap: 20px;
+    }
+
+    .work-detail__hero .work-detail__media--portrait,
+    .work-detail__media--solo {
+        max-width: 420px;
+    }
+}
+
 @media (max-width: 900px) {
     .work-detail__case {
         grid-template-columns: 1fr;
@@ -274,16 +373,50 @@
     .bg-dark .work-detail__identity h1 {
         max-width: none;
     }
+}
 
-    /* On mobile Sorted still pairs portraits; keep 2-col for pairs */
-    .work-detail__gallery {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (max-width: 768px) {
+    .work-detail {
+        --work-detail-gap: 16px;
+    }
+
+    .work-detail__toggle {
+        width: 44px;
+        height: 44px;
+        left: 12px;
+        bottom: 12px;
     }
 }
 
+/* Stack portraits on small phones so thumbs stay usable */
 @media (max-width: 600px) {
     .work-detail {
         padding-top: 96px;
+        --work-detail-pad: 16px;
+    }
+
+    .work-detail__gallery {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .work-detail__gallery--mirai-videos .work-detail__media--portrait,
+    .work-detail__gallery--mirai-videos .work-detail__media--solo,
+    .work-detail__gallery--mirai-videos .work-detail__media--framed {
+        flex-basis: min(414px, 86vw);
+        width: min(414px, 86vw) !important;
+    }
+
+    .work-detail__media--portrait,
+    .work-detail__media--solo {
+        grid-column: 1;
+        width: 100%;
+        max-width: none;
+        margin-inline: 0;
+    }
+
+    .work-detail__hero .work-detail__media--portrait {
+        max-width: none;
+        width: min(100%, 420px);
     }
 
     .work-detail__nav {
@@ -295,5 +428,16 @@
         max-width: none;
         text-align: left;
         margin-left: 0;
+    }
+}
+
+@media (max-width: 375px) {
+    .work-detail {
+        --work-detail-pad: 14px;
+        --work-detail-gap: 14px;
+    }
+
+    .work-detail__case {
+        padding: 28px 20px 32px;
     }
 }

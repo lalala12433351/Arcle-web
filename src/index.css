@@ -279,6 +279,11 @@ textarea {
 nav.navbar.arcle-compact-nav .navbar-brand > img {
   height: 32px;
 }
+/* Light/normal mode: keep nav labels readable over the dark hero */
+nav.navbar.validnavs.arcle-compact-nav.no-background ul.nav > li > a,
+nav.navbar.validnavs.arcle-compact-nav.no-background .navbar-toggle i {
+  color: #ffffff;
+}
 @media (min-width: 1024px) {
   nav.navbar.validnavs.navbar-default.arcle-compact-nav ul.nav > li > a {
     padding-top: 18px !important;

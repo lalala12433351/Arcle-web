@@ -88,6 +88,7 @@ const Home12Light = lazy(() => import("./pages/homePages/Home12Light"));
 const Home13Light = lazy(() => import("./pages/homePages/Home13Light"));
 const PrismaHeroDemo = lazy(() => import("./pages/homePages/PrismaHeroDemo"));
 const WovenLightHeroDemo = lazy(() => import("./pages/homePages/WovenLightHeroDemo"));
+const LiquidSculptureHeroDemo = lazy(() => import("./pages/homePages/LiquidSculptureHeroDemo"));
 
 const PrivacyPage = lazy(() => import("./pages/innerPages/LegalPage").then((m) => ({ default: m.PrivacyPage })));
 const TermsPage = lazy(() => import("./pages/innerPages/LegalPage").then((m) => ({ default: m.TermsPage })));
@@ -101,6 +102,7 @@ const Routers = () => {
                 <Route path='/' element={<Home1 />}></Route>
                 <Route path='/prisma-hero' element={<PrismaHeroDemo />}></Route>
                 <Route path='/woven-light-hero' element={<WovenLightHeroDemo />}></Route>
+                <Route path='/liquid-sculpture-hero' element={<LiquidSculptureHeroDemo />}></Route>
                 <Route path='/plexify' element={<PlexifyHome />}></Route>
                 <Route path='/home-2' element={<Home2 />}></Route>
                 <Route path='/home-3' element={<Home3 />}></Route>

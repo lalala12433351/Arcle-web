@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home1 from "./pages/homePages/Home1";
 const Home2 = lazy(() => import("./pages/homePages/Home2"));
 const Home3 = lazy(() => import("./pages/homePages/Home3"));
@@ -32,6 +32,7 @@ const ProjectDetailsPage = lazy(() => import("./pages/innerPages/ProjectDetailsP
 const ProjectWorkDetailPage = lazy(() => import("./pages/innerPages/ProjectWorkDetailPage"));
 const ContactUsPage = lazy(() => import("./pages/innerPages/ContactUsPage"));
 const FaqPage = lazy(() => import("./pages/innerPages/FaqPage"));
+const DesignArcInteriorsPage = lazy(() => import("./pages/innerPages/DesignArcInteriorsPage"));
 
 // Inner Light
 const AboutUsLightPage = lazy(() => import("./pages/innerPages/AboutUsLightPage"));
@@ -147,6 +148,7 @@ const Routers = () => {
                 <Route path='/project-details/:id' element={<ProjectDetailsPage />}></Route>
                 <Route path='/contact-us' element={<ContactUsPage />}></Route>
                 <Route path='/faq' element={<FaqPage />}></Route>
+                <Route path='/design-arc-interiors' element={<DesignArcInteriorsPage />}></Route>
 
                 {/* Inner Light  */}
                 <Route path='/about-us-light' element={<AboutUsLightPage />}></Route>
@@ -163,6 +165,10 @@ const Routers = () => {
 
                 {/* Services Page */}
                 <Route path='/services' element={<ServicesPage />}></Route>
+                <Route path='/services/seo' element={<Navigate to="/services" replace />}></Route>
+                <Route path='/services/development' element={<Navigate to="/services" replace />}></Route>
+                <Route path='/services/creative' element={<Navigate to="/services" replace />}></Route>
+                <Route path='/services/:slug' element={<ServiceDetailsPage />}></Route>
                 <Route path='/services-2' element={<Services2Page />}></Route>
                 <Route path='/services-3' element={<Services3Page />}></Route>
                 <Route path='/services-4' element={<Services4Page />}></Route>

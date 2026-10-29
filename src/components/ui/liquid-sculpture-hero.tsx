@@ -604,6 +604,9 @@ class LiquidEngine {
     let transparent = 0
     for (let i = 3; i < data.length; i += 4 * 7) if (data[i] < 250) transparent++
     this.alphaMode = transparent > data.length / (4 * 7) / 20
+    // #region agent log
+    fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'977f63'},body:JSON.stringify({sessionId:'977f63',hypothesisId:'B',location:'liquid-sculpture-hero.tsx:buildParticles',message:'image cutout vs flat plate',data:{alphaMode:this.alphaMode,transparent,samples:Math.floor(data.length/(4*7)),natW:img.naturalWidth,natH:img.naturalHeight,gw,gh,rect:this.rect,canvasW:this.canvas.width,canvasH:this.canvas.height},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
     if (this.opts.imgBg) this.imgBg = this.opts.imgBg
     else if (!this.alphaMode) {
       // flat background: average the four corners
@@ -841,6 +844,9 @@ class LiquidEngine {
     if (this.onFirstFrame) {
       const cb = this.onFirstFrame
       this.onFirstFrame = null
+      // #region agent log
+      fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'977f63'},body:JSON.stringify({sessionId:'977f63',hypothesisId:'C-D',location:'liquid-sculpture-hero.tsx:firstFrame',message:'first canvas present',data:{rect:this.rect,cssW:this.cssW,cssH:this.cssH,bufW:this.canvas.width,bufH:this.canvas.height,alphaMode:this.alphaMode,intro:this.opts.intro,introT:this.introT},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
       // one more frame so the compositor has presented the canvas
       requestAnimationFrame(() => cb())
     }
@@ -1019,6 +1025,12 @@ export interface SculptureHeroLink {
   href: string
 }
 
+export interface SculptureHeroMetric {
+  label: string
+  value: string
+  icon: "traffic" | "conversions" | "leads" | "revenue"
+}
+
 export interface SculptureHeroProps {
   /** Sculpture image (light theme). Must be CORS-enabled when hosted on another domain. */
   src?: string
@@ -1102,6 +1114,9 @@ export interface SculptureHeroProps {
   height?: string
   /** Giant faint word behind the sculpture. Empty to hide. */
   backdropText?: string
+  /** Metric cards and service labels arranged around the sculpture. */
+  showcaseMetrics?: SculptureHeroMetric[]
+  showcaseServices?: string[]
   showCredit?: boolean
   className?: string
   style?: React.CSSProperties
@@ -1213,8 +1228,53 @@ const CSS = `
 .sh-root[data-touched="1"] .sh-hint{opacity:0}
 @keyframes sh-pulse{0%,100%{transform:scale(.6);opacity:.45}50%{transform:scale(1);opacity:1}}
 .sh-spacer{flex:1 1 auto;min-height:0}
+.sh-root[data-showcase="1"]{height:auto;min-height:100svh}
+.sh-root[data-showcase="1"] .sh-spacer{position:relative;min-height:clamp(460px,54vh,680px)}
+.sh-showcase{position:absolute;inset:0;z-index:2;pointer-events:none;color:#b7a48c}
+.sh-field{position:absolute;inset:0;width:100%;height:100%;opacity:.22}
+.sh-metric{position:absolute;pointer-events:auto;display:flex;align-items:center;gap:12px;width:max-content;max-width:42%;
+  padding:11px 16px 11px 11px;border-radius:18px;background:#fffcf8;color:#1c1916;
+  border:1px solid rgba(92,68,36,.07);
+  box-shadow:0 14px 34px rgba(72,48,22,.08),0 1px 2px rgba(72,48,22,.05)}
+.sh-metric-icon{display:grid;place-items:center;flex:0 0 auto;width:42px;height:42px;border-radius:12px;background:#f3eadf;color:#b08958}
+.sh-metric-copy{display:flex;flex-direction:column;gap:1px;min-width:0}
+.sh-metric-label{font-family:var(--sh-head);font-size:14px;font-weight:650;letter-spacing:-.02em;line-height:1.15;color:#1c1916;white-space:nowrap}
+.sh-metric-value{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;letter-spacing:-.01em;color:#7d5e3a;font-variant-numeric:tabular-nums}
+.sh-m-traffic{left:5.5%;top:16%}
+.sh-m-conv{right:17%;top:14%}
+.sh-m-leads{left:4.5%;bottom:16%}
+.sh-m-rev{right:9%;bottom:14%}
+.sh-services{position:absolute;right:1.6%;top:14%;display:flex;align-items:flex-start;gap:12px;margin:0;padding:0;list-style:none}
+.sh-services li{font-size:11px;font-weight:650;letter-spacing:.16em;line-height:1;color:#7a6a56;text-transform:uppercase}
+.sh-services-col{display:flex;flex-direction:column;gap:13px}
+.sh-services-rule{width:34px;height:1.5px;margin-top:4px;background:#b08958;flex:none}
+.sh-root[data-mode="dark"] .sh-metric{background:#1a1b1e;color:#f6f3ee;border-color:rgba(255,244,230,.08);box-shadow:0 16px 36px rgba(0,0,0,.38)}
+.sh-root[data-mode="dark"] .sh-metric-label{color:#f6f3ee}
+.sh-root[data-mode="dark"] .sh-metric-icon{background:#2a241c;color:#d7b48a}
+.sh-root[data-mode="dark"] .sh-services li{color:#cbb89a}
+@container (max-width:1023px){
+  .sh-m-conv{right:4%}
+  .sh-m-rev{right:4%}
+  .sh-services{display:none}
+  .sh-metric{width:min(200px,42%);padding:9px 12px 9px 9px;gap:10px}
+  .sh-metric-icon{width:36px;height:36px}
+  .sh-metric-label{font-size:13px}
+}
+@container (max-width:639px){
+  .sh-root[data-showcase="1"] .sh-spacer{min-height:430px}
+  .sh-m-traffic{left:12px;top:10px}
+  .sh-m-conv{right:12px;top:10px}
+  .sh-m-leads{left:12px;bottom:10px}
+  .sh-m-rev{right:12px;bottom:10px}
+  .sh-metric{width:min(168px,46%);border-radius:14px;padding:8px 10px 8px 8px}
+  .sh-metric-label{font-size:12px;white-space:normal}
+  .sh-metric-value{font-size:12px}
+  .sh-field{opacity:.35}
+}
 .sh-content{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:end;
   gap:clamp(24px,4cqw,72px);padding:0 clamp(20px,3.2cqw,48px) clamp(28px,3.4cqw,52px)}
+.sh-root .sh-h1,.sh-root .sh-body,.sh-root .sh-eyebrow,.sh-root .sh-hint,.sh-root .sh-txt{color:var(--sh-fg)}
+.sh-root .sh-accent{color:var(--sh-acc)}
 .sh-eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;margin:0 0 clamp(14px,1.6cqw,22px);
   display:flex;align-items:center;gap:12px}
 .sh-eyebrow::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
@@ -1279,6 +1339,47 @@ const Arrow = () => (
     <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
+
+const TrendArrow = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+    <path d="M2 8.5 5.2 5.2 7 7l3-3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M7.2 4H10v2.8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
+const MetricIcon = ({ name }: { name: SculptureHeroMetric["icon"] }) => {
+  if (name === "traffic") {
+    return (
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M3 14.5V9.5M7.5 14.5V4.5M12 14.5V7.5M16 14.5H2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    )
+  }
+  if (name === "conversions") {
+    return (
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <circle cx="9" cy="9" r="6.2" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="9" cy="9" r="2.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M9 2.2V4.2M14.6 6.2 13 7.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    )
+  }
+  if (name === "leads") {
+    return (
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <circle cx="6.5" cy="6.2" r="2.1" stroke="currentColor" strokeWidth="1.4" />
+        <circle cx="12" cy="7" r="1.7" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M2.8 14.2c.4-2.2 2-3.4 3.7-3.4s3.3 1.2 3.7 3.4M11 11c1.4.1 2.6 1 3.1 3.2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    )
+  }
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M2.5 12.5 6.5 8.8l2.6 2.2L15 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10.5 5H15v4.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
 
 /* ────────────────────────────────────────────────────────────────────
    Component
@@ -1375,6 +1476,8 @@ export default function SculptureHero(props: SculptureHeroProps) {
     intro = false,
     height = "100svh",
     backdropText = "forma",
+    showcaseMetrics,
+    showcaseServices,
     showCredit = true,
     className,
     style,
@@ -1474,10 +1577,17 @@ export default function SculptureHero(props: SculptureHeroProps) {
     }
     const img = imgRef.current
     if (img) {
+      const before = img.getBoundingClientRect()
       img.style.left = rect.x + "px"
       img.style.top = rect.y + "px"
       img.style.width = rect.w + "px"
       img.style.height = rect.h + "px"
+      // #region agent log
+      if (!(img.dataset.loggedLayout === "1")) {
+        img.dataset.loggedLayout = "1"
+        fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'977f63'},body:JSON.stringify({sessionId:'977f63',hypothesisId:'A',location:'liquid-sculpture-hero.tsx:relayout',message:'fallback before first layout',data:{beforeW:Math.round(before.width),beforeH:Math.round(before.height),beforeX:Math.round(before.x),beforeY:Math.round(before.y),rectW:Math.round(rect.w),rectH:Math.round(rect.h),rectX:Math.round(rect.x),rectY:Math.round(rect.y),natW:img.naturalWidth,natH:img.naturalHeight,gl:root.dataset.gl||null},timestamp:Date.now()})}).catch(()=>{});
+      }
+      // #endregion
     }
     const hintEl = hintRef.current
     if (hintEl) {
@@ -1526,9 +1636,12 @@ export default function SculptureHero(props: SculptureHeroProps) {
     const onMq = () => engine?.setOptions({ reducedMotion: mq.matches })
     mq.addEventListener?.("change", onMq)
 
+    // the stage may carry a scroll transform: map the pointer back into its untransformed space
     const pos = (e: PointerEvent) => {
-      const b = root.getBoundingClientRect()
-      return [e.clientX - b.left, e.clientY - b.top] as const
+      const b = stage.getBoundingClientRect()
+      const sx = stage.offsetWidth ? b.width / stage.offsetWidth : 1
+      const sy = stage.offsetHeight ? b.height / stage.offsetHeight : 1
+      return [(e.clientX - b.left) / sx, (e.clientY - b.top) / sy] as const
     }
     let touched = false
     const markTouched = () => {
@@ -1537,14 +1650,21 @@ export default function SculptureHero(props: SculptureHeroProps) {
         root.dataset.touched = "1"
       }
     }
+    const onShowcase = (e: PointerEvent) =>
+      e.target instanceof Element && !!e.target.closest(".sh-showcase .sh-metric")
     const onMove = (e: PointerEvent) => {
       const [x, y] = pos(e)
       const touch = e.pointerType === "touch"
+      if (onShowcase(e)) {
+        engine?.pointer("leave", x, y, touch)
+        return
+      }
       if (touch && e.buttons === 0 && e.pressure === 0) return
       engine?.pointer("move", x, y, touch)
       markTouched()
     }
     const onDown = (e: PointerEvent) => {
+      if (onShowcase(e)) return
       const [x, y] = pos(e)
       engine?.pointer("down", x, y, e.pointerType === "touch")
       markTouched()
@@ -1600,6 +1720,13 @@ export default function SculptureHero(props: SculptureHeroProps) {
         try {
           engine.onFirstFrame = () => {
             if (cancelled) return
+            const fb = imgRef.current
+            const canvas = stageRef.current?.querySelector("canvas")
+            const fbBox = fb?.getBoundingClientRect()
+            const cvBox = canvas?.getBoundingClientRect()
+            // #region agent log
+            fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'977f63'},body:JSON.stringify({sessionId:'977f63',hypothesisId:'B-C',location:'liquid-sculpture-hero.tsx:onFirstFrame',message:'gl on, fallback still painted',data:{fallbackOpacity:fb?getComputedStyle(fb).opacity:null,fallbackW:fbBox?Math.round(fbBox.width):null,fallbackH:fbBox?Math.round(fbBox.height):null,canvasCssW:cvBox?Math.round(cvBox.width):null,canvasCssH:cvBox?Math.round(cvBox.height):null,canvasBufW:canvas?.width??null,canvasBufH:canvas?.height??null},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
             root.dataset.gl = "on"
             delete root.dataset.swap
           }
@@ -1647,8 +1774,17 @@ export default function SculptureHero(props: SculptureHeroProps) {
 
   const hintText = isTouch ? hintTouch : hint
 
+  const showShowcase = (showcaseMetrics && showcaseMetrics.length > 0) || (showcaseServices && showcaseServices.length > 0)
+  const metricPlace = ["sh-m-traffic", "sh-m-conv", "sh-m-leads", "sh-m-rev"]
+
   return (
-    <section ref={rootRef} className={"sh-root" + (className ? " " + className : "")} style={{ ...vars, ...style }}>
+    <section
+      ref={rootRef}
+      className={"sh-root" + (className ? " " + className : "")}
+      data-mode={mode}
+      data-showcase={showShowcase ? "1" : undefined}
+      style={{ ...vars, ...style }}
+    >
       <style>{CSS}</style>
       {backdropText ? (
         <div ref={backdropRef} className="sh-backdrop" aria-hidden="true">
@@ -1702,7 +1838,45 @@ export default function SculptureHero(props: SculptureHeroProps) {
         </div>
       ) : null}
 
-      <div className="sh-spacer" />
+      <div className="sh-spacer">
+        {showShowcase ? (
+          <div className="sh-showcase">
+            <svg className="sh-field" viewBox="0 0 1440 640" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M-40 210C220 90 420 430 740 300s420-210 760-40" fill="none" stroke="currentColor" strokeWidth="1.2" />
+              <path d="M-40 470C260 580 520 300 860 430s390 150 640-40" fill="none" stroke="currentColor" strokeWidth="1.2" />
+              <circle cx="210" cy="150" r="3" fill="currentColor" />
+              <circle cx="980" cy="120" r="2.5" fill="currentColor" />
+              <circle cx="1180" cy="250" r="3.5" fill="currentColor" />
+              <circle cx="260" cy="500" r="2.5" fill="currentColor" />
+              <circle cx="760" cy="520" r="3" fill="currentColor" />
+            </svg>
+            {showcaseMetrics?.map((metric, index) => (
+              <article className={"sh-metric " + (metricPlace[index] || "")} key={metric.label}>
+                <span className="sh-metric-icon" aria-hidden="true">
+                  <MetricIcon name={metric.icon} />
+                </span>
+                <span className="sh-metric-copy">
+                  <span className="sh-metric-label">{metric.label}</span>
+                  <span className="sh-metric-value">
+                    {metric.value}
+                    <TrendArrow />
+                  </span>
+                </span>
+              </article>
+            ))}
+            {showcaseServices && showcaseServices.length > 0 ? (
+              <div className="sh-services">
+                <span className="sh-services-rule" aria-hidden="true" />
+                <ul className="sh-services-col">
+                  {showcaseServices.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
 
       <div ref={contentRef} className="sh-content">
         <div>

@@ -106,7 +106,7 @@ export const services: {
         ],
     },
     {
-        title: "Website Development",
+        title: "Development",
         summary: "Build a website that works as your best salesperson.",
         body: "We create fast, mobile-first and SEO-ready websites that communicate your value clearly and turn visitors into enquiries or customers. From business websites and landing pages to e-commerce stores and custom web experiences, we combine design, performance and modern development.",
         groups: [
@@ -181,9 +181,9 @@ export const services: {
         ],
     },
     {
-        title: "Branding & Creative",
+        title: "Creative",
         summary: "Make your business look as strong as it is.",
-        body: "We create visual identities and marketing assets that help businesses communicate consistently across websites, social media, advertising and other customer touchpoints.",
+        body: "We bring words and visuals together to give your brand a clear, consistent voice and a recognisable identity.\n\nOur content answers your customers’ questions, communicates your value and builds trust, while our design makes every interaction engaging and easy to understand.\n\nAcross your website, social media, campaigns and sales materials, we help your brand tell a connected story that turns attention into interest and interest into enquiries.",
         groups: [
             {
                 label: "Includes",

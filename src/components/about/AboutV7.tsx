@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import SplitText from "../animation/SplitText.jsx"
 import LineSidebar from "../LineSidebar.jsx"
+import CursorGrid from "../CursorGrid.jsx"
+import { useSiteTheme } from "../../hooks/useSiteTheme";
 
 interface DataType {
     sectionClass?: string
@@ -27,6 +29,7 @@ const STEPS = [
 ];
 
 const AboutV7 = ({ sectionClass }: DataType) => {
+    const isDark = useSiteTheme();
     const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [active, setActive] = useState(0);
 
@@ -61,6 +64,20 @@ const AboutV7 = ({ sectionClass }: DataType) => {
     return (
         <>
             <style>{`
+                .strategy-before {
+                    position: relative;
+                    isolation: isolate;
+                }
+                .strategy-cursor-grid {
+                    position: absolute;
+                    inset: 0;
+                    z-index: 0;
+                    pointer-events: none;
+                }
+                .strategy-before .container {
+                    position: relative;
+                    z-index: 1;
+                }
                 .strategy-steps-sticky {
                     position: sticky;
                     top: 140px;
@@ -111,7 +128,20 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                     }
                 }
             `}</style>
-            <div className={`about-style-seven-area default-padding ${sectionClass ? sectionClass : ""}`}>
+            <div className={`about-style-seven-area default-padding strategy-before ${sectionClass ? sectionClass : ""}`}>
+                <CursorGrid
+                    className="strategy-cursor-grid"
+                    lightMode={!isDark}
+                    color="#236BFF"
+                    gridColor={isDark ? "#f4f4f5" : "#18181b"}
+                    cellSize={72}
+                    radius={180}
+                    gridOpacity={isDark ? 0.16 : 0.12}
+                    fillOpacity={0.08}
+                    maxOpacity={0.9}
+                    spotlight={0.5}
+                    edgeFade={0.16}
+                />
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-5">

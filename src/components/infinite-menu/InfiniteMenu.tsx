@@ -18,6 +18,8 @@ export interface InfiniteMenuProps {
   stretch?: number;
   inertia?: number;
   autoplay?: number;
+  /** Spin the sphere from page scroll while it is on screen. */
+  scrollSpin?: boolean;
   grayscale?: boolean;
   dim?: number;
   intro?: boolean;
@@ -204,6 +206,7 @@ const InfiniteMenu = ({
   stretch = 0.6,
   inertia = 0.6,
   autoplay = 3,
+  scrollSpin = false,
   grayscale = true,
   dim = 0.5,
   intro = true,
@@ -232,6 +235,7 @@ const InfiniteMenu = ({
     stretch: clamp(stretch, 0, 3),
     inertia: clamp(inertia, 0, 1),
     autoplay: Math.max(0, autoplay),
+    scrollSpin,
     grayscale,
     dim: clamp(dim, 0, 1),
     intro,
@@ -345,6 +349,7 @@ const InfiniteMenu = ({
       hovered: false,
       focused: false,
       idle: 0,
+      scrollUntil: 0,
       settle: 0,
       tilePx: 0,
       layout: 'side',
@@ -593,6 +598,7 @@ const InfiniteMenu = ({
           state.speed *= Math.exp(-dt * 14);
         }
       } else {
+        const scrolling = performance.now() < state.scrollUntil;
         if (state.speed > 0.0005) {
           state.orientation = quatNormalize(
             quatMultiply(quatAxisAngle(state.axis, state.speed * dt), state.orientation)
@@ -601,20 +607,24 @@ const InfiniteMenu = ({
         } else {
           state.speed = 0;
         }
-        const goal = state.target >= 0 ? state.target : nearest();
-        const current = rotate(state.orientation, state.tiles[goal]);
-        const angle = Math.acos(clamp(dot(current, FRONT), -1, 1));
-        const pull = clamp(1 - state.speed / 1.4, 0, 1);
-        if (angle > 0.0002 && pull > 0) {
-          const axis = cross(current, FRONT);
-          const step = angle * (1 - Math.exp(-dt * (state.target >= 0 ? 6 : 8))) * pull;
-          if (Math.hypot(axis[0], axis[1], axis[2]) > 1e-6) {
-            state.orientation = quatNormalize(quatMultiply(quatAxisAngle(normalize(axis), step), state.orientation));
+        if (!scrolling) {
+          const goal = state.target >= 0 ? state.target : nearest();
+          const current = rotate(state.orientation, state.tiles[goal]);
+          const angle = Math.acos(clamp(dot(current, FRONT), -1, 1));
+          const pull = clamp(1 - state.speed / 1.4, 0, 1);
+          if (angle > 0.0002 && pull > 0) {
+            const axis = cross(current, FRONT);
+            const step = angle * (1 - Math.exp(-dt * (state.target >= 0 ? 6 : 8))) * pull;
+            if (Math.hypot(axis[0], axis[1], axis[2]) > 1e-6) {
+              state.orientation = quatNormalize(quatMultiply(quatAxisAngle(normalize(axis), step), state.orientation));
+            }
+          } else if (state.target >= 0 && state.speed === 0) {
+            state.target = -1;
           }
-        } else if (state.target >= 0 && state.speed === 0) {
-          state.target = -1;
+          state.front = goal;
+        } else {
+          state.front = nearest();
         }
-        state.front = goal;
       }
 
       const settledAngle = Math.acos(clamp(rotate(state.orientation, state.tiles[state.front])[2], -1, 1));
@@ -833,6 +843,30 @@ const InfiniteMenu = ({
       }
     });
     visibility.observe(root);
+
+    let scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    const onPageScroll = () => {
+      const s = settingsRef.current;
+      if (!s.scrollSpin || reduce || !visible) return;
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      const dy = y - scrollY;
+      scrollY = y;
+      if (Math.abs(dy) < 0.5) return;
+      const rect = root.getBoundingClientRect();
+      const view = window.innerHeight || 1;
+      if (rect.bottom <= 0 || rect.top >= view) return;
+      const center = (rect.top + rect.bottom) * 0.5;
+      const presence = 1 - clamp(Math.abs(center - view * 0.5) / (view * 0.9), 0, 1);
+      const mag = clamp(Math.abs(dy) / 70, 0, 1.8) * (0.45 + 0.55 * presence);
+      if (mag < 0.01) return;
+      state.axis = dy > 0 ? [1, 0, 0] : [-1, 0, 0];
+      state.speed = Math.max(state.speed * 0.72, mag * 5.5);
+      state.scrollUntil = performance.now() + 220;
+      state.target = -1;
+      state.idle = 0;
+      wake();
+    };
+    window.addEventListener('scroll', onPageScroll, { passive: true });
     layoutTiles();
     resize();
 
@@ -852,6 +886,7 @@ const InfiniteMenu = ({
       root.removeEventListener('focusout', onFocusOut);
       resizeObserver.disconnect();
       visibility.disconnect();
+      window.removeEventListener('scroll', onPageScroll);
       gl.deleteTexture(atlasTexture);
       gl.deleteBuffer(cornerBuffer);
       gl.deleteBuffer(indexBuffer);

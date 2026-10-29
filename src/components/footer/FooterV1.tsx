@@ -23,7 +23,10 @@ const FooterV1 = ({ sectionClass }: DataType) => {
                         </p>
                         <div className="arcle-footer__contacts">
                             <a href="mailto:info@arcle.in">info@arcle.in</a>
-                            <a href="tel:+919606352255">+91 96063 52255</a>
+                            <span className="arcle-footer__phones">
+                                <a href="tel:+919606352255">+91 96063 52255</a>
+                                <a href="tel:+917411983969">+91 7411983969</a>
+                            </span>
                         </div>
                         <p className="arcle-footer__copy">
                             Copyright &copy; {new Date().getFullYear()} Arcle Technologies LLP. All Rights Reserved

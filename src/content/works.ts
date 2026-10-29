@@ -1,8 +1,10 @@
 export type WorkVideo = {
     src: string;
     label: string;
-    /** Defaults to video when omitted */
-    type?: "video" | "image";
+    /** Defaults to video when omitted. Can be "video", "image", or "youtube" */
+    type?: "video" | "image" | "youtube";
+    /** YouTube video ID (required when type is "youtube") */
+    youtubeId?: string;
     /** Defaults to landscape. Portraits pair side-by-side like Studio Sorted. */
     orientation?: "landscape" | "portrait";
     /**
@@ -108,7 +110,8 @@ export const works: Work[] = [
         coverWidth: 1128,
         coverHeight: 840,
         videos: [
-            { src: "/assets/client/design-arc-interiors/office-interior.mp4", label: "Design Arc Interiors" },
+            { src: "https://www.youtube.com/watch?v=RwzaLFSLjO4", label: "Design Arc Interiors Banner", type: "youtube", youtubeId: "RwzaLFSLjO4", orientation: "landscape" },
+            { src: "/assets/client/design-arc-interiors/office-interior.mp4", label: "Office Interiors", orientation: "landscape" },
             { src: "/assets/client/direct-keys/real-estate.mp4", label: "Interior walkthrough" },
             { src: "/assets/video/industry-fpv.mp4", label: "Space detail" },
         ],
@@ -206,8 +209,13 @@ export const works: Work[] = [
         coverHeight: 1080,
         videos: [
             { src: "/assets/client/direct-keys/real-estate.mp4", label: "Direct Keys film" },
-            { src: "/assets/video/industry-fpv.mp4", label: "Aerial pass" },
-            { src: "/assets/video/times-square-timelapse.mp4", label: "Atmosphere cut" },
+            {
+                src: "/assets/client/direct-keys/banner.jpg",
+                label: "Direct Keys",
+                type: "image",
+                orientation: "landscape",
+                objectPosition: "center 25%",
+            },
         ],
     },
 ];

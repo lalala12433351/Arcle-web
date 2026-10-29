@@ -1,82 +1,26 @@
 [
     {
         "id": 1,
-        "icon": "1.png",
-        "iconLight": "23.png",
-        "title": "Performance Marketing",
-        "text": "Turn advertising budgets into measurable business results across Google, Meta, LinkedIn and YouTube.",
-        "activeClass": "active"
-    },
-    {
-        "id": 2,
         "icon": "2.png",
         "iconLight": "24.png",
         "title": "SEO",
         "text": "Get discovered when your customers are searching, with technical, local and content SEO.",
+        "activeClass": "active"
+    },
+    {
+        "id": 2,
+        "icon": "4.png",
+        "iconLight": "26.png",
+        "title": "Development",
+        "text": "Build fast websites, web apps and mobile products that turn visitors into enquiries.",
         "activeClass": ""
     },
     {
         "id": 3,
         "icon": "3.png",
         "iconLight": "25.png",
-        "title": "Social Media Marketing",
-        "text": "Build a brand people remember across Instagram, Facebook, LinkedIn and YouTube.",
-        "activeClass": ""
-    },
-    {
-        "id": 4,
-        "icon": "4.png",
-        "iconLight": "26.png",
-        "title": "Website Development",
-        "text": "Build a fast, mobile-first and SEO-ready website that turns visitors into enquiries.",
-        "activeClass": ""
-    },
-    {
-        "id": 5,
-        "icon": "1.png",
-        "iconLight": "23.png",
-        "title": "Web Applications",
-        "text": "Design and develop SaaS platforms, portals, dashboards and custom business applications.",
-        "activeClass": ""
-    },
-    {
-        "id": 6,
-        "icon": "2.png",
-        "iconLight": "24.png",
-        "title": "App Development",
-        "text": "Turn an idea into a mobile product for Android and iOS, from MVP to full launch.",
-        "activeClass": ""
-    },
-    {
-        "id": 7,
-        "icon": "3.png",
-        "iconLight": "25.png",
-        "title": "Branding & Creative",
+        "title": "Creative",
         "text": "Create a visual identity and marketing assets that stay consistent across every touchpoint.",
-        "activeClass": ""
-    },
-    {
-        "id": 8,
-        "icon": "4.png",
-        "iconLight": "26.png",
-        "title": "Content Marketing",
-        "text": "Create search-focused content that answers real customer questions and supports organic growth.",
-        "activeClass": ""
-    },
-    {
-        "id": 9,
-        "icon": "1.png",
-        "iconLight": "23.png",
-        "title": "AEO & GEO",
-        "text": "Be visible in AI answers, featured snippets and conversational search, beyond traditional rankings.",
-        "activeClass": ""
-    },
-    {
-        "id": 10,
-        "icon": "2.png",
-        "iconLight": "24.png",
-        "title": "Desktop Applications",
-        "text": "Create custom desktop software, internal tools and workflow systems around how your business works.",
         "activeClass": ""
     }
 ]

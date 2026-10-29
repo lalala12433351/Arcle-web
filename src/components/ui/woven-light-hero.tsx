@@ -186,8 +186,8 @@ export const WovenLightHero = ({
   return (
     <section
       ref={sectionRef}
-      className={`relative min-h-screen w-full transition-colors duration-500${scrollScale ? "" : " overflow-hidden"}${editorial ? " woven-hero--editorial" : " lg:flex lg:flex-row"}${poster ? " woven-hero--poster" : ""}${scrollScale ? " woven-hero--scroll-scale" : ""}`}
-      style={{ backgroundColor: isDark ? "var(--dark)" : "var(--white)" }}
+      className={`relative min-h-screen w-full transition-colors duration-500 bg-gray${scrollScale ? "" : " overflow-hidden"}${editorial ? " woven-hero--editorial" : " lg:flex lg:flex-row"}${poster ? " woven-hero--poster" : ""}${scrollScale ? " woven-hero--scroll-scale" : ""}`}
+      style={{ backgroundColor: isDark ? "var(--dark-secondary)" : "var(--bg-gray)" }}
     >
       <style>{`
         .woven-hero--editorial,

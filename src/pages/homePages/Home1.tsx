@@ -5,12 +5,15 @@ import CursorEffect from "../../components/animation/CursorEffect";
 import ExpertiseV1 from "../../components/expertise/ExpertiseV1";
 import FaqV1 from "../../components/faq/FaqV1";
 import menuItems from "../../components/infinite-menu/menuItems";
+import { useSiteTheme } from "../../hooks/useSiteTheme";
+import useHeroScrollTransition from "../../hooks/useHeroScrollTransition";
 
 const InfiniteMenu = lazy(() => import("../../components/infinite-menu/InfiniteMenu"));
 
 const DeferredInfiniteMenu = () => {
     const frameRef = useRef<HTMLDivElement>(null);
     const [ready, setReady] = useState(false);
+    const isDark = useSiteTheme();
 
     useEffect(() => {
         const node = frameRef.current;
@@ -25,7 +28,7 @@ const DeferredInfiniteMenu = () => {
     }, []);
 
     return (
-        <div ref={frameRef} style={{ height: 600, position: "relative" }}>
+        <div ref={frameRef} style={{ height: 600, position: "relative", marginTop: "clamp(48px, 6vw, 96px)" }}>
             {ready && (
                 <Suspense fallback={null}>
                     <InfiniteMenu
@@ -41,10 +44,11 @@ const DeferredInfiniteMenu = () => {
                         grayscale={true}
                         dim={0.5}
                         intro={true}
+                        scrollSpin={true}
                         showInfo={true}
-                        theme="dark"
+                        theme={isDark ? "dark" : "light"}
                         accentColor="#236BFF"
-                        backgroundColor="#0e0f11"
+                        backgroundColor={isDark ? "#0e0f11" : "#ffffff"}
                     />
                 </Suspense>
             )}
@@ -61,7 +65,7 @@ import SculptureHero from "@/components/ui/liquid-sculpture-hero";
 import IndustriesVideo from "../../components/videos/IndustriesVideo";
 import GrowthTogetherVideo from "../../components/videos/GrowthTogetherVideo";
 import ClientRoster from "../../components/clients/ClientRoster";
-import { arcleFaqs, arcleMeta, journeySteps } from "../../content/arcleHome";
+import { arcleFaqs, arcleMeta } from "../../content/arcleHome";
 
 const faqSchema = {
     "@context": "https://schema.org",
@@ -76,17 +80,12 @@ const faqSchema = {
     })),
 };
 
-const toCards = (entries: { title: string; text: string }[]) =>
-    entries.map((item, index) => ({
-        id: index + 1,
-        icon: `${(index % 4) + 1}.png`,
-        iconLight: `${23 + (index % 4)}.png`,
-        title: item.title,
-        text: item.text,
-        href: "/services",
-    }));
-
 const Home1 = () => {
+    const isDark = useSiteTheme();
+    const heroRef = useRef<HTMLDivElement>(null);
+    const heroNextRef = useRef<HTMLDivElement>(null);
+    useHeroScrollTransition(heroRef, heroNextRef);
+
     useEffect(() => {
         const script = document.createElement("script");
         script.type = "application/ld+json";
@@ -110,38 +109,52 @@ const Home1 = () => {
 
             <div className="smooth-scroll-container">
                 <HeaderV1 />
-                <SculptureHero
-                    brand="Arcle"
-                    showNav={false}
-                    theme="dark"
-                    themeToggle={false}
-                    showCredit={false}
-                    eyebrow="AI-powered digital marketing — India"
-                    headline={arcleMeta.headline}
-                    headlineAccent="brand"
-                    body={arcleMeta.heroParagraphs[0]}
-                    primaryCta={{ label: "Start a project", href: "/contact-us" }}
-                    secondaryCta={{ label: "Our services", href: "/services" }}
-                    backdropText="arcle"
-                    darkBackground="#0e0f11"
-                    hint="Move across the form"
-                    hintTouch="Touch the form"
-                    headingFont='"Manrope", var(--font-heading), sans-serif'
-                    accentFont='"Manrope", var(--font-heading), sans-serif'
-                    bodyFont='"Manrope", var(--font-default), sans-serif'
-                    loadFonts={false}
-                    intro
-                    style={{ paddingTop: "72px" }}
-                />
-                <DeferredInfiniteMenu />
-                <AboutV7 sectionClass="bg-gray" />
+                <div ref={heroRef}>
+                    <SculptureHero
+                        brand="Arcle"
+                        showNav={false}
+                        themeToggle={false}
+                        showCredit={false}
+                        eyebrow="AI-powered digital marketing — India"
+                        headline={arcleMeta.headline}
+                        headlineAccent="brand"
+                        body={arcleMeta.heroParagraphs[0]}
+                        primaryCta={{ label: "Start a project", href: "/contact-us" }}
+                        secondaryCta={{ label: "Our services", href: "/services" }}
+                        backdropText=""
+                        showcaseMetrics={[
+                            { label: "More Traffic", value: "+180%", icon: "traffic" },
+                            { label: "Higher Conversions", value: "+95%", icon: "conversions" },
+                            { label: "More Leads", value: "+120%", icon: "leads" },
+                            { label: "More Revenue", value: "+200%", icon: "revenue" },
+                        ]}
+                        showcaseServices={["SEO", "ADS", "SOCIAL", "WEBSITES", "APPS", "AUTOMATION"]}
+                        theme={isDark ? "dark" : "light"}
+                        background="#ffffff"
+                        darkBackground="#0e0f11"
+                        sculptureScale={0.78}
+                        mobileSculptureScale={0.62}
+                        dotSize={0.4}
+                        hint="Move across the form"
+                        hintTouch="Touch the form"
+                        headingFont='"Manrope", var(--font-heading), sans-serif'
+                        accentFont='"Manrope", var(--font-heading), sans-serif'
+                        bodyFont='"Manrope", var(--font-default), sans-serif'
+                        loadFonts={false}
+                        intro
+                        style={{ paddingTop: "72px" }}
+                    />
+                </div>
+                <div ref={heroNextRef}>
+                    <DeferredInfiniteMenu />
+                </div>
+                <AboutV7 />
                 <IndustriesVideo />
                 <ServicesV1
                     sectionClass="default-padding"
                     hasTitle={true}
                     subTitle="What We Do"
                     title="One Strategy. Every Channel."
-                    items={toCards(journeySteps)}
                     stacked
                 />
                 <WhyChooseV1 sectionClass="default-padding" />

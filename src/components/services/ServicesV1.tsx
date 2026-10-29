@@ -4,6 +4,7 @@ import ScrollStack, { ScrollStackItem } from "../ScrollStack.jsx";
 import { EncryptedText } from "@/components/ui/encrypted-text";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { servicePath } from "../../content/serviceSlug";
 
 interface ServiceCard {
     id: number;
@@ -141,26 +142,26 @@ const ServicesV1 = ({ hasTitle, sectionClass, items, subTitle, title, stacked, c
                         holdDistance={140}
                     >
                         {services.map((service, index) => {
-                            const href = "href" in service && service.href ? service.href : `/service-details/${service.id}`;
+                            const href = "href" in service && service.href ? service.href : servicePath(service.title);
                             return (
                                 <ScrollStackItem
                                     key={service.id}
                                     itemClassName="services-style-one-item services-stack-card"
                                     style={{ "--card-index": index } as CSSProperties}
                                 >
-                                    <div className="services-stack-card__head">
-                                        <div className="icon">
-                                            <img className="regular-img" src={`/assets/img/icon/${service.icon}`} alt="" width={75} height={60} />
-                                            <img className="light-img" src={`/assets/img/icon/${service.iconLight}`} alt="" width={75} height={60} />
+                                    <Link to={href} className="services-stack-card__link">
+                                        <div className="services-stack-card__head">
+                                            <div className="icon">
+                                                <img className="regular-img" src={`/assets/img/icon/${service.icon}`} alt="" width={75} height={60} />
+                                                <img className="light-img" src={`/assets/img/icon/${service.iconLight}`} alt="" width={75} height={60} />
+                                            </div>
+                                            <span className="services-stack-card__index">{String(index + 1).padStart(2, "0")}</span>
                                         </div>
-                                        <span className="services-stack-card__index">{String(index + 1).padStart(2, "0")}</span>
-                                    </div>
-                                    <div className="services-stack-card__body">
-                                        <h4>
-                                            <Link to={href}>{service.title}</Link>
-                                        </h4>
-                                        <p>{service.text}</p>
-                                    </div>
+                                        <div className="services-stack-card__body">
+                                            <h4>{service.title}</h4>
+                                            <p>{service.text}</p>
+                                        </div>
+                                    </Link>
                                 </ScrollStackItem>
                             );
                         })}
@@ -194,27 +195,25 @@ const ServicesV1 = ({ hasTitle, sectionClass, items, subTitle, title, stacked, c
                     <div className="services-style-one-items">
                         <div className="row g-0 align-items-stretch">
                             {services.map((service) => {
-                                const href = "href" in service && service.href ? service.href : `/service-details/${service.id}`;
+                                const href = "href" in service && service.href ? service.href : servicePath(service.title);
                                 return (
                                 <div
-                                    className="col-lg-3 col-md-6 single-item"
+                                    className="col-lg-4 col-md-6 single-item"
                                     key={service.id}
                                     onMouseEnter={() => handleMouseEnter(service.id)}
                                     onMouseLeave={handleMouseLeave}
                                 >
-                                    <div className={`services-style-one-item ${activeServiceId === service.id ? 'active' : ''}`}>
+                                    <Link className={`services-style-one-item ${activeServiceId === service.id ? 'active' : ''}`} to={href}>
                                         <div className="icon">
                                             <img className="regular-img" src={`/assets/img/icon/${service.icon}`} alt="" width={75} height={60} />
                                             <img className="light-img" src={`/assets/img/icon/${service.iconLight}`} alt="" width={75} height={60} />
                                         </div>
-                                        <h4>
-                                            <Link to={href}>{service.title}</Link>
-                                        </h4>
+                                        <h4>{service.title}</h4>
                                         <p>{service.text}</p>
-                                        <Link className="btn-full" to={href}>
+                                        <span className="btn-full">
                                             Read More <i className="fas fa-arrow-right" />
-                                        </Link>
-                                    </div>
+                                        </span>
+                                    </Link>
                                 </div>
                                 );
                             })}

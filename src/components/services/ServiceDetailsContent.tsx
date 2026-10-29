@@ -1,6 +1,7 @@
 import banner6 from "/assets/img/banner/6.jpg";
 import ServicesV1Data from "../../../src/assets/jsonData/services/ServicesV1Data.json";
 import { services, processSteps } from "../../content/arcleHome";
+import { servicePath } from "../../content/serviceSlug";
 import { Link } from "react-router-dom";
 
 interface DataType {
@@ -72,7 +73,7 @@ const ServiceDetailsContent = ({ serviceInfo, sectionClass }: ServiceDetailsProp
                                         <div className="item">
                                             <img className="regular-img" src={`/assets/img/icon/${service.icon}`} alt="" width={75} height={60} />
                                             <img className="light-img" src={`/assets/img/icon/${service.iconLight}`} alt="" width={75} height={60} />
-                                            <h4><Link to={`/service-details/${service.id}`}>{service.title}</Link></h4>
+                                            <h4><Link to={servicePath(service.title)}>{service.title}</Link></h4>
                                             <p>{service.text}</p>
                                         </div>
                                     </div>

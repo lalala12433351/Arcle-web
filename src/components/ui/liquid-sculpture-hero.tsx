@@ -604,9 +604,6 @@ class LiquidEngine {
     let transparent = 0
     for (let i = 3; i < data.length; i += 4 * 7) if (data[i] < 250) transparent++
     this.alphaMode = transparent > data.length / (4 * 7) / 20
-    // #region agent log
-    fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'977f63'},body:JSON.stringify({sessionId:'977f63',hypothesisId:'B',location:'liquid-sculpture-hero.tsx:buildParticles',message:'image cutout vs flat plate',data:{alphaMode:this.alphaMode,transparent,samples:Math.floor(data.length/(4*7)),natW:img.naturalWidth,natH:img.naturalHeight,gw,gh,rect:this.rect,canvasW:this.canvas.width,canvasH:this.canvas.height},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
     if (this.opts.imgBg) this.imgBg = this.opts.imgBg
     else if (!this.alphaMode) {
       // flat background: average the four corners
@@ -844,9 +841,6 @@ class LiquidEngine {
     if (this.onFirstFrame) {
       const cb = this.onFirstFrame
       this.onFirstFrame = null
-      // #region agent log
-      fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'977f63'},body:JSON.stringify({sessionId:'977f63',hypothesisId:'C-D',location:'liquid-sculpture-hero.tsx:firstFrame',message:'first canvas present',data:{rect:this.rect,cssW:this.cssW,cssH:this.cssH,bufW:this.canvas.width,bufH:this.canvas.height,alphaMode:this.alphaMode,intro:this.opts.intro,introT:this.introT},timestamp:Date.now()})}).catch(()=>{});
-      // #endregion
       // one more frame so the compositor has presented the canvas
       requestAnimationFrame(() => cb())
     }
@@ -1201,12 +1195,12 @@ const CSS = `
   touch-action:pan-y;display:flex;flex-direction:column;box-sizing:border-box}
 .sh-root *,.sh-root *::before,.sh-root *::after{box-sizing:border-box}
 .sh-stage{position:absolute;inset:0;z-index:0;pointer-events:none}
-.sh-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .5s ease}
-.sh-fallback{position:absolute;display:block;max-width:none;user-select:none;-webkit-user-drag:none;transition:opacity .5s ease}
+.sh-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:transparent;opacity:0;transition:opacity .5s ease}
+.sh-fallback{position:absolute;display:block;max-width:none;user-select:none;-webkit-user-drag:none;opacity:0;visibility:hidden;transition:opacity .5s ease}
 .sh-root[data-gl="on"] .sh-canvas{opacity:1}
-.sh-root[data-gl="on"] .sh-fallback{opacity:0}
+.sh-root[data-gl="off"] .sh-fallback{opacity:1;visibility:visible}
 .sh-root[data-swap="1"] .sh-canvas{opacity:0;transition-duration:.25s}
-.sh-root[data-swap="1"] .sh-fallback{opacity:0;transition-duration:.25s}
+.sh-root[data-swap="1"] .sh-fallback{opacity:0;visibility:hidden;transition-duration:.25s}
 .sh-backdrop{position:absolute;left:50%;z-index:0;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none;
   font-family:var(--sh-head);font-weight:600;letter-spacing:-.06em;line-height:.8;color:color-mix(in srgb,var(--sh-fg) 5%,transparent)}
 .sh-nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:24px;
@@ -1577,17 +1571,10 @@ export default function SculptureHero(props: SculptureHeroProps) {
     }
     const img = imgRef.current
     if (img) {
-      const before = img.getBoundingClientRect()
       img.style.left = rect.x + "px"
       img.style.top = rect.y + "px"
       img.style.width = rect.w + "px"
       img.style.height = rect.h + "px"
-      // #region agent log
-      if (!(img.dataset.loggedLayout === "1")) {
-        img.dataset.loggedLayout = "1"
-        fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'977f63'},body:JSON.stringify({sessionId:'977f63',hypothesisId:'A',location:'liquid-sculpture-hero.tsx:relayout',message:'fallback before first layout',data:{beforeW:Math.round(before.width),beforeH:Math.round(before.height),beforeX:Math.round(before.x),beforeY:Math.round(before.y),rectW:Math.round(rect.w),rectH:Math.round(rect.h),rectX:Math.round(rect.x),rectY:Math.round(rect.y),natW:img.naturalWidth,natH:img.naturalHeight,gl:root.dataset.gl||null},timestamp:Date.now()})}).catch(()=>{});
-      }
-      // #endregion
     }
     const hintEl = hintRef.current
     if (hintEl) {
@@ -1720,13 +1707,6 @@ export default function SculptureHero(props: SculptureHeroProps) {
         try {
           engine.onFirstFrame = () => {
             if (cancelled) return
-            const fb = imgRef.current
-            const canvas = stageRef.current?.querySelector("canvas")
-            const fbBox = fb?.getBoundingClientRect()
-            const cvBox = canvas?.getBoundingClientRect()
-            // #region agent log
-            fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'977f63'},body:JSON.stringify({sessionId:'977f63',hypothesisId:'B-C',location:'liquid-sculpture-hero.tsx:onFirstFrame',message:'gl on, fallback still painted',data:{fallbackOpacity:fb?getComputedStyle(fb).opacity:null,fallbackW:fbBox?Math.round(fbBox.width):null,fallbackH:fbBox?Math.round(fbBox.height):null,canvasCssW:cvBox?Math.round(cvBox.width):null,canvasCssH:cvBox?Math.round(cvBox.height):null,canvasBufW:canvas?.width??null,canvasBufH:canvas?.height??null},timestamp:Date.now()})}).catch(()=>{});
-            // #endregion
             root.dataset.gl = "on"
             delete root.dataset.swap
           }

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -287,6 +287,7 @@ const ProjectWorkDetail = ({ work }: ProjectWorkDetailProps) => {
     }, [work.slug, featured]);
     // #endregion
     const isDesignArc = work.slug === "design-arc-interiors";
+    const isKite = work.slug === "kite-aviation-institute";
     const designArcGalleryRef = useRef<HTMLDivElement>(null);
     const miraiPosters = isMirai ? gallery.filter((item) => item.type === "image") : [];
     const galleryItems = isMirai
@@ -439,15 +440,25 @@ const ProjectWorkDetail = ({ work }: ProjectWorkDetailProps) => {
                     className={`work-detail__gallery${isMirai ? " work-detail__gallery--mirai-videos" : ""}`}
                     aria-label="Project media"
                 >
-                    {mediaRows.map((row) =>
-                        row.items.map((item) => (
-                            <DetailMedia
-                                key={item.src + item.label}
-                                {...item}
-                                layout={row.layout}
-                            />
-                        )),
-                    )}
+                    {mediaRows.map((row, rowIndex) => (
+                        <Fragment key={row.items.map((item) => item.src).join("|")}>
+                            {row.items.map((item) => (
+                                <DetailMedia
+                                    key={item.src + item.label}
+                                    {...item}
+                                    layout={row.layout}
+                                />
+                            ))}
+                            {isKite && rowIndex === 0 && (
+                                <div className="work-detail__text-section">
+                                    <div className="work-detail__text-label">KITE AVIATION</div>
+                                    <div className="work-detail__text-content">
+                                        <h2>Building a Stronger<br />Digital Presence for KITE</h2>
+                                    </div>
+                                </div>
+                            )}
+                        </Fragment>
+                    ))}
                 </div>
             )}
 

@@ -6,6 +6,7 @@ import ServiceDevelopment from "../../components/services/wall/ServiceDevelopmen
 import ServiceSeo from "../../components/services/wall/ServiceSeo";
 import { Globe } from "@/registry/magicui/globe";
 import useServicesScroll from "../../hooks/useServicesScroll";
+import TrueFocus from "../../components/TrueFocus";
 import "../../components/services/wall/ServiceWall.css";
 import "./ServicesPage.css";
 
@@ -24,7 +25,27 @@ const ServicesPage = () => {
                 <section className="services-wall" ref={wallRef}>
                     <div className="services-wall__banner">
                         <div className="services-wall__intro">
-                            <h1>Services That Carry<br />The Whole Business</h1>
+                            <h1>
+                                <span className="sr-only">Services</span>
+                                <span className="services-wall__title-hero services-wall__title-hero--dark" aria-hidden="true">
+                                    <span className="services-wall__title-hero-s">S</span>erv
+                                    <span className="services-wall__title-i">
+                                        ı<span className="services-wall__tittle" />
+                                    </span>
+                                    ces
+                                </span>
+                                <div className="services-wall__title-rest-wrapper">
+                                    <TrueFocus
+                                        sentence="That Carry the Whole Business"
+                                        separator=" "
+                                        focusStyle="brackets"
+                                        borderColor="#236bff"
+                                        blurAmount={5}
+                                        animationDuration={0.3}
+                                        pauseBetweenAnimations={0.8}
+                                    />
+                                </div>
+                            </h1>
                             <p>
                                 Growing online takes more than one skill. Arcle brings performance marketing, SEO, social media, content, design and development together under one roof. You can choose a single service or let one team handle everything, with every part working toward the same business goals.
                             </p>

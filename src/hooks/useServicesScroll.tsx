@@ -58,6 +58,54 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
                     });
                 }
 
+                const igPop = root.querySelector<HTMLElement>(".globe-pop--ig");
+                const tittle = root.querySelector<HTMLElement>(".services-wall__tittle");
+                if (motion && globe && banner && igPop && tittle) {
+                    const restTilt = gsap.getProperty(igPop, "rotation") as number;
+                    // Offset from the icon's resting spot on the globe to the i's dot, measured with scroll transforms lifted.
+                    const flight = () => {
+                        const saved = [igPop.style.transform, globe.style.transform];
+                        igPop.style.transform = globe.style.transform = "none";
+                        const dot = tittle.getBoundingClientRect();
+                        const pop = igPop.getBoundingClientRect();
+                        [igPop.style.transform, globe.style.transform] = saved;
+                        const restX = pop.left + pop.width / 2;
+                        const restY = pop.top + pop.height / 2;
+                        return {
+                            x: dot.left + dot.width / 2 - restX,
+                            y: dot.top + dot.height / 2 - restY,
+                            scale: dot.width / igPop.offsetWidth,
+                            dotTop: dot.top + window.scrollY,
+                            restTop: restY - igPop.offsetHeight / 2 + window.scrollY,
+                        };
+                    };
+
+                    gsap.timeline({
+                        defaults: { ease: "none" },
+                        scrollTrigger: {
+                            trigger: banner,
+                            start: 0,
+                            // Land before either the dot or the globe spot slides under the fixed navbar.
+                            end: () => {
+                                const { dotTop, restTop } = flight();
+                                return Math.min(dotTop, Math.max(restTop - window.innerHeight * 0.15, 160));
+                            },
+                            scrub: 0.6,
+                            invalidateOnRefresh: true,
+                        },
+                    })
+                        .fromTo(igPop, { x: () => flight().x }, { x: 0, duration: 1, ease: "power2.inOut" }, 0)
+                        .fromTo(igPop, { y: () => flight().y }, { y: 0, duration: 1, ease: "power2.out" }, 0)
+                        .fromTo(
+                            igPop,
+                            { scale: () => flight().scale, rotation: 0 },
+                            { scale: 1, rotation: restTilt, duration: 1, ease: "power2.inOut" },
+                            0,
+                        )
+                        .fromTo(igPop.querySelector(".globe-pop__shadow"), { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.6)
+                        .fromTo(tittle, { "--dot": 0 }, { "--dot": 1, duration: 0.25, ease: "back.out(2)" }, 0.12);
+                }
+
                 gsap.utils.toArray<HTMLElement>("[data-svc]", root).forEach((section) => {
                     const key = section.dataset.svc as WallServiceKey;
                     const stage = section.querySelector<HTMLElement>(".svc-wall__stage");

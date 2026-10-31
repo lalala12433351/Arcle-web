@@ -1,8 +1,7 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
-import "lenis/dist/lenis.css";
+import { usePageLenis } from "../../hooks/usePageLenis";
 
 const START_INSET_X = 0.3;
 const START_INSET_Y = 0.25;
@@ -55,14 +54,10 @@ const IndustriesVideo = () => {
     const videoBoxRef = useRef<HTMLDivElement>(null);
     const labelRef = useRef<HTMLHeadingElement>(null);
 
+    usePageLenis();
+
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
-
-        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-        lenis.on("scroll", ScrollTrigger.update);
-        const tick = (time: number) => lenis.raf(time * 1000);
-        gsap.ticker.add(tick);
-        gsap.ticker.lagSmoothing(0);
 
         const ctx = gsap.context(() => {
             const box = videoBoxRef.current;
@@ -95,9 +90,6 @@ const IndustriesVideo = () => {
 
         return () => {
             ctx.revert();
-            gsap.ticker.remove(tick);
-            gsap.ticker.lagSmoothing(500, 33);
-            lenis.destroy();
         };
     }, []);
 

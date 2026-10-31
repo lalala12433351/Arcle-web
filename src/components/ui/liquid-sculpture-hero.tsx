@@ -1195,8 +1195,8 @@ const CSS = `
   touch-action:pan-y;display:flex;flex-direction:column;box-sizing:border-box}
 .sh-root *,.sh-root *::before,.sh-root *::after{box-sizing:border-box}
 .sh-stage{position:absolute;inset:0;z-index:0;pointer-events:none}
-.sh-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:transparent;opacity:0;transition:opacity .5s ease}
-.sh-fallback{position:absolute;display:block;max-width:none;user-select:none;-webkit-user-drag:none;opacity:0;visibility:hidden;transition:opacity .5s ease}
+.sh-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:transparent;opacity:0;transition:opacity .5s ease;filter:grayscale(1) brightness(1.22) contrast(.9)}
+.sh-fallback{position:absolute;display:block;max-width:none;user-select:none;-webkit-user-drag:none;opacity:0;visibility:hidden;transition:opacity .5s ease;filter:grayscale(1) brightness(1.22) contrast(.9)}
 .sh-root[data-gl="on"] .sh-canvas{opacity:1}
 .sh-root[data-gl="off"] .sh-fallback{opacity:1;visibility:visible}
 .sh-root[data-swap="1"] .sh-canvas{opacity:0;transition-duration:.25s}
@@ -1222,30 +1222,38 @@ const CSS = `
 .sh-root[data-touched="1"] .sh-hint{opacity:0}
 @keyframes sh-pulse{0%,100%{transform:scale(.6);opacity:.45}50%{transform:scale(1);opacity:1}}
 .sh-spacer{flex:1 1 auto;min-height:0}
-.sh-root[data-showcase="1"]{height:auto;min-height:100svh}
-.sh-root[data-showcase="1"] .sh-spacer{position:relative;min-height:clamp(460px,54vh,680px)}
-.sh-showcase{position:absolute;inset:0;z-index:2;pointer-events:none;color:#b7a48c}
+.sh-root[data-showcase="1"]{height:100svh;min-height:0;max-height:100svh}
+.sh-root[data-showcase="1"] .sh-spacer{position:relative;flex:1 1 auto;min-height:0;margin-top:clamp(8px,2vh,36px)}
+.sh-showcase{position:absolute;inset:0;z-index:2;pointer-events:none;color:#9a9a98}
 .sh-field{position:absolute;inset:0;width:100%;height:100%;opacity:.22}
-.sh-metric{position:absolute;pointer-events:auto;display:flex;align-items:center;gap:12px;width:max-content;max-width:42%;
-  padding:11px 16px 11px 11px;border-radius:18px;background:#fffcf8;color:#1c1916;
-  border:1px solid rgba(92,68,36,.07);
-  box-shadow:0 14px 34px rgba(72,48,22,.08),0 1px 2px rgba(72,48,22,.05)}
-.sh-metric-icon{display:grid;place-items:center;flex:0 0 auto;width:42px;height:42px;border-radius:12px;background:#f3eadf;color:#b08958}
+.sh-metric{position:absolute;pointer-events:auto;cursor:pointer;display:flex;align-items:center;gap:12px;width:max-content;max-width:42%;
+  padding:11px 16px 11px 11px;border-radius:18px;background:#f6f6f5;color:#000;
+  border:1px solid rgba(28,28,28,.08);
+  box-shadow:0 14px 34px rgba(20,20,20,.08),0 1px 2px rgba(20,20,20,.05);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s ease,background-color .35s ease,border-color .35s ease}
+.sh-metric:hover{transform:translateY(-6px);background:#fff;border-color:rgba(0,0,0,.18);
+  box-shadow:0 22px 44px rgba(20,20,20,.14),0 2px 6px rgba(20,20,20,.06)}
+.sh-metric:hover .sh-metric-icon{background:#111;color:#fff}
+.sh-metric-icon{display:grid;place-items:center;flex:0 0 auto;width:42px;height:42px;border-radius:12px;background:#e8e8e6;color:#6a6a68;
+  transition:background-color .35s ease,color .35s ease}
 .sh-metric-copy{display:flex;flex-direction:column;gap:1px;min-width:0}
-.sh-metric-label{font-family:var(--sh-head);font-size:14px;font-weight:650;letter-spacing:-.02em;line-height:1.15;color:#1c1916;white-space:nowrap}
-.sh-metric-value{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;letter-spacing:-.01em;color:#7d5e3a;font-variant-numeric:tabular-nums}
+.sh-metric-label{font-family:var(--sh-head);font-size:14px;font-weight:700;letter-spacing:-.02em;line-height:1.15;color:#000;white-space:nowrap}
+.sh-metric-value{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:650;letter-spacing:-.01em;color:#111;font-variant-numeric:tabular-nums}
 .sh-m-traffic{left:5.5%;top:16%}
 .sh-m-conv{right:17%;top:14%}
 .sh-m-leads{left:4.5%;bottom:16%}
 .sh-m-rev{right:9%;bottom:14%}
 .sh-services{position:absolute;right:1.6%;top:14%;display:flex;align-items:flex-start;gap:12px;margin:0;padding:0;list-style:none}
-.sh-services li{font-size:11px;font-weight:650;letter-spacing:.16em;line-height:1;color:#7a6a56;text-transform:uppercase}
+.sh-services li{font-size:11px;font-weight:650;letter-spacing:.16em;line-height:1;color:#6a6a68;text-transform:uppercase}
 .sh-services-col{display:flex;flex-direction:column;gap:13px}
-.sh-services-rule{width:34px;height:1.5px;margin-top:4px;background:#b08958;flex:none}
-.sh-root[data-mode="dark"] .sh-metric{background:#1a1b1e;color:#f6f3ee;border-color:rgba(255,244,230,.08);box-shadow:0 16px 36px rgba(0,0,0,.38)}
-.sh-root[data-mode="dark"] .sh-metric-label{color:#f6f3ee}
-.sh-root[data-mode="dark"] .sh-metric-icon{background:#2a241c;color:#d7b48a}
-.sh-root[data-mode="dark"] .sh-services li{color:#cbb89a}
+.sh-services-rule{width:34px;height:1.5px;margin-top:4px;background:#8a8a88;flex:none}
+.sh-root[data-mode="dark"] .sh-metric{background:#1a1b1e;color:#fff;border-color:rgba(255,255,255,.08);box-shadow:0 16px 36px rgba(0,0,0,.38)}
+.sh-root[data-mode="dark"] .sh-metric:hover{background:#24262a;border-color:rgba(255,255,255,.22);box-shadow:0 22px 44px rgba(0,0,0,.5)}
+.sh-root[data-mode="dark"] .sh-metric:hover .sh-metric-icon{background:#f3f3f2;color:#111}
+.sh-root[data-mode="dark"] .sh-metric-label{color:#fff}
+.sh-root[data-mode="dark"] .sh-metric-value{color:#f5f5f5}
+.sh-root[data-mode="dark"] .sh-metric-icon{background:#2a2b2e;color:#b4b4b2}
+.sh-root[data-mode="dark"] .sh-services li{color:#b0b0ae}
 @container (max-width:1023px){
   .sh-m-conv{right:4%}
   .sh-m-rev{right:4%}
@@ -1255,7 +1263,7 @@ const CSS = `
   .sh-metric-label{font-size:13px}
 }
 @container (max-width:639px){
-  .sh-root[data-showcase="1"] .sh-spacer{min-height:430px}
+  .sh-root[data-showcase="1"] .sh-spacer{min-height:0}
   .sh-m-traffic{left:12px;top:10px}
   .sh-m-conv{right:12px;top:10px}
   .sh-m-leads{left:12px;bottom:10px}
@@ -1268,14 +1276,17 @@ const CSS = `
 .sh-content{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:end;
   gap:clamp(24px,4cqw,72px);padding:0 clamp(20px,3.2cqw,48px) clamp(28px,3.4cqw,52px)}
 .sh-root .sh-h1,.sh-root .sh-body,.sh-root .sh-eyebrow,.sh-root .sh-hint,.sh-root .sh-txt{color:var(--sh-fg)}
+.sh-root[data-mode="light"] .sh-h1,.sh-root[data-mode="light"] .sh-eyebrow{color:#000}
+.sh-root[data-mode="light"] .sh-eyebrow{opacity:1}
 .sh-root .sh-accent{color:var(--sh-acc)}
 .sh-eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;margin:0 0 clamp(14px,1.6cqw,22px);
   display:flex;align-items:center;gap:12px}
 .sh-eyebrow::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
-.sh-h1{font-family:var(--sh-head);font-weight:500;font-size:clamp(40px,min(6.6cqw,11.5cqh),124px);line-height:.92;letter-spacing:-.045em;margin:0;
+.sh-h1{font-family:var(--sh-head);font-weight:650;font-size:clamp(40px,min(6.6cqw,11.5cqh),124px);line-height:.92;letter-spacing:-.045em;margin:0;
   text-wrap:balance}
 .sh-h1 .sh-line{display:block}
 .sh-accent{font-family:var(--sh-accent);font-style:italic;font-weight:400;letter-spacing:-.02em;color:var(--sh-acc)}
+.sh-root[data-mode="light"] .sh-accent{color:#000}
 .sh-aside{max-width:400px;justify-self:end;padding-bottom:.6em}
 .sh-body{font-size:clamp(15px,1.1cqw,17px);line-height:1.5;letter-spacing:-.01em;margin:0 0 26px;opacity:.78;text-wrap:pretty}
 .sh-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:22px}
@@ -1310,7 +1321,8 @@ const CSS = `
 }
 @media (prefers-reduced-motion:reduce){
   .sh-hint::before{animation:none}
-  .sh-canvas,.sh-fallback,.sh-btn,.sh-btn svg,.sh-txt svg{transition:none}
+  .sh-canvas,.sh-fallback,.sh-btn,.sh-btn svg,.sh-txt svg,.sh-metric,.sh-metric-icon{transition:none}
+  .sh-metric:hover{transform:none}
 }
 `
 
@@ -1556,8 +1568,9 @@ export default function SculptureHero(props: SculptureHeroProps) {
     }
     const nav = navRef.current
     const content = contentRef.current
+    const spacer = root.querySelector<HTMLElement>(".sh-spacer")
     const band = {
-      top: nav ? nav.offsetTop + nav.offsetHeight + 8 : 16,
+      top: spacer ? spacer.offsetTop + 8 : nav ? nav.offsetTop + nav.offsetHeight + 8 : 16,
       bottom: content ? content.offsetTop - 8 : h,
     }
     // a portrait sculpture on phones dissolves into the top of the copy

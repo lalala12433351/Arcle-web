@@ -3,8 +3,8 @@
 }
 
 .client-roster.default-padding {
-    padding-top: 36px;
-    padding-bottom: 36px;
+    padding-top: 72px;
+    padding-bottom: 72px;
 }
 
 .client-roster__heading .sub-title {
@@ -12,7 +12,7 @@
 }
 
 .client-roster__viewport {
-    margin-top: 140px;
+    margin-top: 28px;
     overflow: hidden;
     padding: 8px 0 4px;
 }
@@ -30,19 +30,18 @@
 .client-roster__set {
     display: flex;
     align-items: flex-start;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     flex: 0 0 auto;
     width: max-content;
-    min-width: 100vw;
-    gap: 32px;
+    gap: 40px;
     margin: 0;
-    padding: 0 32px 0 0;
+    padding: 0 40px 0 0;
     list-style: none;
 }
 
 .client-roster__card {
     flex: 0 0 auto;
-    width: 108px;
+    width: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,7 +65,7 @@
 .client-roster__logo {
     display: grid;
     place-items: center;
-    width: 100%;
+    width: auto;
     height: 40px;
     padding: 0;
     background: none;
@@ -85,6 +84,18 @@
     animation: client-roster-float 5.6s ease-in-out infinite;
 }
 
+.client-roster__card--kite .client-roster__logo {
+    width: 30px;
+    justify-items: start;
+}
+
+.client-roster__card--kite .client-roster__logo img {
+    width: calc(36px * 300 / 113);
+    max-width: none;
+    height: 36px;
+    max-height: none;
+}
+
 .client-roster__card:nth-child(4n + 2) .client-roster__logo img {
     animation-delay: -1.4s;
 }
@@ -97,25 +108,11 @@
     animation-delay: -4.2s;
 }
 
-.client-roster__name {
-    margin: 8px 0 0;
-    color: var(--color-heading);
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: 0.01em;
-    text-align: center;
-}
-
 .bg-dark .client-roster__logo {
     background: #ffffff;
     border-radius: 10px;
     padding: 8px 10px;
     height: 52px;
-}
-
-.bg-dark .client-roster__name {
-    color: #ffffff;
 }
 
 @keyframes client-roster-marquee {
@@ -139,21 +136,21 @@
 
 @media (max-width: 767px) {
     .client-roster.default-padding {
-        padding-top: 28px;
-        padding-bottom: 28px;
+        padding-top: 48px;
+        padding-bottom: 48px;
     }
 
     .client-roster__viewport {
-        margin-top: 88px;
+        margin-top: 20px;
     }
 
     .client-roster__set {
-        gap: 22px;
-        padding-right: 22px;
+        gap: 28px;
+        padding-right: 28px;
     }
 
     .client-roster__card {
-        width: 80px;
+        width: auto;
     }
 
     .client-roster__logo,
@@ -165,8 +162,13 @@
         height: 34px;
     }
 
-    .client-roster__name {
-        font-size: 11px;
+    .client-roster__card--kite .client-roster__logo {
+        width: 25px;
+    }
+
+    .client-roster__card--kite .client-roster__logo img {
+        width: calc(30px * 300 / 113);
+        height: 30px;
     }
 }
 

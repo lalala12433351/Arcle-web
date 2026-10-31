@@ -17,7 +17,7 @@ const clients: Client[] = [
     { name: "Mirai", logo: mirai },
 ];
 
-const roster = [...clients, ...clients];
+const roster = Array.from({ length: 6 }, () => clients).flat();
 
 const ClientRoster = () => {
     return (
@@ -46,14 +46,16 @@ const ClientRoster = () => {
                         <ul className="client-roster__set" key={copy} aria-hidden={copy === 1 || undefined}>
                             {roster.map((client, index) => (
                                 <li
-                                    className="client-roster__card"
+                                    className={`client-roster__card${client.name === "Kite aviation" ? " client-roster__card--kite" : ""}`}
                                     key={`${copy}-${client.name}-${index}`}
                                     aria-hidden={index >= clients.length ? true : undefined}
                                 >
                                     <div className="client-roster__logo">
-                                        <img src={client.logo} alt="" />
+                                        <img
+                                            src={client.logo}
+                                            alt={index >= clients.length || copy === 1 ? "" : client.name}
+                                        />
                                     </div>
-                                    <p className="client-roster__name">{client.name}</p>
                                 </li>
                             ))}
                         </ul>

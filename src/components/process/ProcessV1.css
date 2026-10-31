@@ -1,0 +1,99 @@
+.process-step__filters {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+.process-style-one-item .item > .process-step__marker {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	bottom: auto;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: #236bff;
+	font-size: 0;
+	font-weight: 400;
+	line-height: 0;
+	opacity: 0;
+	pointer-events: none;
+	z-index: 2;
+}
+
+.process-step .item img.process-step__tint {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin: 0;
+	transform: translateX(-50%);
+	opacity: 0;
+	pointer-events: none;
+	filter: var(--step-filter);
+}
+
+@media (min-width: 1024px) {
+	.process-style-one-item:nth-child(2n) .item img.process-step__tint {
+		top: 30px;
+	}
+}
+
+.process-step--motion .process-step {
+	background-color: transparent;
+	box-shadow: none;
+	transition: background-color 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-step--motion .process-step .item {
+	transition: background-color 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-step--motion .process-step .item h4,
+.process-step--motion .process-step .item p,
+.process-step--motion .process-step .icon img {
+	transition: color 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-step--motion .process-step.is-active .item h4 {
+	color: #236bff;
+}
+
+.bg-dark .process-step--motion .process-step.is-active .item p {
+	color: var(--color-paragraph);
+}
+
+.process-step--motion .process-step.is-active .process-step__tint,
+.process-step--motion .process-step.is-complete .item > .process-step__marker {
+	opacity: 1;
+}
+
+.process-step--motion .process-step.is-active .icon > img:not(.process-step__tint) {
+	opacity: 0;
+}
+
+@media (min-width: 992px) {
+	.process-step--motion .process-step.is-active {
+		z-index: 2;
+		background-color: #fff;
+		box-shadow: inset 0 0 0 1.5px #236bff, 0 10px 24px rgba(35, 107, 255, 0.08);
+	}
+}
+
+@media (max-width: 991px) {
+	.process-step--motion .process-step.is-active .item {
+		background-color: #fff;
+		border-color: #236bff;
+		box-shadow: 0 10px 24px rgba(35, 107, 255, 0.08);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.process-step--motion .process-step,
+	.process-step--motion .process-step .item,
+	.process-step--motion .process-step .item h4,
+	.process-step--motion .process-step .item p,
+	.process-step--motion .process-step .icon img {
+		transition: none;
+	}
+}

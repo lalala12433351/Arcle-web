@@ -58,7 +58,7 @@ const DeferredInfiniteMenu = () => {
 import FooterV1 from "../../components/footer/FooterV1";
 import HeaderV1 from "../../components/header/HeaderV1";
 import ProjectIdeaV1 from "../../components/project/ProjectIdeaV1";
-import ServicesV1 from "../../components/services/ServicesV1";
+import WhatWeDoSequence from "../../components/services/WhatWeDoSequence";
 import ThemeDark from "../../components/switcher/ThemeDark";
 import WhyChooseV1 from "../../components/whyChoose/WhyChooseV1";
 import SculptureHero from "@/components/ui/liquid-sculpture-hero";
@@ -128,7 +128,6 @@ const Home1 = () => {
                             { label: "More Leads", value: "+120%", icon: "leads" },
                             { label: "More Revenue", value: "+200%", icon: "revenue" },
                         ]}
-                        showcaseServices={["SEO", "ADS", "SOCIAL", "WEBSITES", "APPS", "AUTOMATION"]}
                         theme={isDark ? "dark" : "light"}
                         background="#ffffff"
                         darkBackground="#0e0f11"
@@ -150,19 +149,13 @@ const Home1 = () => {
                 </div>
                 <AboutV7 />
                 <IndustriesVideo />
-                <ServicesV1
-                    sectionClass="default-padding"
-                    hasTitle={true}
-                    subTitle="What We Do"
-                    title="One Strategy. Every Channel."
-                    stacked
-                />
+                <ClientRoster />
+                <WhatWeDoSequence />
                 <WhyChooseV1 sectionClass="default-padding" />
                 <div className="default-padding bg-gray">
                     <ExpertiseV1 />
                 </div>
                 <GrowthTogetherVideo />
-                <ClientRoster />
                 <div className="default-padding bg-gray overflow-hidden" style={{ position: "relative" }}>
                     <ProjectIdeaV1 />
                 </div>

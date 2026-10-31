@@ -56,7 +56,7 @@ const ServicesPage = () => {
                                 <nav className="services-wall__pops" aria-label="Social">
                                     <a
                                         className="globe-pop globe-pop--ig"
-                                        href="https://www.instagram.com/"
+                                        href="https://www.instagram.com/arcletechnologies/"
                                         target="_blank"
                                         rel="noreferrer"
                                     >
@@ -74,7 +74,7 @@ const ServicesPage = () => {
                                     </a>
                                     <a
                                         className="globe-pop globe-pop--in"
-                                        href="https://www.linkedin.com/"
+                                        href="https://www.linkedin.com/company/arcle-technologies/home/"
                                         target="_blank"
                                         rel="noreferrer"
                                     >
@@ -90,7 +90,7 @@ const ServicesPage = () => {
                                     </a>
                                     <a
                                         className="globe-pop globe-pop--fb"
-                                        href="https://www.facebook.com/"
+                                        href="https://www.facebook.com/arcletechnologies"
                                         target="_blank"
                                         rel="noreferrer"
                                     >

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import SplitText from "../animation/SplitText.jsx"
 import LineSidebar from "../LineSidebar.jsx"
 import CursorGrid from "../CursorGrid.jsx"
@@ -170,9 +169,6 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                                     fontSize={1.4}
                                     itemGap={28}
                                 />
-                                <Link className="btn-animation mt-10" to="/about-2">
-                                    <i className="fas fa-arrow-right" /> <span>Know More</span>
-                                </Link>
                             </div>
                         </div>
                         <div className="col-lg-7 pl-80 pl-md-15 pl-xs-15">

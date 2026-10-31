@@ -1,14 +1,54 @@
 'use client';
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import type React from 'react';
+import { motion, useReducedMotion, type Transition } from 'motion/react';
 import './TrueFocus.css';
 
-const CORNERS = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+const CORNERS = ['top-left', 'top-right', 'bottom-left', 'bottom-right'] as const;
 const FRAME_GAP = 10;
-const SMOOTH_EASE = [0.65, 0, 0.35, 1];
+const SMOOTH_EASE = [0.65, 0, 0.35, 1] as const;
 const SMOOTH_CSS = 'cubic-bezier(0.65, 0, 0.35, 1)';
 const SPRING_CSS = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+type Corner = (typeof CORNERS)[number];
+type FocusStyle = 'brackets' | 'box' | 'underline' | 'highlight';
+type FocusOrder = 'sequential' | 'random';
+type FocusEasing = 'smooth' | 'spring';
+
+type TrueFocusProps = {
+  sentence?: string;
+  separator?: string;
+  manualMode?: boolean;
+  focusStyle?: FocusStyle;
+  order?: FocusOrder;
+  easing?: FocusEasing;
+  blurAmount?: number;
+  focusScale?: number;
+  borderColor?: string;
+  highlightColor?: string;
+  glowColor?: string;
+  animationDuration?: number;
+  pauseBetweenAnimations?: number;
+  cornerSize?: number;
+  borderWidth?: number;
+  unfocusedOpacity?: number;
+};
+
+type FocusRect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+type FocusFrameStyle = React.CSSProperties & {
+  '--border-color': string;
+  '--highlight-color': string;
+  '--glow-color': string;
+  '--corner-size': string;
+  '--border-width': string;
+};
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
@@ -29,17 +69,17 @@ const TrueFocus = ({
   cornerSize = 16,
   borderWidth = 3,
   unfocusedOpacity = 1
-}) => {
+}: TrueFocusProps) => {
   const words = sentence.split(separator).filter(word => word.trim() !== '');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [focusRect, setFocusRect] = useState(null);
-  const containerRef = useRef(null);
-  const wordRefs = useRef([]);
+  const [focusRect, setFocusRect] = useState<FocusRect | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const reduceMotion = useReducedMotion();
   const duration = reduceMotion ? 0 : animationDuration;
   const activeIndex = words.length ? currentIndex % words.length : -1;
   const spring = easing === 'spring' && !reduceMotion;
-  const transition = spring
+  const transition: Transition = spring
     ? { type: 'spring', visualDuration: duration, bounce: 0.38 }
     : { duration, ease: SMOOTH_EASE };
 
@@ -66,7 +106,7 @@ const TrueFocus = ({
     if (!container || !word) return;
 
     const measure = () => {
-      const next = { x: word.offsetLeft, y: word.offsetTop, width: word.offsetWidth, height: word.offsetHeight };
+      const next: FocusRect = { x: word.offsetLeft, y: word.offsetTop, width: word.offsetWidth, height: word.offsetHeight };
       setFocusRect(prev =>
         prev && prev.x === next.x && prev.y === next.y && prev.width === next.width && prev.height === next.height
           ? prev
@@ -89,7 +129,7 @@ const TrueFocus = ({
     height: focusRect.height * focusScale
   };
 
-  const corners = frame && {
+  const corners: Record<Corner, { x: number; y: number }> | null = frame && {
     'top-left': { x: frame.x - FRAME_GAP, y: frame.y - FRAME_GAP },
     'top-right': { x: frame.x + frame.width + FRAME_GAP - cornerSize, y: frame.y - FRAME_GAP },
     'bottom-left': { x: frame.x - FRAME_GAP, y: frame.y + frame.height + FRAME_GAP - cornerSize },
@@ -120,7 +160,7 @@ const TrueFocus = ({
     }
   };
 
-  const frameStyle = {
+  const frameStyle: FocusFrameStyle = {
     '--border-color': borderColor,
     '--highlight-color': `color-mix(in srgb, ${highlightColor ?? borderColor} 30%, transparent)`,
     '--glow-color': glowColor,

@@ -130,7 +130,7 @@ const useContactScroll = (rootRef: RefObject<HTMLElement | null>) => {
                     gsap.fromTo(
                         q(".cx-map__frame"),
                         { clipPath: wide ? "inset(8% 8% 0% 8% round 36px)" : "inset(4% 4% 0% 4% round 24px)" },
-                        { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "none", scrollTrigger: scrub },
+                        { clipPath: "inset(0% 0% 0% 0% round 28px)", ease: "none", scrollTrigger: scrub },
                     );
                     gsap.fromTo(q(".cx-map__frame iframe"), { scale: 1.15 }, { scale: 1, ease: "none", scrollTrigger: scrub });
                     gsap.from(q(".cx-map__card"), {

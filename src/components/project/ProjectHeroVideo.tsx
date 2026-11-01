@@ -7,6 +7,7 @@ import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { ArrowUpRight } from "lucide-react";
 import { works } from "../../content/works";
+import { scrollWindowToTop } from "../utilities/RoutesScrollToTop";
 import "./ProjectHeroVideo.css";
 
 const HEADLINE = ["You’ve heard what we do.", "Here’s what it looks like."];
@@ -105,10 +106,15 @@ const ProjectHeroVideo = () => {
     useLayoutEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
         gsap.registerPlugin(ScrollTrigger);
         const root = document.documentElement;
+
+        // Drop the page we came from before Lenis snapshots window.scrollY.
+        ScrollTrigger.clearScrollMemory("manual");
+        scrollWindowToTop();
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
         root.classList.add("work-gallery-smooth");
 
         const lenis = new Lenis({
@@ -117,7 +123,14 @@ const ProjectHeroVideo = () => {
             wheelMultiplier: 0.9,
             touchMultiplier: 1.4,
         });
+        lenis.scrollTo(0, { immediate: true, force: true });
         lenis.on("scroll", ScrollTrigger.update);
+
+        const pinToTop = () => {
+            ScrollTrigger.clearScrollMemory("manual");
+            scrollWindowToTop();
+            lenis.scrollTo(0, { immediate: true, force: true });
+        };
         const tick = (time: number) => lenis.raf(time * 1000);
         gsap.ticker.add(tick);
         gsap.ticker.lagSmoothing(0);
@@ -223,7 +236,12 @@ const ProjectHeroVideo = () => {
             });
         }, section);
 
-        requestAnimationFrame(() => ScrollTrigger.refresh());
+        pinToTop();
+        // Refresh measures triggers. It also writes back any scroll it recorded, so pin again after.
+        requestAnimationFrame(() => {
+            ScrollTrigger.refresh();
+            pinToTop();
+        });
 
         return () => {
             detachTilt?.();

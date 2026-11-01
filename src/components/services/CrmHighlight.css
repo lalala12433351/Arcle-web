@@ -16,8 +16,6 @@
 
 .crm-highlight__copy {
     max-width: 40rem;
-    padding: 6px 0 6px clamp(20px, 2.5vw, 32px);
-    border-left: 2px solid var(--color-primary);
 }
 
 .crm-highlight .crm-highlight__name,
@@ -129,10 +127,6 @@
 }
 
 @media (max-width: 575px) {
-    .crm-highlight__copy {
-        padding-left: 18px;
-    }
-
     .crm-highlight .crm-highlight__headline {
         font-size: 1.85rem;
     }

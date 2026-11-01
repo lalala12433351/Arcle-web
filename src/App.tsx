@@ -24,8 +24,8 @@ import Dependency from './components/utilities/Dependency';
 function App() {
   return (
     <>
-      <Routers />
       <RoutesScrollToTop />
+      <Routers />
       <Dependency />
     </>
   )

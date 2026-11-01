@@ -175,13 +175,6 @@ const WhatWeDoSequence = () => {
 
                     let box = metrics();
 
-                    let lastProgress = 0;
-                    let lastTravel = -1;
-                    let lastTotal = -1;
-                    let lastY = 0;
-                    let sample = 0;
-                    let lastLog = 0;
-
                     ScrollTrigger.create({
                         trigger: section,
                         start: "top top",
@@ -193,6 +186,9 @@ const WhatWeDoSequence = () => {
                         scrub: 0.7,
                         anticipatePin: 1,
                         invalidateOnRefresh: true,
+                        // Opt into document-order refreshes. This pin is created before the
+                        // industries pin, and without sorting its start misses that spacer.
+                        refreshPriority: 0,
                         onUpdate: (self) => {
                             const { vh, travel, total, crmTop, hrTop } = box;
                             const px = self.progress * total;
@@ -214,37 +210,13 @@ const WhatWeDoSequence = () => {
                             const hrP = visibleAt(hrTop);
                             crmTl.progress(crmP);
                             hrTl.progress(hrP);
-
-                            // #region agent log
-                            const now = Date.now();
-                            const dProgress = self.progress - lastProgress;
-                            const travelChanged = lastTravel >= 0 && Math.abs(travel - lastTravel) > 1;
-                            const totalChanged = lastTotal >= 0 && Math.abs(total - lastTotal) > 1;
-                            const yJump = Math.abs(-traveled - lastY) > 48 && Math.abs(dProgress) < 0.02;
-                            const progressJump = Math.abs(dProgress) > 0.04;
-                            sample += 1;
-                            if ((travelChanged || totalChanged || yJump || progressJump || (self.isActive && sample % 12 === 0)) && now - lastLog > 40) {
-                                lastLog = now;
-                                const liveTravel = Math.max(0, track.scrollHeight - vh);
-                                fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'60fdc9'},body:JSON.stringify({sessionId:'60fdc9',runId:'post-fix',hypothesisId: travelChanged||totalChanged?'B':yJump?'D':progressJump?'A':'C',location:'WhatWeDoSequence.tsx:onUpdate',message:'wwd scroll sample',data:{progress:+self.progress.toFixed(4),dProgress:+dProgress.toFixed(4),direction:self.direction,isActive:self.isActive,vh,travel,liveTravel,total,traveled:+traveled.toFixed(1),handoff:+handoff.toFixed(3),crmP:+crmP.toFixed(3),hrP:+hrP.toFixed(3),scrollY:+window.scrollY.toFixed(1)},timestamp:now})}).catch(()=>{});
-                            }
-                            lastProgress = self.progress;
-                            lastTravel = travel;
-                            lastTotal = total;
-                            lastY = -traveled;
-                            // #endregion
                         },
                     });
                 }
             );
         }, section);
 
-        const refresh = () => {
-            // #region agent log
-            fetch('http://127.0.0.1:7251/ingest/a12d87f4-a06c-4cf5-b621-9ab42de99697',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'60fdc9'},body:JSON.stringify({sessionId:'60fdc9',runId:'pre',hypothesisId:'E',location:'WhatWeDoSequence.tsx:refresh',message:'ScrollTrigger.refresh',data:{scrollY:window.scrollY,trackH:track.scrollHeight,sectionH:section.offsetHeight},timestamp:Date.now()})}).catch(()=>{});
-            // #endregion
-            ScrollTrigger.refresh();
-        };
+        const refresh = () => ScrollTrigger.refresh();
         const images = Array.from(track.querySelectorAll("img"));
         images.forEach((img) => {
             if (!img.complete) img.addEventListener("load", refresh);

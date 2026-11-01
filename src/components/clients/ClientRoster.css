@@ -3,8 +3,12 @@
 }
 
 .client-roster.default-padding {
-    padding-top: 72px;
-    padding-bottom: 72px;
+    padding-top: 40px;
+    padding-bottom: 32px;
+}
+
+.client-roster__heading {
+    margin-bottom: 0;
 }
 
 .client-roster__heading .sub-title {
@@ -12,9 +16,11 @@
 }
 
 .client-roster__viewport {
-    margin-top: 28px;
+    margin-top: 133px;
     overflow: hidden;
-    padding: 8px 0 4px;
+    padding: 8px 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 72px, #000 calc(100% - 72px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 72px, #000 calc(100% - 72px), transparent);
 }
 
 .client-roster__track {
@@ -29,13 +35,13 @@
 
 .client-roster__set {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     flex: 0 0 auto;
     width: max-content;
-    gap: 40px;
+    gap: 88px;
     margin: 0;
-    padding: 0 40px 0 0;
+    padding: 0 88px 0 0;
     list-style: none;
 }
 
@@ -136,17 +142,19 @@
 
 @media (max-width: 767px) {
     .client-roster.default-padding {
-        padding-top: 48px;
-        padding-bottom: 48px;
+        padding-top: 32px;
+        padding-bottom: 24px;
     }
 
     .client-roster__viewport {
-        margin-top: 20px;
+        margin-top: 125px;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 32px, #000 calc(100% - 32px), transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 32px, #000 calc(100% - 32px), transparent);
     }
 
     .client-roster__set {
-        gap: 28px;
-        padding-right: 28px;
+        gap: 56px;
+        padding-right: 56px;
     }
 
     .client-roster__card {

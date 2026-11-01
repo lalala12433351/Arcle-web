@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
+import { scrollWindowToTop } from "../components/utilities/RoutesScrollToTop";
 
 let lenis: Lenis | null = null;
 let users = 0;
@@ -35,6 +36,8 @@ function releasePageLenis() {
     lenis.destroy();
     lenis = null;
     ticker = null;
+    // Drop the offset from the page we're leaving before the next page's scroller reads it.
+    scrollWindowToTop();
 }
 
 export function usePageLenis(enabled = true) {

@@ -87,6 +87,13 @@
     will-change: transform, opacity;
 }
 
+.wwd a.btn-full {
+    flex: 0 0 auto;
+    gap: 16px;
+    padding: 5px 5px 5px 22px;
+    white-space: nowrap;
+}
+
 .bg-dark .wwd a.btn-full {
     border-color: #dddddd;
     color: #04000b;

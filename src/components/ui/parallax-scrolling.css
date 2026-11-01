@@ -1,0 +1,327 @@
+/* Layered scroll hero for the Arcle home banner.
+   Photo layers are taller than the frame so the GSAP yPercent travel
+   still covers the viewport. Masks keep each photo in its depth band. */
+
+.arcle-parallax-hero {
+  position: relative;
+  background: #101114;
+  color: #f4f4f2;
+}
+
+.parallax__header {
+  position: relative;
+  z-index: 2;
+}
+
+.parallax__visuals {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  background: #101114;
+}
+
+.parallax__layers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.parallax__layers img.parallax__layer-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  max-width: none;
+  height: 117.5%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Person cutout paints above the headline so the type passes behind him on scroll. */
+.parallax__layer-img--front {
+  z-index: 4;
+}
+
+.parallax__layer-title {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  font-family: "Manrope", sans-serif;
+}
+
+.parallax__aside {
+  position: absolute;
+  top: 58%;
+  right: clamp(20px, 5vw, 80px);
+  width: min(32rem, 40vw);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 18px;
+  text-align: right;
+}
+
+.parallax__eyebrow {
+  position: absolute;
+  top: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(244, 244, 242, 0.82);
+}
+
+.parallax__eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+}
+
+.parallax__title {
+  position: absolute;
+  top: 132px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  width: min(96vw, 16ch);
+  max-width: none;
+  text-align: center;
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(64px, 11.4vw, 172px);
+  font-weight: 650;
+  font-style: normal;
+  font-synthesis: none;
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+  color: #f7f6f1;
+  text-shadow: 0 12px 40px rgba(10, 12, 16, 0.45);
+}
+
+.parallax__title-line {
+  display: block;
+  font-family: "Manrope", sans-serif;
+  font-style: normal;
+  font-synthesis: none;
+}
+
+.parallax__title-line--accent {
+  font-family: "Manrope", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-synthesis: none;
+  letter-spacing: -0.03em;
+}
+
+.parallax__body {
+  max-width: 36rem;
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(15px, 1.25vw, 17px);
+  font-style: normal;
+  font-synthesis: none;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: rgba(244, 244, 242, 0.92);
+  text-wrap: pretty;
+  text-shadow: 0 8px 24px rgba(10, 12, 16, 0.55);
+}
+
+.parallax__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 22px;
+  pointer-events: auto;
+}
+
+.parallax__btn {
+  display: inline-flex;
+  align-items: center;
+  height: 46px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: #f4f4f2;
+  color: #151514;
+  text-decoration: none;
+  font-family: "Manrope", sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.parallax__btn:hover {
+  transform: translateY(-1px);
+  color: #151514;
+}
+
+.parallax__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(244, 244, 242, 0.35);
+  color: #f4f4f2;
+  text-decoration: none;
+  font-family: "Manrope", sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.parallax__link svg {
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.parallax__link:hover {
+  color: #fff;
+}
+
+.parallax__link:hover svg {
+  transform: translateX(3px);
+}
+
+.parallax__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(10, 12, 16, 0.28) 0%, transparent 22%, transparent 70%, rgba(10, 12, 16, 0.2) 100%);
+}
+
+.parallax__fade {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 6;
+  width: 100%;
+  height: 18%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--white, #fff));
+}
+
+body.bg-dark .parallax__fade {
+  background: linear-gradient(to bottom, transparent, #0e0f11);
+}
+
+.parallax__black-line-overflow {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  z-index: 20;
+  width: 100%;
+  height: 2px;
+  background: var(--white, #fff);
+  pointer-events: none;
+}
+
+body.bg-dark .parallax__black-line-overflow {
+  background: #0e0f11;
+}
+
+.parallax__cue {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  color: rgba(21, 21, 20, 0.72);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+body.bg-dark .parallax__cue {
+  color: rgba(244, 244, 242, 0.72);
+}
+
+.parallax__ctas a:focus-visible,
+.parallax__btn:focus-visible,
+.parallax__link:focus-visible {
+  outline: 2px solid #f4f4f2;
+  outline-offset: 4px;
+}
+
+/* Light wordmark sits on the photograph until the nav sticks. */
+body:has(.arcle-parallax-hero) nav.navbar.validnavs.navbar-fixed.arcle-compact-nav.no-background.white ul.nav > li > a,
+body:has(.arcle-parallax-hero) nav.navbar.validnavs.navbar-fixed.arcle-compact-nav.no-background.white ul.nav > li > a:hover,
+body:has(.arcle-parallax-hero) nav.navbar.validnavs.navbar-fixed.arcle-compact-nav.no-background.white .navbar-toggle i {
+  color: #f4f4f2;
+}
+
+@media (max-width: 767px) {
+  .parallax__eyebrow {
+    top: 78px;
+  }
+
+  .parallax__aside {
+    top: 68%;
+    right: 20px;
+    left: 20px;
+    width: auto;
+    gap: 14px;
+  }
+
+  .parallax__title {
+    top: 108px;
+    width: min(96vw, 12ch);
+    font-size: clamp(56px, 15vw, 92px);
+  }
+
+  .parallax__body {
+    font-size: 15px;
+  }
+
+  .parallax__ctas {
+    gap: 16px;
+  }
+}
+
+@media (max-height: 640px) {
+  .parallax__eyebrow {
+    top: 68px;
+  }
+
+  .parallax__title {
+    top: 92px;
+    font-size: clamp(48px, 8.4vw, 96px);
+  }
+
+  .parallax__aside {
+    top: 66%;
+  }
+
+  .parallax__body {
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax__btn,
+  .parallax__link svg {
+    transition: none;
+  }
+}

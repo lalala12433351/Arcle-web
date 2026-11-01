@@ -562,15 +562,19 @@ body.bg-dark .cx-page {
 /* Map */
 .cx-map {
     position: relative;
+    padding: 0 clamp(20px, 6vw, 96px) clamp(48px, 6vw, 88px);
     background: var(--cx-sheet);
 }
 
 .cx-map__frame {
     position: relative;
+    width: min(100%, 960px);
     height: clamp(440px, 72vh, 720px);
+    margin-inline: auto;
     overflow: hidden;
+    border-radius: 28px;
     background: var(--cx-bg);
-    clip-path: inset(0% 0% 0% 0% round 0px);
+    clip-path: inset(0% 0% 0% 0% round 28px);
 }
 
 .cx-map__frame iframe {

@@ -18,17 +18,27 @@ const WhyChooseV1 = ({ sectionClass }: DataType) => {
 
     return (
         <>
-            <div className={`${sectionClass ? sectionClass : ""}`}>
-                <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-lg-10">
-                            <div className="choose-us-style-one why-arcle-statement">
-                                <h2 className="why-arcle-statement__title">
-                                    <ShinyText text="Built" className="why-arcle-statement__wide" {...baseShine} />
-                                    <ShinyText text="Around" className="why-arcle-statement__wide" {...baseShine} />
-                                    <ShinyText text="Business" className="why-arcle-statement__wide" {...baseShine} />
-                                    <ShinyText text="Results" {...blueShine} />
-                                </h2>
+            <div className="why-arcle">
+                <div className="why-arcle-statement__stage">
+                    <div className="container">
+                        <div className="row justify-content-center">
+                            <div className="col-lg-10">
+                                <div className="choose-us-style-one why-arcle-statement">
+                                    <h2 className="why-arcle-statement__title">
+                                        <ShinyText text="Built" className="why-arcle-statement__wide" {...baseShine} />
+                                        <ShinyText text="Around" className="why-arcle-statement__wide" {...baseShine} />
+                                        <ShinyText text="Business" className="why-arcle-statement__wide" {...baseShine} />
+                                        <ShinyText text="Results" {...blueShine} />
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={sectionClass ? sectionClass : ""}>
+                    <div className="container">
+                        <div className="row justify-content-center">
+                            <div className="col-lg-10">
                                 <div className="faq-style-one accordion why-arcle-statement__list" id="whyAccordion">
                                     {whyPoints.map((point, index) => {
                                         const panelId = `why-collapse-${index}`;

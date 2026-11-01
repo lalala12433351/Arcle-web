@@ -6,7 +6,6 @@ import ExpertiseV1 from "../../components/expertise/ExpertiseV1";
 import FaqV1 from "../../components/faq/FaqV1";
 import menuItems from "../../components/infinite-menu/menuItems";
 import { useSiteTheme } from "../../hooks/useSiteTheme";
-import useHeroScrollTransition from "../../hooks/useHeroScrollTransition";
 
 const InfiniteMenu = lazy(() => import("../../components/infinite-menu/InfiniteMenu"));
 
@@ -28,7 +27,7 @@ const DeferredInfiniteMenu = () => {
     }, []);
 
     return (
-        <div ref={frameRef} style={{ height: 600, position: "relative", marginTop: "clamp(48px, 6vw, 96px)" }}>
+        <div ref={frameRef} style={{ height: "100svh", minHeight: 720, position: "relative", marginTop: "clamp(48px, 6vw, 96px)" }}>
             {ready && (
                 <Suspense fallback={null}>
                     <InfiniteMenu
@@ -61,7 +60,7 @@ import ProjectIdeaV1 from "../../components/project/ProjectIdeaV1";
 import WhatWeDoSequence from "../../components/services/WhatWeDoSequence";
 import ThemeDark from "../../components/switcher/ThemeDark";
 import WhyChooseV1 from "../../components/whyChoose/WhyChooseV1";
-import SculptureHero from "@/components/ui/liquid-sculpture-hero";
+import { ParallaxComponent } from "@/components/ui/parallax-scrolling";
 import IndustriesVideo from "../../components/videos/IndustriesVideo";
 import GrowthTogetherVideo from "../../components/videos/GrowthTogetherVideo";
 import ClientRoster from "../../components/clients/ClientRoster";
@@ -82,9 +81,6 @@ const faqSchema = {
 
 const Home1 = () => {
     const isDark = useSiteTheme();
-    const heroRef = useRef<HTMLDivElement>(null);
-    const heroNextRef = useRef<HTMLDivElement>(null);
-    useHeroScrollTransition(heroRef, heroNextRef);
 
     useEffect(() => {
         const script = document.createElement("script");
@@ -109,44 +105,14 @@ const Home1 = () => {
 
             <div className="smooth-scroll-container">
                 <HeaderV1 />
-                <div ref={heroRef}>
-                    <SculptureHero
-                        brand="Arcle"
-                        showNav={false}
-                        themeToggle={false}
-                        showCredit={false}
-                        eyebrow="AI-powered digital marketing — India"
-                        headline={arcleMeta.headline}
-                        headlineAccent="brand"
-                        body={arcleMeta.heroParagraphs[0]}
-                        primaryCta={{ label: "Start a project", href: "/contact-us" }}
-                        secondaryCta={{ label: "Our services", href: "/services" }}
-                        backdropText=""
-                        showcaseMetrics={[
-                            { label: "More Traffic", value: "+180%", icon: "traffic" },
-                            { label: "Higher Conversions", value: "+95%", icon: "conversions" },
-                            { label: "More Leads", value: "+120%", icon: "leads" },
-                            { label: "More Revenue", value: "+200%", icon: "revenue" },
-                        ]}
-                        theme={isDark ? "dark" : "light"}
-                        background="#ffffff"
-                        darkBackground="#0e0f11"
-                        sculptureScale={0.78}
-                        mobileSculptureScale={0.62}
-                        dotSize={0.4}
-                        hint="Move across the form"
-                        hintTouch="Touch the form"
-                        headingFont='"Manrope", var(--font-heading), sans-serif'
-                        accentFont='"Manrope", var(--font-heading), sans-serif'
-                        bodyFont='"Manrope", var(--font-default), sans-serif'
-                        loadFonts={false}
-                        intro
-                        style={{ paddingTop: "72px" }}
-                    />
-                </div>
-                <div ref={heroNextRef}>
-                    <DeferredInfiniteMenu />
-                </div>
+                <ParallaxComponent
+                    eyebrow="AI-powered digital marketing — India"
+                    title={arcleMeta.headline}
+                    body={arcleMeta.heroParagraphs[0]}
+                    primaryCta={{ label: "Start a project", href: "/contact-us" }}
+                    secondaryCta={{ label: "Our services", href: "/services" }}
+                />
+                <DeferredInfiniteMenu />
                 <AboutV7 />
                 <IndustriesVideo />
                 <ClientRoster />

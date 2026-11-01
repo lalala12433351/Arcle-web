@@ -41,7 +41,7 @@ const Home1Light = () => {
                         borderColor="rgba(4, 0, 11, 0.12)"
                     />
                 </div>
-                <div style={{ height: 600, position: 'relative' }}>
+                <div style={{ height: "100svh", minHeight: 720, position: 'relative' }}>
                     <InfiniteMenu
                         items={menuItems}
                         count={160}

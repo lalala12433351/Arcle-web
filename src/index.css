@@ -13,14 +13,35 @@
   --default-font-family: "Manrope", sans-serif;
 }
 
-/* Site-wide Manrope — covers Bootstrap, Tailwind, and component defaults */
+/* Site-wide Manrope. Italic synthesis is off so a missing italic
+   face cannot swap the headline for a serif. */
 html,
 body,
 button,
 input,
 select,
-textarea {
-  font-family: "Manrope", var(--font-default), sans-serif;
+textarea,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+li,
+label {
+  font-family: "Manrope", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-synthesis: none;
 }
 
 /* Tailwind's `collapse` utility fights Bootstrap's navbar/accordion class of the same name. */
@@ -100,8 +121,23 @@ a.services-style-one-item {
 .choose-us-style-one.why-arcle-statement {
   text-align: center;
 }
+/* Full-viewport band. The top inset matches the sticky nav so the type
+   is centered in the space under the header, with equal space above and below. */
+.why-arcle-statement__stage {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding-top: 83px;
+}
+@media (min-width: 1024px) {
+  .why-arcle-statement__stage {
+    padding-top: 65px;
+  }
+}
 .why-arcle-statement__title {
-  margin: 0 auto 60px;
+  margin: 0 auto;
   font-size: clamp(56px, 11vw, 170px);
   font-weight: 800;
   line-height: 0.92;

@@ -109,9 +109,9 @@ const Home1 = () => {
                         primaryCta={{ label: "Start a project", href: "/contact-us" }}
                         secondaryCta={{ label: "Our services", href: "/services" }}
                     />
-                    <DeferredInfiniteMenu />
-                    <AboutV7 />
                     <IndustriesVideo />
+                    <AboutV7 />
+                    <DeferredInfiniteMenu />
                     <ClientRoster />
                     <WhatWeDoSequence />
                     <WhyChooseV1 sectionClass="default-padding" />

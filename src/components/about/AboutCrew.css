@@ -1,14 +1,10 @@
 .about-crew {
-    --crew-accent: #236bff;
-    --crew-accent-ink: #174ed4;
-    --crew-muted: color-mix(in srgb, var(--color-heading) 64%, #5b6b8c);
-    --crew-line: color-mix(in srgb, var(--color-heading) 10%, transparent);
-    --crew-frame: #e7eaf0;
-    --crew-surface: #f6f8fc;
-    --crew-surface-hover: #ffffff;
-    --crew-tint: color-mix(in srgb, var(--crew-accent) 9%, transparent);
-    --crew-pill-line: color-mix(in srgb, var(--color-heading) 14%, transparent);
-    --crew-body: color-mix(in srgb, var(--color-heading) 78%, #5b6b8c);
+    --crew-accent: var(--color-heading);
+    --crew-muted: color-mix(in srgb, var(--color-heading) 62%, transparent);
+    --crew-line: color-mix(in srgb, var(--color-heading) 12%, transparent);
+    --crew-frame: color-mix(in srgb, var(--color-heading) 6%, transparent);
+    --crew-pill-line: color-mix(in srgb, var(--color-heading) 16%, transparent);
+    --crew-body: color-mix(in srgb, var(--color-heading) 78%, transparent);
     --crew-ease: cubic-bezier(0.16, 1, 0.3, 1);
 
     position: relative;
@@ -24,8 +20,8 @@
 }
 
 .about-crew ::selection {
-    background: var(--crew-accent);
-    color: #ffffff;
+    background: var(--color-heading);
+    color: var(--white);
 }
 
 .about-crew__head {
@@ -101,7 +97,6 @@
 
 .about-crew__fact a:hover,
 .about-crew__fact a:focus-visible {
-    color: var(--crew-accent-ink);
     text-decoration-color: currentColor;
 }
 
@@ -136,26 +131,42 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    gap: clamp(16px, 1.6vw, 24px);
+    gap: 0;
+    border-top: 1px solid var(--crew-line);
 }
 
 .about-crew__person {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: clamp(22px, 2.2vw, 32px);
-    border: 1px solid var(--crew-line);
-    border-radius: 24px;
-    background: var(--crew-surface);
-    transition: transform 0.6s var(--crew-ease), box-shadow 0.6s var(--crew-ease),
-        border-color 0.4s ease, background-color 0.4s ease;
+    padding: clamp(28px, 3vw, 40px) clamp(20px, 2.4vw, 36px) 0;
+    border-left: 1px solid var(--crew-line);
 }
 
-.about-crew__person:hover {
-    transform: translateY(-4px);
-    border-color: color-mix(in srgb, var(--crew-accent) 22%, transparent);
-    background: var(--crew-surface-hover);
-    box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--crew-accent) 35%, transparent);
+.about-crew__person:first-child {
+    padding-left: 0;
+    border-left: 0;
+}
+
+.about-crew__person:last-child {
+    padding-right: 0;
+}
+
+.about-crew__person::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--crew-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--crew-ease);
+}
+
+.about-crew__person:hover::before {
+    transform: scaleX(1);
 }
 
 .about-crew__id {
@@ -185,21 +196,11 @@
     object-position: var(--crew-pos, 50% 20%);
     transform: scale(var(--crew-zoom, 1));
     transform-origin: var(--crew-pos, 50% 20%);
-    transition: transform 0.7s var(--crew-ease), filter 0.5s ease;
+    transition: transform 0.7s var(--crew-ease);
 }
 
 .about-crew__person:hover .about-crew__frame img {
     transform: scale(calc(var(--crew-zoom, 1) * 1.06));
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .about-crew__frame img {
-        filter: grayscale(1) contrast(1.04);
-    }
-
-    .about-crew__person:hover .about-crew__frame img {
-        filter: none;
-    }
 }
 
 .about-crew__who {
@@ -221,13 +222,11 @@
 
 .about-crew__role {
     margin: 0;
-    padding: 5px 11px;
-    border-radius: 999px;
-    color: var(--crew-accent-ink);
-    background: var(--crew-tint);
+    color: var(--crew-muted);
     font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     line-height: 1.35;
 }
 
@@ -262,21 +261,16 @@
 }
 
 .about-crew__person:hover .about-crew__tags li {
-    border-color: color-mix(in srgb, var(--crew-accent) 32%, transparent);
-    color: var(--crew-accent-ink);
-    background: var(--crew-tint);
+    border-color: var(--crew-accent);
 }
 
 .bg-dark .about-crew {
-    --crew-muted: color-mix(in srgb, #ffffff 68%, #8eaae8);
-    --crew-body: color-mix(in srgb, #ffffff 80%, #8eaae8);
-    --crew-line: rgba(255, 255, 255, 0.1);
-    --crew-pill-line: rgba(255, 255, 255, 0.16);
-    --crew-tint: rgba(35, 107, 255, 0.18);
+    --crew-accent: #ffffff;
+    --crew-muted: rgba(255, 255, 255, 0.66);
+    --crew-body: rgba(255, 255, 255, 0.8);
+    --crew-line: rgba(255, 255, 255, 0.12);
+    --crew-pill-line: rgba(255, 255, 255, 0.18);
     --crew-frame: rgba(255, 255, 255, 0.07);
-    --crew-surface: rgba(255, 255, 255, 0.04);
-    --crew-surface-hover: rgba(255, 255, 255, 0.07);
-    --crew-accent-ink: #9db7ff;
 
     color: #ffffff;
     background: var(--dark);
@@ -302,9 +296,16 @@
         grid-template-columns: 1fr;
     }
 
-    .about-crew__person {
-        padding: 22px;
-        border-radius: 20px;
+    .about-crew__row {
+        border-top: 0;
+    }
+
+    .about-crew__person,
+    .about-crew__person:first-child,
+    .about-crew__person:last-child {
+        padding: 24px 0;
+        border-left: 0;
+        border-top: 1px solid var(--crew-line);
     }
 
     .about-crew__id {
@@ -327,15 +328,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .about-crew__person,
+    .about-crew__person::before,
     .about-crew__frame img,
     .about-crew__tags li,
     .about-crew__fact a {
         transition: none;
-    }
-
-    .about-crew__person:hover {
-        transform: none;
     }
 
     .about-crew__person:hover .about-crew__frame img {

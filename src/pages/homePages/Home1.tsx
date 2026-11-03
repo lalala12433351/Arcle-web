@@ -78,8 +78,6 @@ const faqSchema = {
 };
 
 const Home1 = () => {
-    const isDark = useSiteTheme();
-
     useEffect(() => {
         const script = document.createElement("script");
         script.type = "application/ld+json";

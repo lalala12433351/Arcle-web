@@ -107,7 +107,8 @@ const AboutV7 = ({ sectionClass }: DataType) => {
 
             let copyLeft = 0;
             stepRefs.current.forEach((el, stepIndex) => {
-                const body = el?.querySelector<HTMLElement>(".strategy-step-body");
+                if (!el) return;
+                const body = el.querySelector<HTMLElement>(".strategy-step-body");
                 const heading = body?.querySelector("h3");
                 if (!body || !heading) return;
                 const applied = Number(body.dataset.offset || 0);

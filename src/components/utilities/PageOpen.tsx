@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useLayoutEffect, useState, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
-const PageReadyContext = createContext<() => void>(() => {});
+const PageReadyContext = createContext<() => (() => void) | void>(() => {});
 
 const prefersReducedMotion = () =>
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -6,7 +6,7 @@ import ServicesV1Data from "../../../src/assets/jsonData/services/ServicesV1Data
 import { Helmet } from "react-helmet-async";
 import ThemeDark from "../../components/switcher/ThemeDark";
 import { services as serviceCatalog } from "../../content/arcleHome";
-import { serviceSlug } from "../../content/serviceSlug";
+import { isFocusService, serviceSlug } from "../../content/serviceSlug";
 
 const ServiceDetailsPage = () => {
 
@@ -22,8 +22,9 @@ const ServiceDetailsPage = () => {
         ? { id: 0, title: fromCatalog.title, text: fromCatalog.summary }
         : undefined);
 
-    if (data && ["seo", "development", "creative"].includes(serviceSlug(data.title))) {
-        return <Navigate to="/services" replace />;
+    const focusSlug = data ? serviceSlug(data.title) : "";
+    if (isFocusService(focusSlug)) {
+        return <Navigate to={`/services/${focusSlug}`} replace />;
     }
 
     return (

@@ -12,7 +12,7 @@ const results = [
     { domain: "business-daily.in", headline: "How to hire a marketing team" },
 ];
 
-const RankStack = () => (
+export const RankStack = () => (
     <div className="svc-seo">
         <div className="svc-seo__rig">
             {results.map((result) => (

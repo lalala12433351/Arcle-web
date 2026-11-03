@@ -46,7 +46,7 @@ const ClientRoster = () => {
                         <ul className="client-roster__set" key={copy} aria-hidden={copy === 1 || undefined}>
                             {roster.map((client, index) => (
                                 <li
-                                    className={`client-roster__card${client.name === "Kite aviation" ? " client-roster__card--kite" : ""}`}
+                                    className={`client-roster__card${client.name === "Kite aviation" ? " client-roster__card--kite" : ""}${client.name === "Design Arc" ? " client-roster__card--design-arc" : ""}`}
                                     key={`${copy}-${client.name}-${index}`}
                                     aria-hidden={index >= clients.length ? true : undefined}
                                 >

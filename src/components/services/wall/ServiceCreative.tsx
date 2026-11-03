@@ -13,7 +13,7 @@ const faceMap: Record<string, number> = {
     "Video Creatives": 5,
 };
 
-const BrandCube = () => (
+export const BrandCube = () => (
     <div className="svc-cre">
         <div className="svc-cre__shadow" />
         <div className="svc-cre__tilt">

@@ -8,7 +8,6 @@ const ExpertiseV1 = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="site-heading">
-                                <h4 className="sub-title">Process</h4>
                                 <h2 className="title">From Audit to Growth</h2>
                             </div>
                         </div>

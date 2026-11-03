@@ -1,36 +1,56 @@
 .wwd,
 .bg-dark .wwd {
     position: relative;
+    flex-shrink: 0;
+    width: 100%;
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
-    background: #ffffff;
+    background: transparent;
 }
 
 .wwd__track {
-    will-change: transform;
+    position: relative;
+    height: 100%;
 }
 
-.wwd__intro {
+.wwd__intro,
+.wwd__panel {
     box-sizing: border-box;
-    position: relative;
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding-top: 72px;
+    height: 100%;
+    min-height: 0;
 }
 
-.wwd__bar {
-    position: absolute;
-    top: 88px;
-    left: 0;
-    right: 0;
-    display: flex;
+.wwd__intro {
+    /* Pin starts 96px down, so twice that offset lands the line on the
+       viewport center rather than the top of the pinned section. */
     align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+    padding-bottom: 192px;
+}
+
+.wwd__panel {
+    /* Extra space below the centered card lifts it without pinning it to the header. */
+    align-items: center;
+    padding: 12px clamp(20px, 2.6vw, 40px) clamp(112px, 14vh, 168px);
+    opacity: 0;
+    transform: scale(0.84);
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.wwd__panel > section {
+    width: 100%;
+    border-radius: 28px;
+    background: #ffffff;
+    box-shadow:
+        0 0 0 1px rgb(4 0 11 / 0.06),
+        0 22px 48px -24px rgb(4 0 11 / 0.32);
+    overflow: hidden;
 }
 
 .wwd__lines {
@@ -47,15 +67,10 @@
     text-align: center;
 }
 
-.wwd__kicker,
-.bg-dark .wwd__kicker {
-    margin-bottom: 0;
-    color: #04000b;
-    border-color: #cccccc;
-}
-
 .wwd__title,
-.bg-dark .wwd__title {
+.wwd__support,
+.bg-dark .wwd__title,
+.bg-dark .wwd__support {
     margin: 0;
     font-family: var(--font-heading), "Manrope", sans-serif;
     font-size: 60px;
@@ -63,6 +78,10 @@
     line-height: 1.05;
     letter-spacing: -0.035em;
     color: #04000b;
+}
+
+.wwd__title,
+.bg-dark .wwd__title {
     transform-origin: center center;
     will-change: transform, opacity;
 }
@@ -74,64 +93,90 @@
 
 .wwd__support,
 .bg-dark .wwd__support {
-    margin: 0 auto;
-    max-width: 16em;
-    font-family: var(--font-heading), "Manrope", sans-serif;
-    font-size: 44px;
-    font-weight: 500;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-    color: #04000b;
+    max-width: none;
     opacity: 0;
     transform: translateY(28px);
     will-change: transform, opacity;
 }
 
-.wwd a.btn-full {
-    flex: 0 0 auto;
-    gap: 16px;
-    padding: 5px 5px 5px 22px;
-    white-space: nowrap;
+.wwd .container {
+    width: 100%;
+    max-width: none;
+    padding-inline: clamp(36px, 4.2vw, 72px);
 }
 
-.bg-dark .wwd a.btn-full {
-    border-color: #dddddd;
-    color: #04000b;
-    background: transparent;
-}
-
-.bg-dark .wwd a.btn-full i {
-    border-color: #e7e7e7;
-    color: #04000b;
-    background: transparent;
-}
-
-.wwd .crm-highlight.default-padding {
-    padding-top: 24px;
-    padding-bottom: 72px;
-}
-
+.wwd .crm-highlight.default-padding,
 .wwd .hr-solutions.default-padding {
-    padding-top: 72px;
-    padding-bottom: 96px;
+    padding-top: clamp(28px, 3.2vh, 44px);
+    padding-bottom: clamp(64px, 8vh, 96px);
+}
+
+.wwd .hr-solutions__layout {
+    align-items: center;
+}
+
+.wwd .hr-solutions__stage {
+    height: clamp(340px, 42vh, 480px);
+    margin-top: 0;
+}
+
+.wwd .crm-highlight__stage {
+    height: clamp(320px, 38vh, 440px);
+}
+
+.wwd .crm-highlight__shot--dashboard {
+    top: 2%;
+    right: 10%;
+}
+
+.wwd .crm-highlight__shot--leads {
+    top: 30%;
+    right: 5%;
+}
+
+.wwd .hr-solutions__shot--attendance {
+    top: 2%;
+    left: 4%;
+}
+
+.wwd .hr-solutions__shot--report {
+    top: 46%;
+    right: 5%;
 }
 
 .wwd--static,
 .bg-dark .wwd--static {
     height: auto;
     overflow: visible;
+    background: #ffffff;
+}
+
+.wwd--static .wwd__track {
+    height: auto;
+}
+
+.wwd--static .wwd__intro,
+.wwd--static .wwd__panel {
+    position: relative;
+    inset: auto;
+    height: auto;
+    min-height: 0;
+    display: block;
+    padding: 0;
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+}
+
+.wwd--static .wwd__panel > section {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 .wwd--static .wwd__intro {
-    min-height: 0;
-    display: block;
-    padding-top: 120px;
+    padding-top: 0;
     padding-bottom: 28px;
-}
-
-.wwd--static .wwd__bar {
-    position: static;
-    margin-bottom: 36px;
 }
 
 .wwd--static .wwd__lines {
@@ -155,16 +200,21 @@
 
     .wwd__support,
     .bg-dark .wwd__support {
-        font-size: 28px;
+        font-size: 36px;
     }
 
-    .wwd--static .wwd__intro {
-        padding-top: 72px;
+    .wwd .container {
+        padding-inline: 24px;
     }
 
-    .wwd .hr-solutions.default-padding {
-        padding-top: 48px;
-        padding-bottom: 64px;
+    .wwd__panel {
+        padding-bottom: 72px;
+    }
+
+    .wwd .hr-solutions.default-padding,
+    .wwd .crm-highlight.default-padding {
+        padding-top: 24px;
+        padding-bottom: 48px;
     }
 }
 
@@ -173,18 +223,35 @@
     .bg-dark .wwd {
         height: auto;
         overflow: visible;
+        background: #ffffff;
+    }
+
+    .wwd__track {
+        height: auto;
+    }
+
+    .wwd__intro,
+    .wwd__panel {
+        position: relative;
+        inset: auto;
+        height: auto;
+        min-height: 0;
+        display: block;
+        padding: 0;
+        opacity: 1;
+        transform: none;
+        will-change: auto;
+    }
+
+    .wwd__panel > section {
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
     }
 
     .wwd__intro {
-        min-height: 0;
-        display: block;
-        padding-top: 120px;
+        padding-top: 0;
         padding-bottom: 28px;
-    }
-
-    .wwd__bar {
-        position: static;
-        margin-bottom: 36px;
     }
 
     .wwd__lines {

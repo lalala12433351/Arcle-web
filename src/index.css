@@ -121,24 +121,18 @@ a.services-style-one-item {
 .choose-us-style-one.why-arcle-statement {
   text-align: center;
 }
-/* Full-viewport band. The top inset matches the sticky nav so the type
-   is centered in the space under the header, with equal space above and below. */
+/* Sits just under the HR solutions block, with a short lead-in before the type. */
 .why-arcle-statement__stage {
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   box-sizing: border-box;
-  padding-top: 83px;
-}
-@media (min-width: 1024px) {
-  .why-arcle-statement__stage {
-    padding-top: 65px;
-  }
+  padding-top: clamp(28px, 4vw, 48px);
+  padding-bottom: 8px;
 }
 .why-arcle-statement__title {
   margin: 0 auto;
-  font-size: clamp(56px, 11vw, 170px);
+  font-size: clamp(50px, 9vw, 130px);
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: -0.03em;
@@ -192,6 +186,52 @@ a.services-style-one-item {
 .arcle-route-fallback {
   min-height: 40vh;
 }
+
+/* Page open: content settles in while a curtain lifts off the viewport. */
+.page-open-view {
+  animation: page-open-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes page-open-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-open-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  background: var(--white, #ffffff);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 0.72s cubic-bezier(0.76, 0, 0.24, 1);
+  box-shadow: 0 1px 0 rgba(21, 21, 20, 0.14);
+}
+
+body.bg-dark .page-open-curtain {
+  background: var(--dark, #0e0f11);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.page-open-curtain.is-covered {
+  transform: scaleY(1);
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-open-view {
+    animation: none;
+  }
+
+  .page-open-curtain {
+    display: none;
+  }
+}
 .navbar .nav > li > a {
   letter-spacing: 0.01em;
 }
@@ -199,8 +239,11 @@ a.services-style-one-item {
   max-height: 70vh;
   overflow: auto;
 }
-nav.navbar.arcle-compact-nav .navbar-brand > img {
+/* One logo size for every header, at rest and when sticky. */
+nav.navbar.validnavs .navbar-brand > img {
   height: 32px;
+  width: auto;
+  max-height: none;
 }
 /* Keep nav labels readable over the white hero.
    Specificity beats the later .no-background.white rule in validnavs.css. */
@@ -219,16 +262,14 @@ nav.navbar.validnavs.arcle-compact-nav.no-background .navbar-brand img.logo {
 }
 nav.navbar.validnavs.arcle-compact-nav.no-background .navbar-brand img.logo-dark {
   display: block !important;
-  height: 32px;
-  width: auto;
 }
-body.bg-dark nav.navbar.validnavs.arcle-compact-nav.no-background .navbar-brand img.logo.logo-display {
+body.bg-dark nav.navbar.validnavs.arcle-compact-nav.no-background .navbar-brand img.logo.logo-display,
+nav.navbar.validnavs.arcle-compact-nav.arcle-nav--on-dark.no-background .navbar-brand img.logo.logo-display {
   display: block !important;
-  height: 32px;
-  width: auto;
 }
 body.bg-dark nav.navbar.validnavs.arcle-compact-nav.no-background .navbar-brand img.logo.logo-scrolled,
-body.bg-dark nav.navbar.validnavs.arcle-compact-nav.no-background .navbar-brand img.logo-dark {
+body.bg-dark nav.navbar.validnavs.arcle-compact-nav.no-background .navbar-brand img.logo-dark,
+nav.navbar.validnavs.arcle-compact-nav.arcle-nav--on-dark.no-background .navbar-brand img.logo-dark {
   display: none !important;
 }
 @media (min-width: 1024px) {
@@ -331,6 +372,92 @@ body.bg-dark nav.navbar.validnavs.arcle-compact-nav.no-background .navbar-brand 
   .arcle-footer__phones {
     align-items: flex-start;
   }
+}
+
+/* One vertical step between every home section. 120px is the site section
+   step; mobile matches .default-padding. Outer padding on each block is
+   cleared so this gap is the only space between them. */
+.home-flow {
+  --home-pad: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--home-pad);
+}
+
+.home-flow > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.home-flow .about-style-seven-area.default-padding,
+.home-flow > .default-padding,
+.home-flow > .default-padding-top,
+.home-flow .client-roster.default-padding,
+.home-flow .faq-area.default-padding,
+.home-flow .why-arcle > .default-padding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.home-flow .why-arcle-statement__stage {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.home-flow .why-arcle > .default-padding {
+  padding-top: 60px;
+}
+
+.home-flow .strategy-before > .container .title {
+  margin-top: 0;
+}
+
+.home-flow .client-roster__viewport {
+  margin-top: 60px;
+}
+
+.home-flow .industries-side {
+  padding: 60px 30px 0;
+}
+
+.home-flow .wwd .hr-solutions.default-padding,
+.home-flow .wwd .crm-highlight.default-padding {
+  padding-top: clamp(28px, 3.2vh, 44px);
+  padding-bottom: clamp(64px, 8vh, 96px);
+}
+
+.home-flow .arcle-footer__bar {
+  padding-top: 0;
+}
+
+@media (max-width: 767px) {
+  .home-flow {
+    --home-pad: 60px;
+  }
+
+  .home-flow .why-arcle > .default-padding {
+    padding-top: 40px;
+  }
+
+  .home-flow .client-roster__viewport {
+    margin-top: 40px;
+  }
+
+  .home-flow .client-roster.default-padding {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .home-flow .industries-side {
+    padding: 40px 16px 0;
+  }
+
+  .home-flow .wwd .hr-solutions.default-padding,
+  .home-flow .wwd .crm-highlight.default-padding {
+    padding-top: 24px;
+    padding-bottom: 56px;
+  }
+
 }
 
 /* Home hero → next section: the section rises over the pinned hero (desktop only).

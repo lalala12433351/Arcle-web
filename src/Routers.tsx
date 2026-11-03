@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { PageOpenView } from "./components/utilities/PageOpen";
 import Home1 from "./pages/homePages/Home1";
 const Home2 = lazy(() => import("./pages/homePages/Home2"));
 const Home3 = lazy(() => import("./pages/homePages/Home3"));
@@ -53,6 +54,7 @@ const Services2Page = lazy(() => import("./pages/servicesPages/Services2Page"));
 const Services3Page = lazy(() => import("./pages/servicesPages/Services3Page"));
 const Services4Page = lazy(() => import("./pages/servicesPages/Services4Page"));
 const ServiceDetailsPage = lazy(() => import("./pages/servicesPages/ServiceDetailsPage"));
+const ServiceSlugPage = lazy(() => import("./pages/servicesPages/ServiceSlugPage"));
 
 // Services Light
 const ServicesLightPage = lazy(() => import("./pages/servicesPages/ServicesLightPage"));
@@ -95,9 +97,12 @@ const PrivacyPage = lazy(() => import("./pages/innerPages/LegalPage").then((m) =
 const TermsPage = lazy(() => import("./pages/innerPages/LegalPage").then((m) => ({ default: m.TermsPage })));
 
 const Routers = () => {
+    const { pathname } = useLocation();
+
     return (
         <>
             <Suspense fallback={<div className="arcle-route-fallback" role="status" aria-label="Loading page" />}>
+            <PageOpenView key={pathname}>
             <Routes>
 
                 <Route path='/' element={<Home1 />}></Route>
@@ -165,10 +170,7 @@ const Routers = () => {
 
                 {/* Services Page */}
                 <Route path='/services' element={<ServicesPage />}></Route>
-                <Route path='/services/seo' element={<Navigate to="/services" replace />}></Route>
-                <Route path='/services/development' element={<Navigate to="/services" replace />}></Route>
-                <Route path='/services/creative' element={<Navigate to="/services" replace />}></Route>
-                <Route path='/services/:slug' element={<ServiceDetailsPage />}></Route>
+                <Route path='/services/:slug' element={<ServiceSlugPage />}></Route>
                 <Route path='/services-2' element={<Services2Page />}></Route>
                 <Route path='/services-3' element={<Services3Page />}></Route>
                 <Route path='/services-4' element={<Services4Page />}></Route>
@@ -210,6 +212,7 @@ const Routers = () => {
 
                 <Route path='*' element={<NotFoundPage />}></Route>
             </Routes>
+            </PageOpenView>
             </Suspense>
         </>
     );

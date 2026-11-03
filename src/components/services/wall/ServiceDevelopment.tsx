@@ -16,7 +16,7 @@ const codeLines: Token[][] = [
     [["", "}"]],
 ];
 
-const ExplodedBuild = () => (
+export const ExplodedBuild = () => (
     <div className="svc-dev">
         <div className="svc-dev__rig">
             <div className="svc-dev__layer svc-dev__layer--code">

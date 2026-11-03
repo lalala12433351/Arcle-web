@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import type { WallServiceKey } from "./serviceWallContent";
 
 interface ServiceGroup {
@@ -37,7 +38,7 @@ const ServiceWallSection = ({
             data-svc={service}
             aria-labelledby={headingId}
         >
-            <div className="svc-wall__scene">
+            <Link className="svc-wall__scene" to={`/services/${service}`}>
                 <div className="svc-wall__copy">
                     <h2 className="svc-wall__title" id={headingId}>
                         <span className="svc-wall__title-mask">
@@ -66,12 +67,15 @@ const ServiceWallSection = ({
                             </ul>
                         </div>
                     ))}
+                    <span className="svc-wall__cta">
+                        View service <i className="fas fa-arrow-right" aria-hidden="true" />
+                    </span>
                 </div>
 
                 <div className="svc-wall__stage" role="img" aria-label={visualLabel}>
                     {visual}
                 </div>
-            </div>
+            </Link>
         </section>
     );
 };

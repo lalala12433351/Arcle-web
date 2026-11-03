@@ -90,16 +90,25 @@
     animation: client-roster-float 5.6s ease-in-out infinite;
 }
 
+.client-roster__card--kite .client-roster__logo,
+.client-roster__card--design-arc .client-roster__logo {
+    height: 58px;
+}
+
 .client-roster__card--kite .client-roster__logo {
-    width: 30px;
+    width: 45px;
     justify-items: start;
 }
 
 .client-roster__card--kite .client-roster__logo img {
-    width: calc(36px * 300 / 113);
+    width: calc(54px * 300 / 113);
     max-width: none;
-    height: 36px;
+    height: 54px;
     max-height: none;
+}
+
+.client-roster__card--design-arc .client-roster__logo img {
+    max-height: 54px;
 }
 
 .client-roster__card:nth-child(4n + 2) .client-roster__logo img {
@@ -170,13 +179,23 @@
         height: 34px;
     }
 
+    .client-roster__card--kite .client-roster__logo,
+    .client-roster__card--design-arc .client-roster__logo {
+        height: 48px;
+        max-height: none;
+    }
+
     .client-roster__card--kite .client-roster__logo {
-        width: 25px;
+        width: 37px;
     }
 
     .client-roster__card--kite .client-roster__logo img {
-        width: calc(30px * 300 / 113);
-        height: 30px;
+        width: calc(44px * 300 / 113);
+        height: 44px;
+    }
+
+    .client-roster__card--design-arc .client-roster__logo img {
+        max-height: 44px;
     }
 }
 

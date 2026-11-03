@@ -1,7 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Link } from "react-router-dom";
 import { EncryptedText } from "@/components/ui/encrypted-text";
 import { usePageLenis } from "../../hooks/usePageLenis";
 import CrmHighlight from "./CrmHighlight";
@@ -11,9 +10,10 @@ import "./WhatWeDoSequence.css";
 const TITLE = "One Solution For Your Brand";
 const SUPPORT = "We provide everything your brand needs";
 
-/* Fractions of the pinned viewport. The title exits while the support line arrives, then the panels travel. */
+/* Fractions of the pinned viewport. The title exits while the support line arrives, then each product frame settles in the same viewport. */
 const HANDOFF = 0.7;
-const HOLD = 1.05;
+const SUPPORT_HOLD = 0.22;
+const SETTLE = 0.4;
 
 const WhatWeDoSequence = () => {
     const sectionRef = useRef<HTMLElement>(null);
@@ -148,41 +148,45 @@ const WhatWeDoSequence = () => {
                     crmTl.progress(0);
                     hrTl.progress(0);
 
-                    const offsetWithin = (node: HTMLElement | null) => {
-                        if (!node) return 0;
-                        let y = 0;
-                        let el: HTMLElement | null = node;
-                        while (el && el !== track) {
-                            y += el.offsetTop;
-                            el = el.offsetParent as HTMLElement | null;
-                        }
-                        return y;
-                    };
+                    const contentHeight = (panel: HTMLElement) =>
+                        (panel.firstElementChild as HTMLElement | null)?.offsetHeight ?? panel.offsetHeight;
+
+                    type Phase = { name: string; start: number; end: number };
 
                     const metrics = () => {
                         const vh = section.offsetHeight || window.innerHeight;
-                        let content = 0;
-                        for (const child of Array.from(track.children) as HTMLElement[]) content += child.offsetHeight;
-                        const travel = Math.max(0, content - vh);
-                        return {
-                            vh,
-                            travel,
-                            total: vh * HOLD + travel,
-                            crmTop: offsetWithin(crm.querySelector<HTMLElement>(".crm-highlight__stage")),
-                            hrTop: offsetWithin(hr.querySelector<HTMLElement>(".hr-solutions__stage")),
+                        const phases: Phase[] = [];
+                        let cursor = 0;
+                        const add = (name: string, length: number) => {
+                            if (length <= 0) return;
+                            phases.push({ name, start: cursor, end: cursor + length });
+                            cursor += length;
                         };
+                        const crmExtra = Math.max(0, contentHeight(crm) - vh);
+                        const hrExtra = Math.max(0, contentHeight(hr) - vh);
+                        add("intro", vh * (HANDOFF + SUPPORT_HOLD));
+                        add("toCrm", vh * 0.75);
+                        add("crmRead", crmExtra);
+                        add("crmHold", vh * SETTLE);
+                        add("toHr", vh * 0.75);
+                        add("hrRead", hrExtra);
+                        add("hrHold", vh * SETTLE);
+                        return { vh, total: cursor, phases, crmExtra, hrExtra };
                     };
 
                     let box = metrics();
 
                     ScrollTrigger.create({
                         trigger: section,
-                        start: "top top",
+                        start: "top 96px",
                         end: () => {
                             box = metrics();
                             return `+=${box.total}`;
                         },
                         pin: true,
+                        // .home-flow is a flex column. ScrollTrigger skips pin spacing for flex
+                        // children, so everything after this section scrolls over the pin.
+                        pinSpacing: true,
                         scrub: 0.7,
                         anticipatePin: 1,
                         invalidateOnRefresh: true,
@@ -190,26 +194,78 @@ const WhatWeDoSequence = () => {
                         // industries pin, and without sorting its start misses that spacer.
                         refreshPriority: 0,
                         onUpdate: (self) => {
-                            const { vh, travel, total, crmTop, hrTop } = box;
+                            const { vh, total, phases, crmExtra, hrExtra } = box;
                             const px = self.progress * total;
+                            const phase = phases.find((item) => px <= item.end) ?? phases[phases.length - 1];
+                            const local = !phase || phase.end === phase.start
+                                ? 1
+                                : gsap.utils.clamp(0, 1, (px - phase.start) / (phase.end - phase.start));
                             const handoff = gsap.utils.clamp(0, 1, px / (vh * HANDOFF));
                             const supportP = gsap.utils.clamp(0, 1, (handoff - 0.2) / 0.8);
+                            // Fade in place. A large upward move plus the scale was
+                            // pushing the line through the header and off the screen.
                             gsap.set(title, {
-                                y: -handoff * vh * 0.34,
-                                scale: 1 + handoff * 0.7,
+                                y: -handoff * 12,
+                                scale: 1 + handoff * 0.06,
                                 opacity: 1 - gsap.utils.clamp(0, 1, handoff / 0.82),
                             });
                             gsap.set(support, {
                                 opacity: supportP,
                                 y: (1 - supportP) * 28,
                             });
-                            const traveled = Math.max(0, px - vh * HOLD);
-                            gsap.set(track, { y: -traveled });
-                            const visibleAt = (top: number) => gsap.utils.clamp(0, 1, (vh - (top - traveled)) / (vh * 0.8));
-                            const crmP = visibleAt(crmTop);
-                            const hrP = visibleAt(hrTop);
-                            crmTl.progress(crmP);
-                            hrTl.progress(hrP);
+
+                            const rise = mobile ? 64 : vh * 0.1;
+                            const solid = (t: number) => gsap.utils.clamp(0, 1, t / 0.33);
+                            const CARD_FROM = 0.84;
+
+                            let introOpacity = 0;
+                            let crmOpacity = 0;
+                            let hrOpacity = 0;
+                            let introY = 0;
+                            let crmY = rise;
+                            let hrY = rise;
+                            let introScale = 1;
+                            let crmScale = CARD_FROM;
+                            let hrScale = CARD_FROM;
+                            let crmEnter = 0;
+                            let hrEnter = 0;
+
+                            if (!phase || phase.name === "intro") {
+                                introOpacity = 1;
+                            } else if (phase.name === "toCrm") {
+                                introOpacity = 1 - solid(local);
+                                introScale = 1 - local * 0.06;
+                                introY = -local * 24;
+                                crmEnter = local;
+                                crmOpacity = solid(local);
+                                crmScale = CARD_FROM + local * (1 - CARD_FROM);
+                                crmY = (1 - local) * rise;
+                            } else if (phase.name === "crmRead" || phase.name === "crmHold") {
+                                crmOpacity = 1;
+                                crmScale = 1;
+                                crmEnter = 1;
+                                crmY = phase.name === "crmRead" ? -local * crmExtra : -crmExtra;
+                            } else if (phase.name === "toHr") {
+                                crmOpacity = 1 - solid(local);
+                                crmScale = 1 - local * 0.06;
+                                crmEnter = 1;
+                                crmY = -crmExtra;
+                                hrEnter = local;
+                                hrOpacity = solid(local);
+                                hrScale = CARD_FROM + local * (1 - CARD_FROM);
+                                hrY = (1 - local) * rise;
+                            } else {
+                                hrOpacity = 1;
+                                hrScale = 1;
+                                hrEnter = 1;
+                                hrY = phase.name === "hrRead" ? -local * hrExtra : -hrExtra;
+                            }
+
+                            gsap.set(intro, { opacity: introOpacity, y: introY, scale: introScale, transformOrigin: "center center" });
+                            gsap.set(crm, { opacity: crmOpacity, y: crmY, scale: crmScale, transformOrigin: "center center" });
+                            gsap.set(hr, { opacity: hrOpacity, y: hrY, scale: hrScale, transformOrigin: "center center" });
+                            crmTl.progress(crmEnter);
+                            hrTl.progress(hrEnter);
                         },
                     });
                 }
@@ -238,12 +294,6 @@ const WhatWeDoSequence = () => {
         >
             <div className="wwd__track" ref={trackRef}>
                 <div className="wwd__intro" ref={introRef}>
-                    <div className="container wwd__bar">
-                        <h4 className="sub-title wwd__kicker">What We Do</h4>
-                        <Link className="btn-full services-stack-cta" to="/services">
-                            Read More <i className="fas fa-arrow-right" />
-                        </Link>
-                    </div>
                     <div className="wwd__lines">
                         <h2 className="wwd__title" id="what-we-do-title" ref={titleRef}>
                             <EncryptedText
@@ -258,10 +308,10 @@ const WhatWeDoSequence = () => {
                         </p>
                     </div>
                 </div>
-                <div ref={crmRef}>
+                <div className="wwd__panel" ref={crmRef}>
                     <CrmHighlight embedded={!reduce} />
                 </div>
-                <div ref={hrRef}>
+                <div className="wwd__panel" ref={hrRef}>
                     <HrSolutions embedded={!reduce} />
                 </div>
             </div>

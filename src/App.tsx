@@ -19,13 +19,16 @@ import '../src/assets/css/style.css'
 
 import Routers from './Routers';
 import RoutesScrollToTop from './components/utilities/RoutesScrollToTop';
+import PageOpen from './components/utilities/PageOpen';
 import Dependency from './components/utilities/Dependency';
 
 function App() {
   return (
     <>
       <RoutesScrollToTop />
-      <Routers />
+      <PageOpen>
+        <Routers />
+      </PageOpen>
       <Dependency />
     </>
   )

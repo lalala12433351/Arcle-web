@@ -46,64 +46,121 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
             (context) => {
                 const { pinned, motion, finePointer } = context.conditions as Record<string, boolean>;
                 const cleanups: Array<() => void> = [];
+                const hero = root.querySelector<HTMLElement>(".services-wall__hero");
+                const tilt = root.querySelector<HTMLElement>(".services-wall__tilt");
 
-                const globe = root.querySelector<HTMLElement>(".services-wall__globe");
-                const banner = root.querySelector<HTMLElement>(".services-wall__banner");
-                if (motion && globe && banner) {
-                    gsap.to(globe, {
-                        y: 140,
-                        opacity: 0.15,
-                        ease: "none",
-                        scrollTrigger: { trigger: banner, start: 0, end: "bottom top", scrub: true },
-                    });
-                }
+                if (hero && motion) {
+                    const lede = hero.querySelector<HTMLElement>(".services-wall__lede");
+                    const cue = hero.querySelector<HTMLElement>(".services-wall__cue");
+                    const heroLine = hero.querySelector<HTMLElement>(".services-wall__line--hero");
+                    const restWords = gsap.utils.toArray<HTMLElement>(".services-wall__line--rest .services-wall__word", hero);
+                    const foot = hero.querySelector<HTMLElement>(".services-wall__foot");
 
-                const igPop = root.querySelector<HTMLElement>(".globe-pop--ig");
-                const tittle = root.querySelector<HTMLElement>(".services-wall__tittle");
-                if (motion && globe && banner && igPop && tittle) {
-                    const restTilt = gsap.getProperty(igPop, "rotation") as number;
-                    // Offset from the icon's resting spot on the globe to the i's dot, measured with scroll transforms lifted.
-                    const flight = () => {
-                        const saved = [igPop.style.transform, globe.style.transform];
-                        igPop.style.transform = globe.style.transform = "none";
-                        const dot = tittle.getBoundingClientRect();
-                        const pop = igPop.getBoundingClientRect();
-                        [igPop.style.transform, globe.style.transform] = saved;
-                        const restX = pop.left + pop.width / 2;
-                        const restY = pop.top + pop.height / 2;
-                        return {
-                            x: dot.left + dot.width / 2 - restX,
-                            y: dot.top + dot.height / 2 - restY,
-                            scale: dot.width / igPop.offsetWidth,
-                            dotTop: dot.top + window.scrollY,
-                            restTop: restY - igPop.offsetHeight / 2 + window.scrollY,
-                        };
-                    };
+                    if (heroLine && window.scrollY < 8) {
+                        const rect = heroLine.getBoundingClientRect();
+                        const nav = document.querySelector("nav");
+                        const navBottom = nav?.getBoundingClientRect().bottom ?? 0;
+                        gsap.set(heroLine, {
+                            transformOrigin: "50% 50%",
+                            scale: 0.82,
+                            x: window.innerWidth / 2 - (rect.left + rect.width / 2),
+                            y: navBottom + (window.innerHeight - navBottom) / 2 - (rect.top + rect.height / 2),
+                        });
+                        gsap.set(restWords, { autoAlpha: 0, y: 36 });
+                        if (foot) gsap.set(foot, { autoAlpha: 0, y: 24 });
 
-                    gsap.timeline({
-                        defaults: { ease: "none" },
-                        scrollTrigger: {
-                            trigger: banner,
-                            start: 0,
-                            // Land before either the dot or the globe spot slides under the fixed navbar.
-                            end: () => {
-                                const { dotTop, restTop } = flight();
-                                return Math.min(dotTop, Math.max(restTop - window.innerHeight * 0.15, 160));
+                        const intro = gsap.timeline({ delay: 0.4 });
+                        intro.to(heroLine, {
+                            x: 0,
+                            y: 0,
+                            scale: 1,
+                            duration: 1.15,
+                            ease: "expo.inOut",
+                        });
+                        intro.to(
+                            restWords,
+                            {
+                                autoAlpha: 1,
+                                y: 0,
+                                duration: 0.9,
+                                ease: "expo.out",
+                                stagger: 0.07,
                             },
-                            scrub: 0.6,
-                            invalidateOnRefresh: true,
+                            0.82,
+                        );
+                        if (foot) {
+                            intro.to(
+                                foot,
+                                {
+                                    autoAlpha: 1,
+                                    y: 0,
+                                    duration: 0.85,
+                                    ease: "expo.out",
+                                },
+                                1.05,
+                            );
+                        }
+                    }
+
+                    const heroScroll = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: hero,
+                            start: "top top",
+                            end: "bottom top",
+                            scrub: true,
                         },
-                    })
-                        .fromTo(igPop, { x: () => flight().x }, { x: 0, duration: 1, ease: "power2.inOut" }, 0)
-                        .fromTo(igPop, { y: () => flight().y }, { y: 0, duration: 1, ease: "power2.out" }, 0)
-                        .fromTo(
-                            igPop,
-                            { scale: () => flight().scale, rotation: 0 },
-                            { scale: 1, rotation: restTilt, duration: 1, ease: "power2.inOut" },
-                            0,
-                        )
-                        .fromTo(igPop.querySelector(".globe-pop__shadow"), { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.6)
-                        .fromTo(tittle, { "--dot": 0 }, { "--dot": 1, duration: 0.25, ease: "back.out(2)" }, 0.12);
+                    });
+
+                    heroScroll.to(
+                        ".services-wall__title",
+                        {
+                            rotateX: 38,
+                            z: -260,
+                            yPercent: -22,
+                            autoAlpha: 0.12,
+                            ease: "none",
+                            duration: 1,
+                        },
+                        0,
+                    );
+
+                    if (lede) {
+                        heroScroll.to(
+                            lede,
+                            { autoAlpha: 0, y: -36, ease: "none", duration: 0.28 },
+                            0.55,
+                        );
+                    }
+
+                    if (cue) {
+                        heroScroll.fromTo(
+                            cue,
+                            { autoAlpha: 1, y: 0 },
+                            { autoAlpha: 0, y: -16, ease: "none", duration: 0.14, immediateRender: false },
+                            0.3,
+                        );
+                    }
+
+                    if (tilt && finePointer) {
+                        const toX = gsap.quickTo(tilt, "rotateX", { duration: 0.9, ease: "power3.out" });
+                        const toY = gsap.quickTo(tilt, "rotateY", { duration: 0.9, ease: "power3.out" });
+                        const onMove = (event: PointerEvent) => {
+                            const rect = hero.getBoundingClientRect();
+                            toY(((event.clientX - rect.left) / rect.width - 0.5) * 12);
+                            toX(-((event.clientY - rect.top) / rect.height - 0.5) * 9);
+                        };
+                        const onLeave = () => {
+                            toX(0);
+                            toY(0);
+                        };
+                        hero.addEventListener("pointermove", onMove);
+                        hero.addEventListener("pointerleave", onLeave);
+                        cleanups.push(() => {
+                            hero.removeEventListener("pointermove", onMove);
+                            hero.removeEventListener("pointerleave", onLeave);
+                            gsap.killTweensOf(tilt);
+                        });
+                    }
                 }
 
                 gsap.utils.toArray<HTMLElement>("[data-svc]", root).forEach((section) => {

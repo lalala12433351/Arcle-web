@@ -6,7 +6,12 @@ import useSidebarMenu from "../../hooks/useSidebarMenu";
 import useSubMenuToggle from "../../hooks/useSubMenuToggle";
 import useStickyMenu from "../../hooks/useStickyMenu";
 
-const HeaderV1 = () => {
+interface HeaderV1Props {
+    /** White logo while the bar sits over a dark hero; normal logo once sticky. */
+    onDarkHero?: boolean;
+}
+
+const HeaderV1 = ({ onDarkHero = false }: HeaderV1Props) => {
 
     const { isOpen, openMenu, closeMenu } = useSidebarMenu();
     const toggleSubMenu = useSubMenuToggle();
@@ -15,7 +20,7 @@ const HeaderV1 = () => {
     return (
         <>
             <header>
-                <nav className={`navbar mobile-sidenav navbar-sticky navbar-default validnavs navbar-fixed on menu-center arcle-compact-nav ${isMenuSticky ? "sticked" : "no-background white"} ${isOpen ? "navbar-responsive" : ""}`}>
+                <nav className={`navbar mobile-sidenav navbar-sticky navbar-default validnavs navbar-fixed on menu-center arcle-compact-nav ${onDarkHero ? "arcle-nav--on-dark" : ""} ${isMenuSticky ? "sticked" : "no-background white"} ${isOpen ? "navbar-responsive" : ""}`}>
                     <div className="container d-flex justify-content-between align-items-center">
                         <div className="navbar-header">
                             <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu" onClick={openMenu}>

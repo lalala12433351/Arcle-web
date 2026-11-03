@@ -63,28 +63,49 @@ const IndustriesVideo = () => {
             const box = videoBoxRef.current;
             if (!sectionRef.current || !box || !labelRef.current) return;
 
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top top",
-                    end: "+=150%",
-                    pin: true,
-                    scrub: true,
-                    anticipatePin: 1,
-                    invalidateOnRefresh: true,
-                },
+            const section = sectionRef.current;
+
+            // One viewport, a short hold. The open still begins just before the pin.
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top top",
+                end: "+=65%",
+                pin: true,
+                pinSpacing: true,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+                refreshPriority: 1,
             });
 
-            tl.fromTo(
+            const open = {
+                trigger: section,
+                start: "top 10%",
+                end: "+=55%",
+                scrub: true,
+                invalidateOnRefresh: true,
+            };
+
+            gsap.fromTo(
                 box,
                 { clipPath: `inset(${START_INSET_Y * 100}% ${START_INSET_X * 100}% ${START_INSET_Y * 100}% ${START_INSET_X * 100}%)` },
-                { clipPath: "inset(0% 0% 0% 0%)", ease: "none" },
-                0
-            ).fromTo(
+                { clipPath: "inset(0% 0% 0% 0%)", ease: "none", scrollTrigger: open }
+            );
+
+            gsap.fromTo(
                 labelRef.current,
                 { x: () => box.offsetWidth * START_INSET_X, y: () => -box.offsetHeight * START_INSET_Y },
-                { x: 0, y: 0, ease: "none" },
-                0
+                {
+                    x: 0,
+                    y: 0,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 10%",
+                        end: "+=55%",
+                        scrub: true,
+                        invalidateOnRefresh: true,
+                    },
+                }
             );
         }, sectionRef);
 
@@ -94,39 +115,45 @@ const IndustriesVideo = () => {
     }, []);
 
     return (
-        <div className="default-padding-top">
-            <div className="container">
-                <div className="row">
-                    <div className="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2 text-center">
-                        <div className="site-heading">
-                            <h4 className="sub-title">Industries</h4>
-                            <h2 className="title">Built for Industries</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <div className="default-padding-top industries-block">
             <div
                 ref={sectionRef}
                 style={{
                     height: "100vh",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    padding: "0 30px",
+                    position: "relative",
                     overflow: "hidden",
                 }}
             >
-                <div
-                    ref={videoBoxRef}
-                    style={{ height: "80vh", width: "100%", overflow: "hidden", willChange: "clip-path" }}
-                >
-                    <LazyVideo src="/assets/client/direct-keys/real-estate.mp4" poster="/assets/client/direct-keys/real-estate-poster.jpg" />
+                <div className="container" style={{ position: "absolute", top: 48, left: 0, right: 0, zIndex: 2 }}>
+                    <div className="row">
+                        <div className="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2 text-center">
+                            <div className="site-heading" style={{ marginBottom: 16 }}>
+                                <h2 className="title">Built for Industries</h2>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h3 ref={labelRef} style={{ ...labelStyle, willChange: "transform" }}>Real Estate</h3>
+
+                <div
+                    style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: 30,
+                        width: "calc(100% - 60px)",
+                        transform: "translateY(calc(-50% + 72px))",
+                    }}
+                >
+                    <div
+                        ref={videoBoxRef}
+                        style={{ height: "calc((100vh - 340px) * 1.36)", width: "100%", overflow: "hidden", willChange: "clip-path" }}
+                    >
+                        <LazyVideo src="/assets/client/direct-keys/real-estate.mp4" poster="/assets/client/direct-keys/real-estate-poster.jpg" />
+                    </div>
+                    <h3 ref={labelRef} style={{ ...labelStyle, margin: "16px 0 0", willChange: "transform" }}>Real Estate</h3>
+                </div>
             </div>
 
-            <div style={{ padding: "60px 30px 120px" }}>
+            <div className="industries-side">
                 <div style={{ display: "flex", gap: 30, alignItems: "flex-start" }}>
                     {sideVideos.map((item) => (
                         <div key={item.src} style={{ flex: `${item.ratio} 1 0`, minWidth: 0 }}>

@@ -6,10 +6,9 @@ export const serviceSlug = (title: string) =>
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
 
-const retiredServiceSlugs = new Set(["seo", "development", "creative"]);
+export const servicePath = (title: string) => `/services/${serviceSlug(title)}`;
 
-export const servicePath = (title: string) => {
-    const slug = serviceSlug(title);
-    if (retiredServiceSlugs.has(slug)) return "/services";
-    return `/services/${slug}`;
-};
+const focusServiceSlugs = new Set(["seo", "development", "creative"]);
+
+export const isFocusService = (slug: string | undefined): slug is "seo" | "development" | "creative" =>
+    !!slug && focusServiceSlugs.has(slug);

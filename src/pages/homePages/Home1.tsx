@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import AboutV7 from "../../components/about/AboutV7";
 import CursorEffect from "../../components/animation/CursorEffect";
-import ExpertiseV1 from "../../components/expertise/ExpertiseV1";
 import FaqV1 from "../../components/faq/FaqV1";
 import menuItems from "../../components/infinite-menu/menuItems";
 import { useSiteTheme } from "../../hooks/useSiteTheme";
@@ -27,7 +26,7 @@ const DeferredInfiniteMenu = () => {
     }, []);
 
     return (
-        <div ref={frameRef} style={{ height: "100svh", minHeight: 720, position: "relative", marginTop: "clamp(48px, 6vw, 96px)" }}>
+        <div ref={frameRef} style={{ height: "100svh", minHeight: 720, position: "relative" }}>
             {ready && (
                 <Suspense fallback={null}>
                     <InfiniteMenu
@@ -43,7 +42,6 @@ const DeferredInfiniteMenu = () => {
                         grayscale={true}
                         dim={0.5}
                         intro={true}
-                        scrollSpin={true}
                         showInfo={true}
                         theme={isDark ? "dark" : "light"}
                         accentColor="#236BFF"
@@ -56,7 +54,7 @@ const DeferredInfiniteMenu = () => {
 };
 import FooterV1 from "../../components/footer/FooterV1";
 import HeaderV1 from "../../components/header/HeaderV1";
-import ProjectIdeaV1 from "../../components/project/ProjectIdeaV1";
+import AboutCrew from "../../components/about/AboutCrew";
 import WhatWeDoSequence from "../../components/services/WhatWeDoSequence";
 import ThemeDark from "../../components/switcher/ThemeDark";
 import WhyChooseV1 from "../../components/whyChoose/WhyChooseV1";
@@ -104,30 +102,27 @@ const Home1 = () => {
             </Helmet>
 
             <div className="smooth-scroll-container">
-                <HeaderV1 />
-                <ParallaxComponent
-                    eyebrow="AI-powered digital marketing — India"
-                    title={arcleMeta.headline}
-                    body={arcleMeta.heroParagraphs[0]}
-                    primaryCta={{ label: "Start a project", href: "/contact-us" }}
-                    secondaryCta={{ label: "Our services", href: "/services" }}
-                />
-                <DeferredInfiniteMenu />
-                <AboutV7 />
-                <IndustriesVideo />
-                <ClientRoster />
-                <WhatWeDoSequence />
-                <WhyChooseV1 sectionClass="default-padding" />
-                <div className="default-padding bg-gray">
-                    <ExpertiseV1 />
+                <HeaderV1 onDarkHero />
+                <div className="home-flow">
+                    <ParallaxComponent
+                        eyebrow="AI-powered digital marketing — India"
+                        title={arcleMeta.headline}
+                        body={arcleMeta.heroParagraphs[0]}
+                        primaryCta={{ label: "Start a project", href: "/contact-us" }}
+                        secondaryCta={{ label: "Our services", href: "/services" }}
+                    />
+                    <DeferredInfiniteMenu />
+                    <AboutV7 />
+                    <IndustriesVideo />
+                    <ClientRoster />
+                    <WhatWeDoSequence />
+                    <WhyChooseV1 sectionClass="default-padding" />
+                    <GrowthTogetherVideo />
+                    <AboutCrew />
+                    <FaqV1 hasTitle={true} />
+                    <FooterV1 />
                 </div>
-                <GrowthTogetherVideo />
-                <div className="default-padding bg-gray overflow-hidden" style={{ position: "relative" }}>
-                    <ProjectIdeaV1 />
-                </div>
-                <FaqV1 hasTitle={true} />
                 <CursorEffect />
-                <FooterV1 />
                 <ThemeDark />
             </div>
         </>

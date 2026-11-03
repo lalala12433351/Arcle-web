@@ -66,7 +66,7 @@ const GrowthTogetherVideo = () => {
     }, []);
 
     return (
-        <div className="services-style-one-area default-padding bg-gray growth-together">
+        <div className="services-style-one-area default-padding growth-together">
             <div className="service-style-one-heading">
                 <div className="container">
                     <div className="row">
@@ -87,7 +87,7 @@ const GrowthTogetherVideo = () => {
                         <div className="growth-video__screen">
                             <video
                                 ref={videoRef}
-                                src="/assets/video/growth-together.mp4?v=2"
+                                src="/assets/video/growth-together.mp4?v=3"
                                 muted
                                 loop
                                 playsInline

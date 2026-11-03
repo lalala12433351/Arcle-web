@@ -54,7 +54,7 @@
 
 .parallax__aside {
   position: absolute;
-  top: 58%;
+  top: 65%;
   right: clamp(20px, 5vw, 80px);
   width: min(32rem, 40vw);
   display: flex;

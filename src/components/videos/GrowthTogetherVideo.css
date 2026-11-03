@@ -34,6 +34,9 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    /* Clip the source file's 1px black strip along the left edge. */
+    transform: scale(1.012);
+    transform-origin: right center;
 }
 
 .growth-video__depth {

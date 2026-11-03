@@ -1,0 +1,350 @@
+.svc-focus {
+  --wall-bg: #ffffff;
+  --wall-ink: #171714;
+  --wall-copy: #3a382f;
+  --wall-accent: #236bff;
+  --wall-surface: #fbfaf4;
+  --wall-line: rgba(23, 23, 20, 0.12);
+  --wall-line-strong: rgba(23, 23, 20, 0.24);
+  --wall-shadow: rgba(48, 42, 22, 0.42);
+  padding: clamp(148px, 18vh, 196px) clamp(24px, 7vw, 112px) clamp(88px, 12vh, 140px);
+  background: var(--wall-bg);
+  color: var(--wall-ink);
+}
+
+.svc-focus ::selection {
+  background: var(--wall-accent);
+  color: var(--wall-bg);
+}
+
+.svc-focus__back {
+  display: inline-flex;
+  margin-bottom: 1.5rem;
+  color: var(--wall-copy);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.svc-focus__back:hover {
+  color: var(--wall-accent);
+}
+
+.svc-focus__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.95fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 80px);
+}
+
+.svc-focus__kicker {
+  margin: 0 0 0.85rem;
+  color: var(--wall-accent);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.svc-focus h1 {
+  margin: 0;
+  color: var(--wall-ink);
+  font-size: clamp(3.6rem, 7vw, 6.4rem);
+  font-weight: 560;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+}
+
+.svc-focus__summary {
+  max-width: 22ch;
+  margin: 1.4rem 0 0;
+  color: var(--wall-ink);
+  font-size: clamp(1.25rem, 1.7vw, 1.55rem);
+  font-weight: 520;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.svc-focus__body {
+  max-width: 38rem;
+  margin-top: 1.15rem;
+}
+
+.svc-focus__body p {
+  margin: 0;
+  color: var(--wall-copy);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.svc-focus__body p + p {
+  margin-top: 0.8rem;
+}
+
+.svc-focus .svc-wall__stage {
+  order: 0;
+  height: clamp(420px, 58vh, 620px);
+}
+
+.svc-focus .svc-seo {
+  translate: 0 0;
+}
+
+.svc-focus .svc-seo__rig {
+  --rx: 50;
+  --rz: -18;
+}
+
+.svc-focus .svc-seo__rig > :nth-child(1) { transform: translate3d(-8px, 42px, -110px); opacity: 0.62; }
+.svc-focus .svc-seo__rig > :nth-child(2) { transform: translate3d(0, -6px, 80px); }
+.svc-focus .svc-seo__rig > :nth-child(3) { transform: translate3d(10px, 22px, -16px); opacity: 0.82; }
+.svc-focus .svc-seo__rig > :nth-child(4) { transform: translate3d(-2px, 58px, -160px); opacity: 0.48; }
+.svc-focus .svc-seo__rig > :nth-child(5) { transform: translate3d(8px, 74px, -200px); opacity: 0.36; }
+.svc-focus .svc-seo__query { transform: translate3d(0, -78px, 140px); }
+.svc-focus .svc-seo__card--hero { --lit: 1; }
+
+.svc-focus__process {
+  margin-top: clamp(72px, 10vh, 120px);
+  padding-top: clamp(40px, 6vh, 72px);
+  border-top: 1px solid var(--wall-line);
+}
+
+.svc-focus__process h2,
+.svc-focus__more h2 {
+  margin: 0;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 560;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.svc-focus__process ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--wall-line);
+  background: var(--wall-line);
+}
+
+.svc-focus__process li {
+  min-height: 100%;
+  padding: 1.35rem 1.3rem 1.5rem;
+  background: var(--wall-surface);
+}
+
+.svc-focus__process li span {
+  color: var(--wall-accent);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.svc-focus__process h3 {
+  margin: 0.55rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+
+.svc-focus__process p {
+  margin: 0.55rem 0 0;
+  color: var(--wall-copy);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.svc-focus__more {
+  margin-top: clamp(64px, 8vh, 100px);
+}
+
+.svc-focus__more-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.svc-focus__project {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.3rem 0.3rem 0.3rem 1.15rem;
+  border: 1px solid var(--wall-line-strong);
+  border-radius: 999px;
+  color: var(--wall-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.svc-focus__project i {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 50%;
+  background: var(--wall-accent);
+  color: var(--wall-bg);
+  transform: rotate(-45deg);
+  transition: transform 0.35s ease;
+}
+
+.svc-focus__project:hover i,
+.svc-focus__project:focus-visible i {
+  transform: rotate(0deg);
+}
+
+.svc-focus__related {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.svc-focus__card {
+  display: block;
+  padding: 1.4rem 1.4rem 1.5rem;
+  border: 1px solid var(--wall-line);
+  border-radius: 18px;
+  background: var(--wall-surface);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.3s ease, transform 0.35s ease;
+}
+
+.svc-focus__card:hover,
+.svc-focus__card:focus-visible {
+  border-color: var(--wall-accent);
+  transform: translateY(-3px);
+}
+
+.svc-focus__card span {
+  color: var(--wall-accent);
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.svc-focus__card strong {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 560;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.svc-focus__card p {
+  max-width: 28ch;
+  margin: 0.7rem 0 0;
+  color: var(--wall-copy);
+  line-height: 1.45;
+}
+
+.svc-focus a.svc-focus__back:hover,
+.svc-focus a.svc-focus__back:focus,
+.svc-focus a.svc-focus__project:hover,
+.svc-focus a.svc-focus__project:focus,
+.svc-focus a.svc-focus__card:hover,
+.svc-focus a.svc-focus__card:focus {
+  color: inherit;
+}
+
+.svc-focus a.svc-focus__back:hover {
+  color: var(--wall-accent);
+}
+
+.svc-focus a:focus-visible {
+  outline: 2px solid var(--wall-accent);
+  outline-offset: 4px;
+}
+
+body:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background,
+body:has(.svc-focus) nav.navbar.validnavs.sticked {
+  background: var(--wall-bg, #ffffff) !important;
+  box-shadow: none !important;
+}
+
+body:has(.svc-focus) nav.navbar.validnavs.sticked::before {
+  backdrop-filter: none;
+}
+
+body:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background ul.nav > li > a,
+body:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background ul.nav > li > a:hover,
+body:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background .navbar-toggle i {
+  color: #171714;
+}
+
+body:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background .navbar-brand img.logo {
+  display: none !important;
+}
+
+body:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background .navbar-brand img.logo-dark {
+  display: block !important;
+}
+
+body.bg-dark .svc-focus {
+  --wall-bg: #0e0f11;
+  --wall-ink: #f3f0e4;
+  --wall-copy: #d8d2c2;
+  --wall-surface: #1c1d1a;
+  --wall-line: rgba(243, 240, 228, 0.12);
+  --wall-line-strong: rgba(243, 240, 228, 0.26);
+  --wall-shadow: rgba(0, 0, 0, 0.7);
+}
+
+body.bg-dark:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background,
+body.bg-dark:has(.svc-focus) nav.navbar.validnavs.sticked {
+  background: #0e0f11 !important;
+  box-shadow: none !important;
+}
+
+body.bg-dark:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background ul.nav > li > a,
+body.bg-dark:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background ul.nav > li > a:hover,
+body.bg-dark:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background .navbar-toggle i {
+  color: #f3f0e4;
+}
+
+body.bg-dark:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background .navbar-brand img.logo.logo-display {
+  display: block !important;
+}
+
+body.bg-dark:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background .navbar-brand img.logo-dark,
+body.bg-dark:has(.svc-focus) nav.navbar.validnavs.navbar-fixed.no-background .navbar-brand img.logo.logo-scrolled {
+  display: none !important;
+}
+
+@media (max-width: 980px) {
+  .svc-focus__hero,
+  .svc-focus__related,
+  .svc-focus__process ol {
+    grid-template-columns: 1fr;
+  }
+
+  .svc-focus__more-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .svc-focus__stage {
+    order: -1;
+    height: 380px;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1200px) {
+  .svc-focus__process ol {
+    grid-template-columns: 1fr 1fr;
+  }
+}

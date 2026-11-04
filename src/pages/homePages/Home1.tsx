@@ -16,17 +16,38 @@ const DeferredInfiniteMenu = () => {
     useEffect(() => {
         const node = frameRef.current;
         if (!node) return;
+
+        const nearViewport = () => {
+            const rect = node.getBoundingClientRect();
+            return rect.bottom > -240 && rect.top < window.innerHeight + 240;
+        };
+
+        if (nearViewport()) {
+            setReady(true);
+            return;
+        }
+
+        const reveal = () => {
+            if (!nearViewport()) return;
+            setReady(true);
+            window.removeEventListener("scroll", reveal);
+            observer.disconnect();
+        };
+
         const observer = new IntersectionObserver(([entry]) => {
             if (!entry.isIntersecting) return;
-            setReady(true);
-            observer.disconnect();
+            reveal();
         }, { rootMargin: "240px" });
         observer.observe(node);
-        return () => observer.disconnect();
+        window.addEventListener("scroll", reveal, { passive: true });
+        return () => {
+            observer.disconnect();
+            window.removeEventListener("scroll", reveal);
+        };
     }, []);
 
     return (
-        <div ref={frameRef} style={{ height: "100svh", minHeight: 720, position: "relative" }}>
+        <div ref={frameRef} className="home-work-menu">
             {ready && (
                 <Suspense fallback={null}>
                     <InfiniteMenu

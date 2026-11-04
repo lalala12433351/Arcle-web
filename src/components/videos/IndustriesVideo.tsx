@@ -13,18 +13,13 @@ const videoStyle: CSSProperties = {
     display: "block",
 };
 
-const labelStyle: CSSProperties = {
-    fontWeight: 700,
-    margin: "20px 0 0",
-    textAlign: "left",
-};
-
 const sideVideos = [
-    { src: "/assets/video/industry-fpv.mp4", label: "Interior Designing", ratio: 4 / 3, aspect: "4 / 3" },
-    { src: "/assets/video/industry-phone.mp4", label: "App Development", ratio: 9 / 16, aspect: "9 / 16" },
+    { src: "/assets/video/industry-fpv.mp4", label: "Interior Designing", ratio: 4 / 3, aspect: "4 / 3", position: "center" },
+    // Width share matches the 2/3 frame so both films share one height and the titles line up.
+    { src: "/assets/video/industry-phone.mp4", label: "App Development", ratio: 2 / 3, aspect: "2 / 3", position: "center top" },
 ];
 
-const LazyVideo = ({ src, poster }: { src: string; poster?: string }) => {
+const LazyVideo = ({ src, poster, position = "center" }: { src: string; poster?: string; position?: string }) => {
     const ref = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
@@ -46,7 +41,7 @@ const LazyVideo = ({ src, poster }: { src: string; poster?: string }) => {
         return () => observer.disconnect();
     }, [src]);
 
-    return <video ref={ref} poster={poster} muted loop playsInline preload="none" style={videoStyle} />;
+    return <video ref={ref} poster={poster} muted loop playsInline preload="none" style={{ ...videoStyle, objectPosition: position }} />;
 };
 
 const IndustriesVideo = () => {
@@ -149,18 +144,22 @@ const IndustriesVideo = () => {
                     >
                         <LazyVideo src="/assets/client/direct-keys/real-estate.mp4" poster="/assets/client/direct-keys/real-estate-poster.jpg" />
                     </div>
-                    <h3 ref={labelRef} style={{ ...labelStyle, margin: "16px 0 0", willChange: "transform" }}>Real Estate</h3>
+                    <h3 ref={labelRef} className="industries-label" style={{ margin: "16px 0 0", willChange: "transform" }}>Real Estate</h3>
                 </div>
             </div>
 
             <div className="industries-side">
-                <div style={{ display: "flex", gap: 30, alignItems: "flex-start" }}>
+                <div className="industries-side__row">
                     {sideVideos.map((item) => (
-                        <div key={item.src} style={{ flex: `${item.ratio} 1 0`, minWidth: 0 }}>
-                            <div style={{ aspectRatio: item.aspect, overflow: "hidden" }}>
-                                <LazyVideo src={item.src} />
+                        <div
+                            key={item.src}
+                            className="industries-side__item"
+                            style={{ "--industry-grow": item.ratio, "--industry-aspect": item.aspect } as CSSProperties}
+                        >
+                            <div className="industries-side__media">
+                                <LazyVideo src={item.src} position={item.position} />
                             </div>
-                            <h3 style={labelStyle}>{item.label}</h3>
+                            <h3 className="industries-label">{item.label}</h3>
                         </div>
                     ))}
                 </div>

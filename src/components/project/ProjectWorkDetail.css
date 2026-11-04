@@ -498,8 +498,8 @@
 
 @media (max-width: 600px) {
     .work-detail__text-section {
-        padding: 112px 18px;
-        gap: 32px;
+        padding: 56px 20px;
+        gap: 20px;
     }
 
     .work-detail__text-content h2 {
@@ -522,7 +522,26 @@
 @media (max-width: 900px) {
     .work-detail__case {
         grid-template-columns: 1fr;
-        padding: 36px 28px 40px;
+        gap: 28px;
+        padding: 28px 20px 8px;
+    }
+
+    .work-detail__about > p:last-child,
+    .bg-dark .work-detail__about > p:last-child {
+        font-size: 17px;
+        line-height: 1.6;
+    }
+
+    .work-detail__back a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+    }
+
+    .work-detail__nav-link {
+        min-height: 44px;
+        justify-content: center;
+        padding: 8px 0;
     }
 
     .work-detail__identity h1,
@@ -548,11 +567,19 @@
 @media (max-width: 600px) {
     .work-detail {
         padding-top: 96px;
+        padding-bottom: calc(88px + env(safe-area-inset-bottom));
         --work-detail-pad: 16px;
     }
 
     .work-detail__gallery {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .work-detail__gallery .work-detail__media--portrait,
+    .work-detail__gallery .work-detail__media--solo,
+    .work-detail__gallery .work-detail__media--tall {
+        height: auto;
+        aspect-ratio: 9 / 16;
     }
 
     .work-detail__gallery--mirai-videos .work-detail__media--portrait,

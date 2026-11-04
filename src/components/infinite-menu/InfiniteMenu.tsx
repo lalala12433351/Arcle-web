@@ -352,6 +352,7 @@ const InfiniteMenu = ({
       scrollUntil: 0,
       settle: 0,
       tilePx: 0,
+      shiftPx: -1,
       layout: 'side',
       shift: 0,
       started: false
@@ -441,11 +442,14 @@ const InfiniteMenu = ({
           const height = image.naturalHeight * scale;
           const x = (index % atlas.cells) * size;
           const y = Math.floor(index / atlas.cells) * size;
+          const overflowY = (size - height) / 2;
+          /* Square tiles crop portraits. Shift up so the headline stays and the phone number below it does not. */
+          const cropY = overflowY < 0 ? overflowY * 0.7 : overflowY;
           ctx.save();
           ctx.beginPath();
           ctx.rect(x, y, size, size);
           ctx.clip();
-          ctx.drawImage(image, x + (size - width) / 2, y + (size - height) / 2, width, height);
+          ctx.drawImage(image, x + (size - width) / 2, y + cropY, width, height);
           ctx.restore();
           atlas.dirty = true;
           done();
@@ -653,14 +657,19 @@ const InfiniteMenu = ({
       }
 
       measure();
-      const shiftTarget = state.layout === 'stacked' ? Math.min(0.3, 72 / state.height) : 0;
+      const shiftTarget = state.layout === 'stacked' ? Math.min(0.08, 16 / state.height) : 0;
       state.shift += (shiftTarget - state.shift) * (1 - Math.exp(-dt * 6));
+      const shiftPx = Math.round((state.shift * state.height) / 2);
+      if (shiftPx !== state.shiftPx) {
+        state.shiftPx = shiftPx;
+        root.style.setProperty('--infinite-menu-shift', `${shiftPx}px`);
+      }
       render();
 
       const busy =
         isMoving ||
         Math.abs(target - state.camera) > 0.001 ||
-        Math.abs((state.layout === 'stacked' ? Math.min(0.3, 72 / state.height) : 0) - state.shift) > 0.0005 ||
+        Math.abs(shiftTarget - state.shift) > 0.0005 ||
         Math.abs((isMoving ? 0 : 1) - state.settle) > 0.002 ||
         state.reveal < 1 ||
         atlas.dirty ||

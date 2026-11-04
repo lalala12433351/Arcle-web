@@ -4,7 +4,9 @@ import LayoutV1 from "../../components/layouts/LayoutV1";
 import ServiceCreative from "../../components/services/wall/ServiceCreative";
 import ServiceDevelopment from "../../components/services/wall/ServiceDevelopment";
 import ServiceSeo from "../../components/services/wall/ServiceSeo";
+import WovenCanvas from "../../components/ui/woven-canvas";
 import useServicesScroll from "../../hooks/useServicesScroll";
+import { useSiteTheme } from "../../hooks/useSiteTheme";
 import "../../components/services/wall/ServiceWall.css";
 import "./ServicesPage.css";
 
@@ -12,6 +14,7 @@ const REST = ["That", "Carry", "the", "Whole", "Business"];
 
 const ServicesPage = () => {
     const wallRef = useRef<HTMLElement>(null);
+    const isDark = useSiteTheme();
     useServicesScroll(wallRef);
 
     return (
@@ -24,6 +27,7 @@ const ServicesPage = () => {
             <LayoutV1>
                 <section className="services-wall" ref={wallRef}>
                     <header className="services-wall__hero">
+                        <WovenCanvas className="services-wall__weave" dark={isDark} />
                         <h1 className="services-wall__title">
                             <span className="services-wall__tilt">
                                 <span className="services-wall__line services-wall__line--hero">

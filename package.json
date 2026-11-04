@@ -35,7 +35,8 @@
     "react-simple-scroll-up": "^0.2.3",
     "react-toastify": "^11.0.5",
     "swiper": "^11.2.8",
-    "tailwind-merge": "^3.7.0"
+    "tailwind-merge": "^3.7.0",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

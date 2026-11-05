@@ -73,7 +73,7 @@ a.svc-wall__scene:active {
 
 @media (min-width: 1101px) and (min-height: 760px) {
   .svc-wall {
-    height: 260vh;
+    height: 150vh;
   }
 
   .svc-wall__scene {
@@ -88,6 +88,23 @@ a.svc-wall__scene:active {
   position: relative;
   z-index: 1;
   min-width: 0;
+}
+
+.svc-wall__index {
+  margin: 0;
+  color: var(--wall-copy);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.svc-wall__index--live {
+  margin: 0.35rem 0 0.85rem;
+  color: var(--wall-accent);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
 }
 
 .svc-wall__title {
@@ -210,7 +227,7 @@ a.svc-wall__scene:active {
 /* SEO: rank stack */
 
 .svc-seo {
-  translate: 0 clamp(48px, 10vh, 110px);
+  translate: 0 clamp(8px, 2vh, 28px);
 }
 
 .svc-seo__rig,
@@ -226,9 +243,9 @@ a.svc-wall__scene:active {
 }
 
 .svc-seo__rig {
-  --rx: 58;
-  --rz: -34;
-  --s: 1;
+  --rx: 26;
+  --rz: -12;
+  --s: 0.98;
   display: grid;
   width: min(430px, 88%);
 }
@@ -270,6 +287,10 @@ a.svc-wall__scene:active {
   height: 16px;
   border-radius: 50%;
   background: var(--wall-line-strong);
+}
+
+.svc-seo__card--hero {
+  --lit: 1;
 }
 
 .svc-seo__card--hero .svc-seo__favicon {

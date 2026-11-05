@@ -12,6 +12,10 @@
   color: var(--wall-ink);
 }
 
+.svc-focus.svc-focus--studio {
+  padding-top: clamp(108px, 12vh, 136px);
+}
+
 .svc-focus ::selection {
   background: var(--wall-accent);
   color: var(--wall-bg);

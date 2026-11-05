@@ -3,15 +3,17 @@ import * as THREE from "three";
 
 type WovenCanvasProps = {
   className?: string;
-  /** Dark page background. Switches blending so the weave stays visible. */
+  /** Dark page background. Switches the sculpture to a light body. */
   dark?: boolean;
 };
 
-const PARTICLE_COUNT = 50000;
+const PAPER = new THREE.Color("#efeae0");
+const ACCENT = new THREE.Color("#236bff");
 
 /**
- * Torus-knot point cloud from the woven-light hero.
- * Sized to its container and paused while off screen.
+ * Lit torus knot for the services hero.
+ * A thin tube keeps the loops separate; studio light and one blue thread
+ * make the form read instead of a flat point cloud.
  */
 const WovenCanvas = ({ className, dark = false }: WovenCanvasProps) => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -23,70 +25,105 @@ const WovenCanvas = ({ className, dark = false }: WovenCanvasProps) => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.z = 5;
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 40);
+    camera.position.set(0.05, 0.12, 8.05);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
       powerPreference: "high-performance",
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = dark ? 1.12 : 1.2;
+    renderer.setClearColor(0x000000, 0);
+
     const canvas = renderer.domElement;
     canvas.style.display = "block";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
     mount.appendChild(canvas);
 
-    const positions = new Float32Array(PARTICLE_COUNT * 3);
-    const originalPositions = new Float32Array(PARTICLE_COUNT * 3);
-    const colors = new Float32Array(PARTICLE_COUNT * 3);
-    const velocities = new Float32Array(PARTICLE_COUNT * 3);
+    const key = new THREE.DirectionalLight(0xfff8ee, dark ? 2.4 : 3.1);
+    key.position.set(3.4, 4.6, 5.2);
+    const fill = new THREE.DirectionalLight(dark ? 0x9eb0d4 : 0xd5dbe8, 1.15);
+    fill.position.set(-3.2, 0.4, 3.4);
+    const rim = new THREE.DirectionalLight(0x6ea2ff, dark ? 3.4 : 2.2);
+    rim.position.set(-4.2, -1.4, -3.6);
+    const bounce = new THREE.DirectionalLight(0xffffff, dark ? 0.35 : 0.7);
+    bounce.position.set(0.4, -3.2, 1.6);
+    scene.add(key, fill, rim, bounce);
+    scene.add(new THREE.AmbientLight(dark ? 0x1c2433 : 0xfffdf8, dark ? 0.35 : 0.42));
 
-    const torusKnot = new THREE.TorusKnotGeometry(1.5, 0.5, 200, 32);
-    const knotPositions = torusKnot.attributes.position;
-    const knotCount = knotPositions.count;
-    const color = new THREE.Color();
+    const envScene = new THREE.Scene();
+    const room = new THREE.Mesh(
+      new THREE.BoxGeometry(10, 10, 10),
+      new THREE.MeshBasicMaterial({ color: dark ? 0x16181c : 0xf7f4ec, side: THREE.BackSide }),
+    );
+    const windowLight = new THREE.Mesh(
+      new THREE.PlaneGeometry(4.2, 6),
+      new THREE.MeshBasicMaterial({ color: 0xffffff }),
+    );
+    windowLight.position.set(2.4, 1.6, -3.2);
+    const accentPanel = new THREE.Mesh(
+      new THREE.PlaneGeometry(2.2, 3.4),
+      new THREE.MeshBasicMaterial({ color: 0x236bff }),
+    );
+    accentPanel.position.set(-2.6, -0.2, 1.4);
+    accentPanel.rotation.y = 0.8;
+    envScene.add(room, windowLight, accentPanel);
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const vertexIndex = i % knotCount;
-      const x = knotPositions.getX(vertexIndex);
-      const y = knotPositions.getY(vertexIndex);
-      const z = knotPositions.getZ(vertexIndex);
-      const ix = i * 3;
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envMap = pmrem.fromScene(envScene, 0.06).texture;
+    scene.environment = envMap;
+    pmrem.dispose();
 
-      positions[ix] = x;
-      positions[ix + 1] = y;
-      positions[ix + 2] = z;
-      originalPositions[ix] = x;
-      originalPositions[ix + 1] = y;
-      originalPositions[ix + 2] = z;
+    const geometry = new THREE.TorusKnotGeometry(1.18, 0.3, 360, 48, 2, 3);
+    const white = new THREE.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1);
+    white.colorSpace = THREE.SRGBColorSpace;
+    white.needsUpdate = true;
 
-      color.setHSL(Math.random(), 0.8, dark ? 0.55 : 0.42);
-      colors[ix] = color.r;
-      colors[ix + 1] = color.g;
-      colors[ix + 2] = color.b;
-    }
-
-    torusKnot.dispose();
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-      size: 0.032,
-      vertexColors: true,
-      blending: dark ? THREE.AdditiveBlending : THREE.NormalBlending,
-      transparent: true,
-      opacity: dark ? 0.9 : 1,
-      depthWrite: false,
+    const time = { value: 0 };
+    const material = new THREE.MeshPhysicalMaterial({
+      color: dark ? PAPER : new THREE.Color("#12110e"),
+      map: white,
+      roughness: 0.38,
+      metalness: 0.04,
+      clearcoat: 0.85,
+      clearcoatRoughness: 0.22,
+      sheen: 0.7,
+      sheenColor: ACCENT,
+      sheenRoughness: 0.4,
+      envMapIntensity: dark ? 0.45 : 0.22,
     });
 
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
+    material.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = time;
+      shader.fragmentShader = shader.fragmentShader
+        .replace("#include <common>", "#include <common>\nuniform float uTime;")
+        .replace(
+          "#include <color_fragment>",
+          /* glsl */ `
+          #include <color_fragment>
+          float along = vMapUv.y + vMapUv.x * 0.05 - uTime * 0.025;
+          float ribbon = smoothstep(0.055, 0.0, abs(fract(along) - 0.2));
+          float fiber = 0.88 + 0.12 * cos(vMapUv.x * 40.0 + vMapUv.y * 8.0);
+          diffuseColor.rgb *= fiber;
+          diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.137, 0.420, 1.0), ribbon * 0.92);
+          `,
+        );
+    };
 
-    const mouse = { x: 8, y: 8 };
+    const knot = new THREE.Mesh(geometry, material);
+    const group = new THREE.Group();
+    group.scale.setScalar(0.74);
+    group.rotation.x = 0.48;
+    group.rotation.z = -0.08;
+    group.add(knot);
+    scene.add(group);
+
+    const mouse = { x: 0, y: 0 };
     const clock = new THREE.Clock();
     let frame = 0;
     let disposed = false;
@@ -114,8 +151,8 @@ const WovenCanvas = ({ className, dark = false }: WovenCanvasProps) => {
         event.clientY <= rect.bottom;
 
       if (!inside || rect.width === 0 || rect.height === 0) {
-        mouse.x = 8;
-        mouse.y = 8;
+        mouse.x = 0;
+        mouse.y = 0;
         return;
       }
 
@@ -124,59 +161,14 @@ const WovenCanvas = ({ className, dark = false }: WovenCanvasProps) => {
     };
     window.addEventListener("pointermove", handlePointerMove);
 
-    const radius = 1.5;
-    const radiusSq = radius * radius;
-
     const renderFrame = () => {
-      if (!reduceMotion) {
-        const elapsedTime = clock.getElapsedTime();
-        const mx = mouse.x * 3;
-        const my = mouse.y * 3;
+      const elapsed = clock.getElapsedTime();
+      time.value = reduceMotion ? 0 : elapsed;
 
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-          const ix = i * 3;
-          const iy = ix + 1;
-          const iz = ix + 2;
-
-          let vx = velocities[ix];
-          let vy = velocities[iy];
-          let vz = velocities[iz];
-          const px = positions[ix];
-          const py = positions[iy];
-          const pz = positions[iz];
-
-          const dx = px - mx;
-          const dy = py - my;
-          const dz = pz;
-          const distSq = dx * dx + dy * dy + dz * dz;
-
-          if (distSq < radiusSq && distSq > 1e-8) {
-            const dist = Math.sqrt(distSq);
-            const force = ((radius - dist) * 0.01) / dist;
-            vx += dx * force;
-            vy += dy * force;
-            vz += dz * force;
-          }
-
-          vx += (originalPositions[ix] - px) * 0.001;
-          vy += (originalPositions[iy] - py) * 0.001;
-          vz += (originalPositions[iz] - pz) * 0.001;
-
-          vx *= 0.95;
-          vy *= 0.95;
-          vz *= 0.95;
-
-          positions[ix] = px + vx;
-          positions[iy] = py + vy;
-          positions[iz] = pz + vz;
-          velocities[ix] = vx;
-          velocities[iy] = vy;
-          velocities[iz] = vz;
-        }
-
-        geometry.attributes.position.needsUpdate = true;
-        points.rotation.y = elapsedTime * 0.05;
-      }
+      const targetX = 0.48 + mouse.y * 0.16 + (reduceMotion ? 0 : Math.sin(elapsed * 0.35) * 0.05);
+      const targetY = 0.35 + mouse.x * 0.28 + (reduceMotion ? 0 : elapsed * 0.18);
+      group.rotation.x += (targetX - group.rotation.x) * 0.06;
+      group.rotation.y += (targetY - group.rotation.y) * 0.06;
 
       renderer.render(scene, camera);
     };
@@ -190,6 +182,7 @@ const WovenCanvas = ({ className, dark = false }: WovenCanvasProps) => {
 
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
+      if (visible) clock.getDelta();
     });
     intersectionObserver.observe(mount);
 
@@ -207,6 +200,14 @@ const WovenCanvas = ({ className, dark = false }: WovenCanvasProps) => {
       window.removeEventListener("pointermove", handlePointerMove);
       geometry.dispose();
       material.dispose();
+      white.dispose();
+      envMap.dispose();
+      room.geometry.dispose();
+      (room.material as THREE.Material).dispose();
+      windowLight.geometry.dispose();
+      (windowLight.material as THREE.Material).dispose();
+      accentPanel.geometry.dispose();
+      (accentPanel.material as THREE.Material).dispose();
       renderer.dispose();
       renderer.forceContextLoss();
       canvas.remove();

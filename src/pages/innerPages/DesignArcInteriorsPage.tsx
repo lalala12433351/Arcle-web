@@ -8,6 +8,7 @@ import FooterV1 from "../../components/footer/FooterV1";
 import HeaderV1 from "../../components/header/HeaderV1";
 import ThemeDark from "../../components/switcher/ThemeDark";
 import AccordionGallery from "../../components/AccordionGallery";
+import DesignArcServices from "../../components/project/DesignArcServices";
 import "../../components/videos/OfficeInteriorsVideo.css";
 import "./DesignArcInteriorsPage.css";
 
@@ -167,31 +168,7 @@ const DesignArcInteriorsPage = () => {
                     <YouTubeBannerVideo />
                 </Suspense>
 
-                <section className="default-padding bg-gray">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-xl-8 offset-xl-2">
-                                <div className="site-heading" style={{ marginBottom: "40px" }}>
-                                    <h3>Why Choose Arc Interiors?</h3>
-                                </div>
-                                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "30px" }}>
-                                    <div style={{ padding: "20px" }}>
-                                        <h4 style={{ marginBottom: "10px" }}>Creative Excellence</h4>
-                                        <p>Our expert designers craft innovative solutions that elevate your space and enhance productivity.</p>
-                                    </div>
-                                    <div style={{ padding: "20px" }}>
-                                        <h4 style={{ marginBottom: "10px" }}>Sustainability Focus</h4>
-                                        <p>We prioritize eco-friendly materials and sustainable design practices for a better future.</p>
-                                    </div>
-                                    <div style={{ padding: "20px" }}>
-                                        <h4 style={{ marginBottom: "10px" }}>Client-Centric Approach</h4>
-                                        <p>Your vision drives our design process. We collaborate closely to bring your ideas to life.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <DesignArcServices />
 
                 <section ref={sectionRef} className="office-interiors-video-section" aria-label="Design Arc project gallery">
                     <div className="container">

@@ -40,6 +40,8 @@ const ServiceWallSection = ({
         >
             <Link className="svc-wall__scene" to={`/services/${service}`}>
                 <div className="svc-wall__copy">
+                    <p className="svc-wall__index">All services</p>
+                    <p className="svc-wall__index svc-wall__index--live">Services</p>
                     <h2 className="svc-wall__title" id={headingId}>
                         <span className="svc-wall__title-mask">
                             <span className="svc-wall__title-line">{title}</span>

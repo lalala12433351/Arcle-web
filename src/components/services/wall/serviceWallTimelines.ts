@@ -14,24 +14,25 @@ const buildSeo: SceneBuilder = (section) => {
     const query = section.querySelector<HTMLElement>(".svc-seo__query");
     const others = cards.filter((card) => card !== hero);
     const middle = (cards.length - 1) / 2;
-    const spread = (gap: number) => (index: number) => (index - middle) * gap;
-    const peak = middle * 64 + 72;
 
-    gsap.set(rig, { "--rx": 58, "--rz": -34, "--s": 1 });
-    gsap.set(cards, { z: spread(12), opacity: 1 });
-    gsap.set(hero, { "--lit": 0 });
-    gsap.set(query, { z: middle * 12 + 30, y: -30, opacity: 0 });
+    gsap.set(rig, { "--rx": 26, "--rz": -12, "--s": 0.98 });
+    cards.forEach((card, index) => {
+        const featured = card === hero;
+        gsap.set(card, {
+            z: featured ? 96 : (index - middle) * 28,
+            y: featured ? -8 : (index - middle) * 6,
+            opacity: featured ? 1 : 0.62,
+            "--lit": featured ? 1 : 0,
+        });
+    });
+    gsap.set(query, { z: 140, y: -78, opacity: 1 });
 
     return gsap
         .timeline({ paused: true, defaults: { ease: "none" } })
-        .to(cards, { z: spread(64), duration: 0.35, ease: "power2.inOut" }, 0)
-        .to(query, { z: peak + 64, y: -70, opacity: 1, duration: 0.3, ease: "power2.out" }, 0.05)
-        .to(hero, { z: peak, y: -24, "--lit": 1, duration: 0.3, ease: "power3.inOut" }, 0.35)
-        .to(others, { opacity: 0.45, duration: 0.25 }, 0.4)
-        .to(rig, { "--rx": 24, "--rz": -8, "--s": 0.94, duration: 0.35, ease: "power2.inOut" }, 0.65)
-        .to(others, { z: (index) => (index - (others.length - 1) / 2) * 20, duration: 0.35, ease: "power2.inOut" }, 0.65)
-        .to(hero, { z: 110, y: -12, duration: 0.35, ease: "power2.inOut" }, 0.65)
-        .to(query, { z: 170, y: -96, duration: 0.35, ease: "power2.inOut" }, 0.65);
+        .to(rig, { "--rx": 16, "--rz": -6, "--s": 0.94, duration: 1, ease: "power1.inOut" }, 0)
+        .to(hero, { z: 118, y: -16, duration: 1, ease: "power1.inOut" }, 0)
+        .to(query, { y: -92, duration: 1, ease: "power1.inOut" }, 0)
+        .to(others, { opacity: 0.5, duration: 1 }, 0);
 };
 
 const buildDevelopment: SceneBuilder = (section) => {

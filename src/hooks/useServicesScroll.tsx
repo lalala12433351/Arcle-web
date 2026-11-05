@@ -114,12 +114,12 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
                     heroScroll.to(
                         ".services-wall__title",
                         {
-                            rotateX: 38,
-                            z: -260,
-                            yPercent: -22,
-                            autoAlpha: 0.12,
+                            rotateX: 28,
+                            z: -180,
+                            yPercent: -14,
+                            autoAlpha: 0,
                             ease: "none",
-                            duration: 1,
+                            duration: 0.42,
                         },
                         0,
                     );
@@ -145,7 +145,8 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
                         const toX = gsap.quickTo(tilt, "rotateX", { duration: 0.9, ease: "power3.out" });
                         const toY = gsap.quickTo(tilt, "rotateY", { duration: 0.9, ease: "power3.out" });
                         const onMove = (event: PointerEvent) => {
-                            const rect = hero.getBoundingClientRect();
+                            const frame = hero.querySelector<HTMLElement>(".services-wall__copy") ?? hero;
+                            const rect = frame.getBoundingClientRect();
                             toY(((event.clientX - rect.left) / rect.width - 0.5) * 12);
                             toX(-((event.clientY - rect.top) / rect.height - 0.5) * 9);
                         };
@@ -192,16 +193,25 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
                         animation: scene,
                     });
 
-                    gsap.timeline({
-                        scrollTrigger: { trigger: section, start: "top 72%", once: true },
-                    })
-                        .from(section.querySelector(".svc-wall__title-line"), {
+                    const titleLine = section.querySelector(".svc-wall__title-line");
+                    const reveals = section.querySelectorAll(".svc-wall__reveal");
+                    const inView = section.getBoundingClientRect().top < window.innerHeight * 0.85;
+                    const reveal = gsap.timeline({
+                        paused: true,
+                        scrollTrigger: inView
+                            ? undefined
+                            : { trigger: section, start: "top 85%", once: true },
+                    });
+                    if (titleLine) {
+                        reveal.from(titleLine, {
                             yPercent: 110,
                             duration: 1.1,
                             ease: "expo.out",
-                        })
-                        .fromTo(
-                            section.querySelectorAll(".svc-wall__reveal"),
+                        });
+                    }
+                    if (reveals.length) {
+                        reveal.fromTo(
+                            reveals,
                             { y: 28, opacity: 0, filter: "blur(8px)" },
                             {
                                 y: 0,
@@ -214,6 +224,8 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
                             },
                             0.15,
                         );
+                    }
+                    if (inView) reveal.play();
 
                     const tilt = section.querySelector<HTMLElement>(".svc-cre__tilt");
                     if (key === "creative" && finePointer && stage && tilt) {

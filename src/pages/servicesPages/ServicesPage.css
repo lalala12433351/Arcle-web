@@ -8,7 +8,6 @@
   --wall-line-strong: rgba(23, 23, 20, 0.24);
   --wall-shadow: rgba(48, 42, 22, 0.42);
   position: relative;
-  overflow: clip;
   min-height: 100vh;
   padding: 0 clamp(24px, 7vw, 112px) clamp(96px, 12vh, 160px);
   background: var(--wall-bg);
@@ -22,28 +21,38 @@
 
 .services-wall__hero {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: clamp(56px, 10vh, 120px);
+  display: grid;
+  margin-inline: calc(clamp(24px, 7vw, 112px) * -1);
   min-height: 100svh;
-  padding: clamp(150px, 24vh, 240px) 0 clamp(40px, 7vh, 72px);
-  box-sizing: border-box;
   perspective: 1400px;
   perspective-origin: 50% 0%;
 }
 
-.services-wall__weave {
+.services-wall__paths {
   position: absolute;
-  top: clamp(330px, 40vh, 420px);
-  right: 0;
-  width: min(36vw, 500px);
-  height: min(40vh, 400px);
+  inset: 0;
   z-index: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  color: var(--wall-ink);
+}
+
+.services-wall__copy {
+  grid-area: 1 / 1;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(56px, 10vh, 120px);
+  height: 100svh;
+  padding: clamp(150px, 24vh, 240px) clamp(24px, 7vw, 112px) clamp(40px, 7vh, 72px);
+  box-sizing: border-box;
   pointer-events: none;
-  opacity: 0;
-  mask-image: radial-gradient(ellipse at 50% 48%, #000 42%, transparent 74%);
-  animation: services-wall-weave-in 1.1s ease 0.85s forwards;
 }
 
 .services-wall__title {
@@ -194,7 +203,7 @@
 }
 
 .services-wall__board {
-  margin-top: clamp(140px, 22vh, 260px);
+  margin-top: clamp(72px, 10vh, 140px);
 }
 
 .services-wall__stickers {
@@ -291,15 +300,14 @@ body.bg-dark:has(.services-wall) nav.navbar.validnavs.navbar-fixed.no-background
 }
 
 @media (max-width: 1100px) {
-  .services-wall__stickers,
-  .services-wall__weave {
+  .services-wall__stickers {
     display: none;
   }
 }
 
 @media (max-width: 760px) {
-  .services-wall__hero {
-    min-height: 88svh;
+  .services-wall__copy {
+    height: 88svh;
     padding-top: 140px;
   }
 
@@ -315,13 +323,8 @@ body.bg-dark:has(.services-wall) nav.navbar.validnavs.navbar-fixed.no-background
 @media (prefers-reduced-motion: reduce) {
   .services-wall__stamp,
   .services-wall__seal,
-  .services-wall__cue-line::after,
-  .services-wall__weave {
+  .services-wall__cue-line::after {
     animation: none;
-  }
-
-  .services-wall__weave {
-    opacity: 1;
   }
 
   .services-wall__cue-line::after {

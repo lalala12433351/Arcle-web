@@ -15,7 +15,7 @@ type Person = {
 const people: Person[] = [
     {
         id: "ceo",
-        name: "FaiSal",
+        name: "Faisal",
         role: "Founder",
         line: "Sets where Arcle is going, and stays close to the work that gets a client there.",
         focus: ["Strategy", "Growth", "Client partnerships"],
@@ -33,7 +33,7 @@ const people: Person[] = [
     },
     {
         id: "seo",
-        name: "Sanjay",
+        name: "Sanjay GS",
         role: "Founder & SEO Head",
         line: "Leads search: the technical work, the pages, and the demand those pages are built to earn.",
         focus: ["Technical SEO", "Content", "AI search"],

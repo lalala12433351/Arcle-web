@@ -43,10 +43,7 @@ const ServiceSeo = () => (
         service="seo"
         title={seo.title}
         summary={seo.summary}
-        paragraphs={[
-            seo.body ?? "",
-            "Be the answer, not just a result. We help your brand appear in Google AI Overviews, featured snippets and AI assistants like ChatGPT, Gemini and Perplexity.",
-        ]}
+        paragraphs={[]}
         groups={seo.groups}
         visual={<RankStack />}
         visualLabel="A stack of search results fanning apart in 3D while your brand's result rises to the top as number one"

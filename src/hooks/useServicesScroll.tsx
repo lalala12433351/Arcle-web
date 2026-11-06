@@ -47,7 +47,6 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
                 const { pinned, motion, finePointer } = context.conditions as Record<string, boolean>;
                 const cleanups: Array<() => void> = [];
                 const hero = root.querySelector<HTMLElement>(".services-wall__hero");
-                const tilt = root.querySelector<HTMLElement>(".services-wall__tilt");
 
                 if (hero && motion) {
                     const lede = hero.querySelector<HTMLElement>(".services-wall__lede");
@@ -114,8 +113,6 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
                     heroScroll.to(
                         ".services-wall__title",
                         {
-                            rotateX: 28,
-                            z: -180,
                             yPercent: -14,
                             autoAlpha: 0,
                             ease: "none",
@@ -141,27 +138,6 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
                         );
                     }
 
-                    if (tilt && finePointer) {
-                        const toX = gsap.quickTo(tilt, "rotateX", { duration: 0.9, ease: "power3.out" });
-                        const toY = gsap.quickTo(tilt, "rotateY", { duration: 0.9, ease: "power3.out" });
-                        const onMove = (event: PointerEvent) => {
-                            const frame = hero.querySelector<HTMLElement>(".services-wall__copy") ?? hero;
-                            const rect = frame.getBoundingClientRect();
-                            toY(((event.clientX - rect.left) / rect.width - 0.5) * 12);
-                            toX(-((event.clientY - rect.top) / rect.height - 0.5) * 9);
-                        };
-                        const onLeave = () => {
-                            toX(0);
-                            toY(0);
-                        };
-                        hero.addEventListener("pointermove", onMove);
-                        hero.addEventListener("pointerleave", onLeave);
-                        cleanups.push(() => {
-                            hero.removeEventListener("pointermove", onMove);
-                            hero.removeEventListener("pointerleave", onLeave);
-                            gsap.killTweensOf(tilt);
-                        });
-                    }
                 }
 
                 gsap.utils.toArray<HTMLElement>("[data-svc]", root).forEach((section) => {
@@ -195,12 +171,12 @@ const useServicesScroll = (rootRef: RefObject<HTMLElement | null>) => {
 
                     const titleLine = section.querySelector(".svc-wall__title-line");
                     const reveals = section.querySelectorAll(".svc-wall__reveal");
-                    const inView = section.getBoundingClientRect().top < window.innerHeight * 0.85;
+                    const inView = section.getBoundingClientRect().top < window.innerHeight * 0.98;
                     const reveal = gsap.timeline({
                         paused: true,
                         scrollTrigger: inView
                             ? undefined
-                            : { trigger: section, start: "top 85%", once: true },
+                            : { trigger: section, start: "top 98%", once: true },
                     });
                     if (titleLine) {
                         reveal.from(titleLine, {

@@ -5,7 +5,7 @@ import { ExplodedBuild } from "./ServiceDevelopment";
 import { RankStack } from "./ServiceSeo";
 import type { WallServiceKey } from "./serviceWallContent";
 
-export type FocusServiceKey = WallServiceKey;
+export type FocusServiceKey = Exclude<WallServiceKey, "performance-marketing">;
 
 interface ServiceGroup {
     label: string;

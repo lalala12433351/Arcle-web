@@ -1,6 +1,6 @@
 import { services } from "../../../content/arcleHome";
 
-export type WallServiceKey = "seo" | "development" | "creative";
+export type WallServiceKey = "performance-marketing" | "seo" | "development" | "creative";
 
 export const findService = (title: string) => {
     const service = services.find((entry) => entry.title === title);

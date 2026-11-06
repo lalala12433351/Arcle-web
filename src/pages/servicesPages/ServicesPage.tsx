@@ -1,19 +1,24 @@
 import { useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import LayoutV1 from "../../components/layouts/LayoutV1";
-import ServiceCreative from "../../components/services/wall/ServiceCreative";
-import ServiceDevelopment from "../../components/services/wall/ServiceDevelopment";
-import ServiceSeo from "../../components/services/wall/ServiceSeo";
-import BackgroundPaths from "../../components/ui/background-paths";
-import useServicesScroll from "../../hooks/useServicesScroll";
-import "../../components/services/wall/ServiceWall.css";
+import ServiceCanvas from "../../components/services/page/ServiceCanvas";
+import ServicesCta from "../../components/services/page/ServicesCta";
+import ServicesHero from "../../components/services/page/ServicesHero";
+import ServiceSection from "../../components/services/page/ServiceSection";
+import { serviceEntries } from "../../components/services/page/servicesContent";
+import { useActiveService, useMediaQuery, useStickyOffsets } from "../../components/services/page/useServicesPage";
+import useServicesReveal from "../../components/services/page/useServicesReveal";
 import "./ServicesPage.css";
 
-const REST = ["That", "Carry", "the", "Whole", "Business"];
+const SERVICE_KEYS = serviceEntries.map((entry) => entry.key);
 
 const ServicesPage = () => {
-    const wallRef = useRef<HTMLElement>(null);
-    useServicesScroll(wallRef);
+    const rootRef = useRef<HTMLDivElement>(null);
+    const wide = useMediaQuery("(min-width: 1100px)");
+    const { active } = useActiveService(SERVICE_KEYS);
+
+    useStickyOffsets(rootRef);
+    useServicesReveal(rootRef);
 
     return (
         <>
@@ -23,52 +28,27 @@ const ServicesPage = () => {
             </Helmet>
 
             <LayoutV1>
-                <section className="services-wall" ref={wallRef}>
-                    <header className="services-wall__hero">
-                        <BackgroundPaths className="services-wall__paths">{null}</BackgroundPaths>
-                        <div className="services-wall__copy">
-                            <h1 className="services-wall__title">
-                                <span className="services-wall__tilt">
-                                    <span className="services-wall__line services-wall__line--hero">
-                                        <span className="services-wall__word">
-                                            <span className="services-wall__title-hero-s">S</span>erv
-                                            <span className="services-wall__title-i">
-                                                ı<span className="services-wall__tittle" />
-                                            </span>
-                                            ces
-                                        </span>
-                                    </span>
-                                    <span className="services-wall__line services-wall__line--rest">
-                                        {REST.map((word, index) => (
-                                            <span key={word}>
-                                                <span className={`services-wall__word${word === "Whole" ? " is-accent" : ""}`}>
-                                                    {word}
-                                                </span>
-                                                {index < REST.length - 1 ? " " : null}
-                                            </span>
-                                        ))}
-                                    </span>
-                                </span>
-                            </h1>
+                <div className="services-page" ref={rootRef}>
+                    <ServicesHero />
 
-                            <div className="services-wall__foot">
-                                <p className="services-wall__lede">
-                                    Growing online takes more than one skill. Arcle brings performance marketing, SEO, social media, content, design and development together under one roof. You can choose a single service or let one team handle everything, with every part working toward the same business goals.
-                                </p>
-                                <span className="services-wall__cue" aria-hidden="true">
-                                    <span>Scroll to explore</span>
-                                    <span className="services-wall__cue-line" />
-                                </span>
-                            </div>
+                    <div className="services-shell services-showcase">
+                        <div className="services-showcase__sections">
+                            {serviceEntries.map((entry) => (
+                                <ServiceSection key={entry.key} entry={entry} inline={!wide} />
+                            ))}
                         </div>
-                    </header>
 
-                    <div className="services-wall__board">
-                        <ServiceSeo />
-                        <ServiceDevelopment />
-                        <ServiceCreative />
+                        {wide && (
+                            <div className="services-showcase__canvas">
+                                <div className="services-showcase__sticky">
+                                    <ServiceCanvas keys={SERVICE_KEYS} visible={active} playing />
+                                </div>
+                            </div>
+                        )}
                     </div>
-                </section>
+
+                    <ServicesCta />
+                </div>
             </LayoutV1>
         </>
     );

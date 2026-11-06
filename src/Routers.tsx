@@ -50,6 +50,7 @@ const FaqLightPage = lazy(() => import("./pages/innerPages/FaqLightPage"));
 
 // Services Page
 const ServicesPage = lazy(() => import("./pages/servicesPages/ServicesPage"));
+const ServicesWallPage = lazy(() => import("./pages/servicesPages/ServicesWallPage"));
 const Services2Page = lazy(() => import("./pages/servicesPages/Services2Page"));
 const Services3Page = lazy(() => import("./pages/servicesPages/Services3Page"));
 const Services4Page = lazy(() => import("./pages/servicesPages/Services4Page"));
@@ -171,6 +172,7 @@ const Routers = () => {
 
                 {/* Services Page */}
                 <Route path='/services' element={<ServicesPage />}></Route>
+                <Route path='/services2' element={<ServicesWallPage />}></Route>
                 <Route path='/services/performance-marketing' element={<PerformanceMarketingPage />}></Route>
                 <Route path='/services/:slug' element={<ServiceSlugPage />}></Route>
                 <Route path='/services-2' element={<Services2Page />}></Route>

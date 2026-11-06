@@ -83,7 +83,7 @@ const ServiceDevelopment = () => (
         service="development"
         title={development.title}
         summary={development.summary}
-        paragraphs={[development.body ?? ""]}
+        paragraphs={[]}
         groups={development.groups}
         visual={<ExplodedBuild />}
         visualLabel="A website splitting into its code, structure and interface layers in 3D, then snapping back together"

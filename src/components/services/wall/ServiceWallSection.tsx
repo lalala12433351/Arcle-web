@@ -40,22 +40,24 @@ const ServiceWallSection = ({
         >
             <Link className="svc-wall__scene" to={`/services/${service}`}>
                 <div className="svc-wall__copy">
-                    <p className="svc-wall__index">All services</p>
-                    <p className="svc-wall__index svc-wall__index--live">Services</p>
                     <h2 className="svc-wall__title" id={headingId}>
                         <span className="svc-wall__title-mask">
                             <span className="svc-wall__title-line">{title}</span>
                         </span>
                     </h2>
                     <p className="svc-wall__summary svc-wall__reveal">{summary}</p>
-                    <div className="svc-wall__body">
-                        {paragraphs.map((paragraph) => (
-                            <p className="svc-wall__reveal" key={paragraph}>{paragraph}</p>
-                        ))}
-                    </div>
+                    {paragraphs.length > 0 && (
+                        <div className="svc-wall__body">
+                            {paragraphs.map((paragraph) => (
+                                <p className="svc-wall__reveal" key={paragraph}>{paragraph}</p>
+                            ))}
+                        </div>
+                    )}
                     {groups.map((group) => (
                         <div className="svc-wall__group svc-wall__reveal" key={group.label}>
-                            <p className="svc-wall__group-label">{group.label}</p>
+                            {group.label !== "The mix" && group.label !== "Includes" && (
+                                <p className="svc-wall__group-label">{group.label}</p>
+                            )}
                             <ul className="svc-wall__chips">
                                 {group.items.map((item) => (
                                     <li
@@ -69,9 +71,6 @@ const ServiceWallSection = ({
                             </ul>
                         </div>
                     ))}
-                    <span className="svc-wall__cta">
-                        View service <i className="fas fa-arrow-right" aria-hidden="true" />
-                    </span>
                 </div>
 
                 <div className="svc-wall__stage" role="img" aria-label={visualLabel}>

@@ -38,11 +38,11 @@ export const services: {
 }[] = [
     {
         title: "Performance Marketing",
-        summary: "Turn advertising budgets into measurable business results.",
-        body: "We plan, launch and optimise campaigns across Google Ads, Meta Ads, LinkedIn Ads and YouTube with a focus on qualified leads, sales and return on ad spend.",
+        summary: "Every rupee has to come back as a customer.",
+        body: "We run Google, Meta, LinkedIn and YouTube as one chase — for people who enquire, buy and come back. Ads that earn their keep get more budget. Ads that only look busy get cut.",
         groups: [
             {
-                label: "Includes",
+                label: "The mix",
                 items: [
                     "Google Ads",
                     "Meta Ads",
@@ -107,7 +107,7 @@ export const services: {
     },
     {
         title: "Development",
-        summary: "Build a website that works as your best salesperson.",
+        summary: "Build websites and softwares that works as your best salesperson.",
         body: "We create fast, mobile-first and SEO-ready websites that communicate your value clearly and turn visitors into enquiries or customers. From business websites and landing pages to e-commerce stores and custom web experiences, we combine design, performance and modern development.",
         groups: [
             {

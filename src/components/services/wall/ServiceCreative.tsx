@@ -15,7 +15,6 @@ const faceMap: Record<string, number> = {
 
 export const BrandCube = () => (
     <div className="svc-cre">
-        <div className="svc-cre__shadow" />
         <div className="svc-cre__tilt">
             <div className="svc-cre__cube">
                 <div className="svc-cre__face svc-cre__face--logo">
@@ -76,7 +75,7 @@ const ServiceCreative = () => (
         service="creative"
         title={creative.title}
         summary={creative.summary}
-        paragraphs={(creative.body ?? "").split("\n\n").filter(Boolean)}
+        paragraphs={[]}
         groups={creative.groups}
         visual={<BrandCube />}
         visualLabel="A cube of brand work turning in 3D: logo, identity, interface, ad, social post and video"

@@ -144,7 +144,17 @@ const useContactScroll = (rootRef: RefObject<HTMLElement | null>) => {
             },
         );
 
-        const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+        const hashTarget = window.location.hash
+            ? root.querySelector<HTMLElement>(`#${CSS.escape(window.location.hash.slice(1))}`)
+            : null;
+        const frame = requestAnimationFrame(() => {
+            ScrollTrigger.refresh();
+            if (!hashTarget) return;
+            const navHeight = document.querySelector("header nav.navbar")?.getBoundingClientRect().height ?? 0;
+            const offset = -(navHeight + 16);
+            if (lenis) lenis.scrollTo(hashTarget, { offset, immediate: true, force: true });
+            else window.scrollTo({ top: hashTarget.getBoundingClientRect().top + window.scrollY + offset, behavior: "instant" });
+        });
         let alive = true;
         document.fonts?.ready.then(() => {
             if (alive) ScrollTrigger.refresh();

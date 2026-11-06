@@ -1,4 +1,5 @@
 import gsap from "gsap";
+import { perfMotionFor } from "./ServicePerformance";
 import type { WallServiceKey } from "./serviceWallContent";
 
 type SceneBuilder = (section: HTMLElement) => gsap.core.Timeline;
@@ -6,6 +7,15 @@ type SceneBuilder = (section: HTMLElement) => gsap.core.Timeline;
 const CUBE_TURN_START = 0.06;
 const CUBE_TURN_GAP = 0.2;
 const CUBE_TURN_LENGTH = 0.14;
+
+const buildPerformance: SceneBuilder = (section) => {
+    const state = perfMotionFor(section) ?? { spread: 0, pointerX: 0, pointerY: 0 };
+    gsap.set(state, { spread: 0 });
+
+    return gsap
+        .timeline({ paused: true, defaults: { ease: "none" } })
+        .to(state, { spread: 1, duration: 1, ease: "power2.inOut" }, 0);
+};
 
 const buildSeo: SceneBuilder = (section) => {
     const rig = section.querySelector<HTMLElement>(".svc-seo__rig");
@@ -81,12 +91,14 @@ const buildCreative: SceneBuilder = (section) => {
 };
 
 export const sceneBuilders: Record<WallServiceKey, SceneBuilder> = {
+    "performance-marketing": buildPerformance,
     seo: buildSeo,
     development: buildDevelopment,
     creative: buildCreative,
 };
 
 export const restProgress: Record<WallServiceKey, number> = {
+    "performance-marketing": 1,
     seo: 1,
     development: 1,
     creative: 0,

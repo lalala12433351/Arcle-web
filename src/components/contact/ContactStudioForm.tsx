@@ -1,9 +1,13 @@
 import { ArrowRight } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const interests = ["SEO", "Ads", "Social", "Websites", "Apps", "Automation"];
+const interests = ["SEO", "Ads", "Social", "Websites", "Apps", "Branding", "Automation"];
 
 const ContactStudioForm = () => {
+    const [searchParams] = useSearchParams();
+    const preselected = searchParams.get("interest")?.toLowerCase();
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const form = event.currentTarget;
@@ -43,7 +47,7 @@ const ContactStudioForm = () => {
                     <div className="cx-interests__chips">
                         {interests.map((item) => (
                             <label className="cx-chip" key={item}>
-                                <input type="checkbox" name="interest" value={item} />
+                                <input type="checkbox" name="interest" value={item} defaultChecked={item.toLowerCase() === preselected} />
                                 <span>{item}</span>
                             </label>
                         ))}

@@ -351,7 +351,7 @@ const ProjectHeroVideo = () => {
                             <div className="work-row__copy">
                                 <h2 className="work-row__name work-row__reveal">{work.name}</h2>
                                 <p className="work-row__subtitle work-row__reveal">{work.subtitle}</p>
-                                <p className="work-row__description work-row__reveal">{work.description}</p>
+                                <p className="work-row__description work-row__reveal">{work.summary}</p>
                                 <ul className="work-row__scope work-row__reveal" aria-label="Scope">
                                     {work.scope.map((item) => (
                                         <li key={item}>{item}</li>

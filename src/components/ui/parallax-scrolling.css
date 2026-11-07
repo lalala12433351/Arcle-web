@@ -39,9 +39,19 @@
   user-select: none;
 }
 
-/* Person cutout paints above the headline so the type passes behind him on scroll. */
+/* Foreground subject sits above the headline during the parallax scroll. */
 .parallax__layer-img--front {
   z-index: 4;
+}
+
+.parallax__layers img.parallax__layer-img--penguin {
+  top: auto;
+  bottom: -16%;
+  left: 50%;
+  width: auto;
+  height: 54%;
+  object-fit: contain;
+  translate: -50% 0;
 }
 
 .parallax__layer-title {
@@ -277,6 +287,11 @@ body.bg-dark:has(.arcle-parallax-hero) nav.navbar.validnavs.navbar-fixed.arcle-c
 }
 
 @media (max-width: 767px) {
+  .parallax__layers img.parallax__layer-img--penguin {
+    bottom: 18%;
+    height: 38%;
+  }
+
   .parallax__layer-title {
     z-index: 5;
   }

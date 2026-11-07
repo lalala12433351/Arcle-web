@@ -19,8 +19,7 @@ const DEFAULT_BACK =
   'https://cdn.21st.dev/assets/mirror/a4/a43f4eae3459c461345ee676f12d6e1ddca65e8a5279a5af00d475b17ff83aea.webp';
 const DEFAULT_MID =
   'https://cdn.21st.dev/assets/mirror/50/50ca6a0d36d2780bfcb469d6db7eaec0be7e0d2961ba69a63d2a1473b040338d.webp';
-const DEFAULT_FRONT =
-  'https://cdn.21st.dev/assets/mirror/e1/e1c8137b5f971c3b3ec1a0f9e79b9c17018767005f844a10082b890472afecfb.webp';
+const DEFAULT_FRONT = '/assets/hero/penguin-back.png';
 
 export type ParallaxCta = {
   label: string;
@@ -158,7 +157,7 @@ export function ParallaxComponent({
               width={800}
               data-parallax-layer="4"
               alt=""
-              className="parallax__layer-img parallax__layer-img--front"
+              className={`parallax__layer-img parallax__layer-img--front${frontSrc === DEFAULT_FRONT ? ' parallax__layer-img--penguin' : ''}`}
             />
           </div>
           <div className="parallax__scrim" aria-hidden="true" />

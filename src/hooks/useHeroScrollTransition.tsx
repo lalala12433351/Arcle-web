@@ -151,7 +151,7 @@ const useHeroScrollTransition = (
             }
         );
 
-        // Later sections (e.g. the pinned IndustriesVideo) were measured before this pin existed.
+        // Later sections were measured before this pin existed.
         ScrollTrigger.sort();
         const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
         let alive = true;

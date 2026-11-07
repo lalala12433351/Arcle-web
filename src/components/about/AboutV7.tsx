@@ -217,6 +217,9 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                     font-weight: 600;
                     color: #236BFF;
                 }
+                .strategy-before .title .split-parent > span:first-child {
+                    color: #236BFF;
+                }
                 .strategy-step h3 {
                     margin-bottom: 16px;
                 }
@@ -269,7 +272,7 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                                         threshold={0.2}
                                         rootMargin="-50px"
                                     >
-                                        Strategy Before Spending
+                                        Clarity Before Spending
                                     </SplitText>
                                 </h2>
                                 <div className="strategy-rail" ref={railRef}>

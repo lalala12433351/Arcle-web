@@ -78,7 +78,6 @@ import HeaderV1 from "../../components/header/HeaderV1";
 import AboutCrew from "../../components/about/AboutCrew";
 import WhatWeDoSequence from "../../components/services/WhatWeDoSequence";
 import ThemeDark from "../../components/switcher/ThemeDark";
-import WhyChooseV1 from "../../components/whyChoose/WhyChooseV1";
 import { ParallaxComponent } from "@/components/ui/parallax-scrolling";
 import IndustriesVideo from "../../components/videos/IndustriesVideo";
 import GrowthTogetherVideo from "../../components/videos/GrowthTogetherVideo";
@@ -136,9 +135,8 @@ const HomePlayground = () => {
                     <DeferredInfiniteMenu />
                     <ClientRoster />
                     <WhatWeDoSequence />
-                    <WhyChooseV1 sectionClass="default-padding" />
-                    <GrowthTogetherVideo />
                     <AboutCrew />
+                    <GrowthTogetherVideo />
                     <FaqV1 hasTitle={true} />
                     <FooterV1 />
                 </div>

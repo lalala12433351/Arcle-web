@@ -634,12 +634,17 @@ nav.navbar.validnavs.arcle-compact-nav.arcle-nav--on-dark.no-background .navbar-
   margin-top: 0;
 }
 
-.home-flow .client-roster__viewport {
-  margin-top: 60px;
-}
-
 .home-flow .industries-side {
   padding: 60px 30px 0;
+}
+
+/* Top space is the home-flow section gap (--home-pad). Match it below the
+   heading so the line sits with equal space above and below. */
+.home-flow .industries-lead {
+  margin: 0 0 var(--home-pad);
+  padding: 0 30px;
+  text-align: center;
+  line-height: 1.1;
 }
 
 .industries-hero {
@@ -657,6 +662,7 @@ nav.navbar.validnavs.arcle-compact-nav.arcle-nav--on-dark.no-background .navbar-
 
 .home-flow .industries-side__intro .title {
   margin: 0;
+  line-height: 1.45;
 }
 
 .home-flow .industries-side__intro p {
@@ -719,13 +725,13 @@ nav.navbar.validnavs.arcle-compact-nav.arcle-nav--on-dark.no-background .navbar-
     padding-top: 40px;
   }
 
-  .home-flow .client-roster__viewport {
-    margin-top: 40px;
-  }
-
   .home-flow .client-roster.default-padding {
     padding-top: 0;
     padding-bottom: 0;
+  }
+
+  .home-flow .industries-lead {
+    padding: 0 16px;
   }
 
   .home-flow .industries-side {

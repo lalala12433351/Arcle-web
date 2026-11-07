@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import LayoutV1 from "../../components/layouts/LayoutV1";
+import ParallaxHeroImagesDemo from "../../components/parallax-hero-images-demo";
 import ServiceCanvas from "../../components/services/page/ServiceCanvas";
 import ServicesCta from "../../components/services/page/ServicesCta";
-import ServicesHero from "../../components/services/page/ServicesHero";
 import ServiceSection from "../../components/services/page/ServiceSection";
 import { serviceEntries } from "../../components/services/page/servicesContent";
 import { useActiveService, useMediaQuery, useStickyOffsets } from "../../components/services/page/useServicesPage";
@@ -29,7 +29,7 @@ const ServicesPage = () => {
 
             <LayoutV1>
                 <div className="services-page" ref={rootRef}>
-                    <ServicesHero />
+                    <ParallaxHeroImagesDemo />
 
                     <div className="services-shell services-showcase">
                         <div className="services-showcase__sections">

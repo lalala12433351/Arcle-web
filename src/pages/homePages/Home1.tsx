@@ -78,6 +78,7 @@ import HeaderV1 from "../../components/header/HeaderV1";
 import AboutCrew from "../../components/about/AboutCrew";
 import WhatWeDoSequence from "../../components/services/WhatWeDoSequence";
 import ThemeDark from "../../components/switcher/ThemeDark";
+import WhyChooseV1 from "../../components/whyChoose/WhyChooseV1";
 import { ParallaxComponent } from "@/components/ui/parallax-scrolling";
 import IndustriesVideo from "../../components/videos/IndustriesVideo";
 import GrowthTogetherVideo from "../../components/videos/GrowthTogetherVideo";
@@ -136,6 +137,7 @@ const Home1 = () => {
                     <WhatWeDoSequence />
                     <AboutCrew />
                     <GrowthTogetherVideo />
+                    <WhyChooseV1 sectionClass="default-padding" />
                     <FaqV1 hasTitle={true} />
                     <FooterV1 />
                 </div>

@@ -65,6 +65,40 @@
 
 /* Hero */
 
+.services-parallax-hero {
+  --hero-bottom-gap: clamp(120px, 18vh, 240px);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100svh;
+  padding-top: var(--services-nav, 72px);
+  padding-bottom: var(--hero-bottom-gap);
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.services-parallax-hero__images {
+  top: var(--services-nav, 72px) !important;
+  bottom: var(--hero-bottom-gap) !important;
+}
+
+.services-page .services-parallax-hero__title {
+  position: relative;
+  z-index: 10;
+  max-width: min(12em, 92vw);
+  margin: 0;
+  color: #1c1c1a;
+  font-family: inherit;
+  font-size: clamp(2.35rem, 5.2vw, 4.75rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  text-align: center;
+  text-wrap: balance;
+  text-shadow: 0 0 28px rgba(250, 250, 250, 0.95);
+}
+
 .services-hero {
   padding-top: calc(var(--services-nav, 80px) + clamp(56px, 9vh, 104px));
   padding-bottom: clamp(44px, 7vh, 80px);

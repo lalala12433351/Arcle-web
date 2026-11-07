@@ -9,7 +9,7 @@ const videoStyle: CSSProperties = {
 };
 
 const sideVideos = [
-    { src: "/assets/video/industry-fpv.mp4", label: "Interior Designing", ratio: 4 / 3, aspect: "4 / 3", position: "center" },
+    { src: "/assets/video/industry-fpv.mp4", label: "", ratio: 4 / 3, aspect: "4 / 3", position: "center" },
     // Width share matches the 2/3 frame so both films share one height and the titles line up.
     { src: "/assets/video/industry-phone.mp4", label: "", ratio: 2 / 3, aspect: "2 / 3", position: "center top" },
 ];
@@ -49,6 +49,7 @@ const IndustriesVideo = () => {
 
     return (
         <div className="default-padding-top industries-block">
+            <h2 className="title industries-lead">End-to-End Solutions</h2>
             <div className="industries-hero">
                 <LazyVideo src="/assets/client/direct-keys/real-estate-web.mp4" poster="/assets/client/direct-keys/real-estate-poster.jpg" />
             </div>
@@ -71,7 +72,7 @@ const IndustriesVideo = () => {
 
                 <div className="industries-side__intro">
                     <h2 className="title">Our Brands Define Our Work</h2>
-                    <p>Trusted by MG Motor, WeWork, Sony Music, Food Pharmer and more</p>
+                    <p>Trusted by Mercedez-Benz, Design Arc Interiors, Kite Institute of Aviation & Hospitality and more</p>
                 </div>
 
                 <div className="industries-side__row">

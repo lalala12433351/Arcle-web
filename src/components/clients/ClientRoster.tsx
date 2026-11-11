@@ -114,20 +114,22 @@ const ClientRoster = () => {
             <div className="container">
                 <div className="client-roster__intro">
                     <h2 id="client-roster-title" className="client-roster__title">
-                        Selected work with{" "}
-                        <span className="client-roster__swap">
-                            <AnimatePresence mode="popLayout" initial={false}>
-                                <motion.span
-                                    key={current.name}
-                                    className="client-roster__word"
-                                    initial={reduceMotion ? false : { y: "70%", opacity: 0, filter: "blur(6px)" }}
-                                    animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-                                    exit={reduceMotion ? undefined : { y: "-70%", opacity: 0, filter: "blur(6px)" }}
-                                    transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
-                                >
-                                    {current.name}
-                                </motion.span>
-                            </AnimatePresence>
+                        <span className="client-roster__prefix">
+                            Selected work with
+                            <span className="client-roster__swap">
+                                <AnimatePresence mode="popLayout" initial={false}>
+                                    <motion.span
+                                        key={current.name}
+                                        className="client-roster__word"
+                                        initial={reduceMotion ? false : { y: "70%", opacity: 0, filter: "blur(6px)" }}
+                                        animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+                                        exit={reduceMotion ? undefined : { y: "-70%", opacity: 0, filter: "blur(6px)" }}
+                                        transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
+                                    >
+                                        {current.name}
+                                    </motion.span>
+                                </AnimatePresence>
+                            </span>
                         </span>
                     </h2>
                     <p className="client-roster__lede">

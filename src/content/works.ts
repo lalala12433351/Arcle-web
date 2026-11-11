@@ -213,12 +213,12 @@ export const works: Work[] = [
             "A cinematic property film built for Direct Keys launches and listings. The piece leads with atmosphere, then moves through space, light and finish so viewers feel the property before they visit. Framed for web, social and sales decks.",
         description:
             "Selling property online means making buyers feel a space before they ever visit it. Arcle built Direct Keys a complete launch system around that idea. We produced cinematic property films and cut them into reels for social media, then ran targeted Meta and Google campaigns to reach serious home buyers. Listing pages and lead forms capture every enquiry, and each one goes straight to the sales team, so every film, ad and click works towards site visits and bookings.",
-        cover: "/assets/client/direct-keys/real-estate.mp4",
-        poster: "/assets/client/direct-keys/real-estate-poster.jpg",
+        cover: "/assets/client/direct-keys/moneyview.mp4",
+        poster: "/assets/client/direct-keys/moneyview-poster.jpg",
         coverWidth: 1920,
         coverHeight: 1080,
         videos: [
-            { src: "/assets/client/direct-keys/real-estate.mp4", label: "Direct Keys film" },
+            { src: "/assets/client/direct-keys/moneyview.mp4", label: "Direct Keys film" },
             {
                 src: "/assets/client/direct-keys/banner.jpg",
                 label: "Direct Keys",

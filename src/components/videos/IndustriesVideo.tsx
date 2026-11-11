@@ -9,8 +9,8 @@ const videoStyle: CSSProperties = {
 };
 
 const sideVideos = [
-    { src: "/assets/video/industry-fpv.mp4", label: "", ratio: 4 / 3, aspect: "4 / 3", position: "center" },
-    // Width share matches the 2/3 frame so both films share one height and the titles line up.
+    { src: "/assets/video/nambiar-reel.mp4?v=3", poster: "/assets/video/nambiar-reel-poster.jpg", label: "", ratio: 9 / 16, aspect: "9 / 16", position: "center" },
+    // Width share matches each frame so both films share one height and the titles line up.
     { src: "/assets/video/industry-phone.mp4", label: "", ratio: 2 / 3, aspect: "2 / 3", position: "center top" },
 ];
 
@@ -26,11 +26,18 @@ const LazyVideo = ({ src, poster, position = "center" }: { src: string; poster?:
         const video = ref.current;
         if (!video) return;
 
+        const play = () => {
+            video.muted = true;
+            video.loop = true;
+            const pending = video.play();
+            if (pending) pending.catch(() => {});
+        };
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     if (!video.src) video.src = src;
-                    video.play().catch(() => {});
+                    play();
                 } else if (video.src) {
                     video.pause();
                 }
@@ -51,7 +58,7 @@ const IndustriesVideo = () => {
         <div className="default-padding-top industries-block">
             <h2 className="title industries-lead">End-to-End Solutions</h2>
             <div className="industries-hero">
-                <LazyVideo src="/assets/client/direct-keys/real-estate-web.mp4" poster="/assets/client/direct-keys/real-estate-poster.jpg" />
+                <LazyVideo src="/assets/client/direct-keys/moneyview.mp4" poster="/assets/client/direct-keys/moneyview-poster.jpg" />
             </div>
 
             <div className="industries-side">
@@ -63,7 +70,7 @@ const IndustriesVideo = () => {
                             style={{ "--industry-grow": item.ratio, "--industry-aspect": item.aspect } as CSSProperties}
                         >
                             <div className="industries-side__media">
-                                <LazyVideo src={item.src} position={item.position} />
+                                <LazyVideo src={item.src} poster={item.poster} position={item.position} />
                             </div>
                             {item.label && <h3 className="industries-label">{item.label}</h3>}
                         </div>

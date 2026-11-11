@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { PageOpenView } from "./components/utilities/PageOpen";
+import CursorEffect from "./components/animation/CursorEffect";
 import Home1 from "./pages/homePages/Home1";
 const Home2 = lazy(() => import("./pages/homePages/Home2"));
 const Home3 = lazy(() => import("./pages/homePages/Home3"));
@@ -104,6 +105,7 @@ const Routers = () => {
 
     return (
         <>
+            <CursorEffect />
             <Suspense fallback={<div className="arcle-route-fallback" role="status" aria-label="Loading page" />}>
             <PageOpenView key={pathname}>
             <Routes>

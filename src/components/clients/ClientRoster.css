@@ -15,7 +15,6 @@
 
 .client-roster__title {
     margin: 0;
-    max-width: 11em;
     color: #4a4a4a;
     font-family: var(--font-heading);
     font-size: clamp(32px, 4.2vw, 52px);
@@ -24,12 +23,20 @@
     line-height: 1.12;
 }
 
+.client-roster__prefix {
+    position: relative;
+    display: inline-block;
+}
+
 .client-roster__swap {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 0.28em);
     display: inline-block;
     overflow: hidden;
-    vertical-align: bottom;
     line-height: inherit;
     color: #111111;
+    white-space: nowrap;
 }
 
 .client-roster__word {
@@ -257,6 +264,21 @@ body.bg-dark .client-roster__logo {
 }
 
 @media (max-width: 767px) {
+    .client-roster__title {
+        position: relative;
+        min-height: calc(1.12em * 2);
+    }
+
+    .client-roster__prefix {
+        position: static;
+    }
+
+    .client-roster__swap {
+        top: 1.12em;
+        left: 0;
+        max-width: 100%;
+    }
+
     .client-roster .container {
         padding-top: 48px;
         padding-bottom: 48px;

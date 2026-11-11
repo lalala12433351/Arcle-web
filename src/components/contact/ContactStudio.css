@@ -190,9 +190,6 @@ body.bg-dark .cx-page {
 }
 
 .cx-hero__clock {
-    display: flex;
-    align-items: center;
-    gap: 10px;
     margin: 0;
     color: var(--cx-muted);
     font-size: 14px;
@@ -204,34 +201,6 @@ body.bg-dark .cx-page {
     margin-inline: 4px 2px;
     color: var(--cx-ink);
     font-weight: 600;
-}
-
-.cx-hero__pulse {
-    position: relative;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--cx-accent);
-}
-
-.cx-hero__pulse::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: inherit;
-    animation: cx-pulse 2.4s var(--cx-ease) infinite;
-}
-
-@keyframes cx-pulse {
-    0% {
-        transform: scale(1);
-        opacity: 0.6;
-    }
-    100% {
-        transform: scale(3.2);
-        opacity: 0;
-    }
 }
 
 .cx-hero__lead {
@@ -699,10 +668,6 @@ body.bg-dark .cx-map__frame iframe {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .cx-hero__pulse::after {
-        animation: none;
-    }
-
     .cx-btn,
     .cx-btn svg,
     .cx-chip span,

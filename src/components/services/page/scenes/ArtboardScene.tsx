@@ -38,8 +38,8 @@ const VideoBoard = ({ visible }: { visible: boolean }) => {
         <div className="board-video">
             <video
                 ref={videoRef}
-                src="/assets/client/direct-keys/real-estate.mp4"
-                poster="/assets/client/direct-keys/real-estate-poster.jpg"
+                src="/assets/client/direct-keys/moneyview.mp4"
+                poster="/assets/client/direct-keys/moneyview-poster.jpg"
                 preload="none"
                 playsInline
                 muted

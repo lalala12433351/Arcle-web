@@ -37,6 +37,8 @@ const AboutV7 = ({ sectionClass }: DataType) => {
 
     useLayoutEffect(() => {
         let frame = 0;
+        let lastY = Number.NaN;
+        let pointingUp = false;
         const update = () => {
             frame = 0;
             const line = window.innerHeight * 0.5;
@@ -102,10 +104,14 @@ const AboutV7 = ({ sectionClass }: DataType) => {
             labels.forEach((label) => {
                 const rect = label.getBoundingClientRect();
                 labelCenters.push(rect.top + rect.height / 2);
-                labelRight = Math.max(labelRight, rect.right);
+                const transform = getComputedStyle(label).transform;
+                const match = transform && transform !== "none" ? transform.match(/matrix\(([^)]+)\)/) : null;
+                const shift = match ? Number(match[1].split(",")[4]) || 0 : 0;
+                labelRight = Math.max(labelRight, rect.right - shift);
             });
 
-            let copyLeft = 0;
+            const column = stepRefs.current.find(Boolean)?.parentElement;
+            const copyLeft = column ? column.getBoundingClientRect().left : 0;
             stepRefs.current.forEach((el, stepIndex) => {
                 if (!el) return;
                 const body = el.querySelector<HTMLElement>(".strategy-step-body");
@@ -119,13 +125,21 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                 body.style.transform = `translate3d(0, ${offset}px, 0)`;
                 body.style.opacity = visible ? "1" : "0";
                 body.style.pointerEvents = visible ? "auto" : "none";
-                if (stepIndex === next) copyLeft = el.getBoundingClientRect().left;
             });
 
             const railRect = rail.getBoundingClientRect();
             const mid = copyLeft > labelRight ? (labelRight + copyLeft) / 2 : labelRight + 48;
+            if (Number.isNaN(lastY)) lastY = y;
+            else if (y < lastY - 0.4) {
+                pointingUp = true;
+                lastY = y;
+            } else if (y > lastY + 0.4) {
+                pointingUp = false;
+                lastY = y;
+            }
             rocket.style.left = `${mid - railRect.left}px`;
             rocket.style.transform = `translate3d(-50%, ${y}px, 0) translateY(-50%)`;
+            rocket.classList.toggle("is-up", pointingUp);
             rocket.classList.add("is-ready");
         };
         const onScroll = () => {
@@ -179,26 +193,42 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                     left: 0;
                     z-index: 2;
                     display: block;
-                    width: 36px;
-                    height: 58px;
+                    width: 40px;
+                    height: 60px;
                     pointer-events: none;
                     opacity: 0;
                 }
                 .strategy-rocket.is-ready {
                     opacity: 1;
                 }
+                .strategy-rocket__craft {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    transform-origin: center center;
+                    transition: transform 320ms ease;
+                }
+                .strategy-rocket.is-up .strategy-rocket__craft {
+                    transform: rotate(180deg);
+                }
                 .strategy-rocket__flame {
                     transform-box: fill-box;
                     transform-origin: center bottom;
                     animation: strategy-rocket-flame 420ms ease-in-out infinite alternate;
                 }
+                .strategy-rocket__core {
+                    animation-duration: 260ms;
+                    animation-direction: alternate-reverse;
+                }
                 @keyframes strategy-rocket-flame {
-                    from { opacity: 0.45; transform: scaleY(0.82); }
+                    from { opacity: 0.55; transform: scaleY(0.78); }
                     to { opacity: 1; transform: scaleY(1); }
                 }
                 @media (prefers-reduced-motion: reduce) {
-                    .strategy-rocket__flame {
+                    .strategy-rocket__flame,
+                    .strategy-rocket__craft {
                         animation: none;
+                        transition: none;
                     }
                 }
                 .strategy-step {
@@ -277,17 +307,27 @@ const AboutV7 = ({ sectionClass }: DataType) => {
                                 </h2>
                                 <div className="strategy-rail" ref={railRef}>
                                     <span ref={rocketRef} className="strategy-rocket" aria-hidden="true">
-                                        <svg viewBox="0 0 20 32" width="36" height="58" fill="none">
+                                        <span className="strategy-rocket__craft">
+                                        <svg viewBox="0 0 48 72" width="40" height="60" fill="none">
                                             <path
                                                 className="strategy-rocket__flame"
-                                                d="M10 1c1.15 2.2.15 3.7-1.05 4.75 1.55.35 2.85 1.65 2.85 3.15-1.15-.75-2.05-.4-2.8.35-.75-.75-1.65-1.1-2.8-.35 0-1.5 1.3-2.8 2.85-3.15C9.85 4.7 8.85 3.2 10 1z"
-                                                fill="#7EAEFF"
+                                                d="M24 3 27.2 14 31 9.5 28.6 18 32.5 24 H15.5 L19.4 18 17 9.5 20.8 14Z"
+                                                fill="#8EBCFF"
                                             />
-                                            <path d="M7.15 16.2 2.4 20.7c1.45.25 2.95-.45 3.9-1.55l.85-2.95z" fill="#236BFF" />
-                                            <path d="M12.85 16.2 17.6 20.7c-1.45.25-2.95-.45-3.9-1.55l-.85-2.95z" fill="#236BFF" />
-                                            <path d="M10 30.4c-2.15-3.5-3.15-6.05-3.15-8V13.8c0-3.35 1.4-6.25 3.15-8 1.75 1.75 3.15 4.65 3.15 8v8.6c0 1.95-1 4.5-3.15 8z" fill="#236BFF" />
-                                            <circle cx="10" cy="16.15" r="1.3" fill="#fff" />
+                                            <path
+                                                className="strategy-rocket__flame strategy-rocket__core"
+                                                d="M24 9.5 25.8 16 28 13.2 26.6 18.2 29 23 H19 L21.4 18.2 20 13.2 22.2 16Z"
+                                                fill="#F7FAFF"
+                                            />
+                                            <path d="M16 30 6.5 22 9 36 16 38Z" fill="#184EBE" />
+                                            <path d="M32 30 41.5 22 39 36 32 38Z" fill="#184EBE" />
+                                            <path d="M17.5 26 H30.5 C32.4 26 33.5 28 33.5 30.2 V44 L24 66 14.5 44 V30.2 C14.5 28 15.6 26 17.5 26Z" fill="#236BFF" />
+                                            <path d="M16.2 24.2 H31.8 C32.6 24.2 33 25.2 33 26.2 33 28 29.2 29.2 24 29.2 18.8 29.2 15 28 15 26.2 15 25.2 15.4 24.2 16.2 24.2Z" fill="#184EBE" />
+                                            <path d="M24 66 19.2 50 H28.8Z" fill="#4E92FF" />
+                                            <circle cx="24" cy="40" r="4.2" fill="#fff" />
+                                            <circle cx="24" cy="40" r="2" fill="#7EAEFF" />
                                         </svg>
+                                        </span>
                                     </span>
                                     <LineSidebar
                                         className="strategy-steps-sidebar"

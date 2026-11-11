@@ -43,7 +43,6 @@ const ContactStudio = () => {
                     <div className="cx-hero__foot">
                         <span className="cx-rule" data-cx-hero-rule aria-hidden="true" />
                         <p className="cx-hero__clock" data-cx-intro>
-                            <span className="cx-hero__pulse" aria-hidden="true" />
                             <span>Bangalore <time dateTime={clock.iso}>{clock.label}</time> IST</span>
                         </p>
                         <p className="cx-hero__lead" data-cx-intro>

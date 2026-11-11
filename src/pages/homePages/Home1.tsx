@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import AboutV7 from "../../components/about/AboutV7";
-import CursorEffect from "../../components/animation/CursorEffect";
 import FaqV1 from "../../components/faq/FaqV1";
 import menuItems from "../../components/infinite-menu/menuItems";
 import { useSiteTheme } from "../../hooks/useSiteTheme";
@@ -141,7 +140,6 @@ const Home1 = () => {
                     <FaqV1 hasTitle={true} />
                     <FooterV1 />
                 </div>
-                <CursorEffect />
                 <ThemeDark />
             </div>
         </>

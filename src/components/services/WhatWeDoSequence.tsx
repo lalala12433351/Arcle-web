@@ -11,8 +11,8 @@ const TITLE = "One Solution For Your Brand";
 const SUPPORT = "We provide everything your brand needs";
 
 /* Fractions of the pinned viewport. The title exits while the support line arrives, then each product frame settles in the same viewport. */
-const HANDOFF = 0.7;
-const SUPPORT_HOLD = 0.22;
+const HANDOFF = 0.42;
+const SUPPORT_HOLD = 0.08;
 const SETTLE = 0.4;
 
 const WhatWeDoSequence = () => {
@@ -103,7 +103,6 @@ const WhatWeDoSequence = () => {
                                 z: mobile ? -260 : -520,
                                 rotateZ: 7,
                                 opacity: 0,
-                                filter: "blur(7px)",
                                 transformPerspective: 1400,
                             },
                             {
@@ -112,7 +111,6 @@ const WhatWeDoSequence = () => {
                                 z: 72,
                                 rotateZ: -1.6,
                                 opacity: 1,
-                                filter: "blur(0px)",
                                 transformPerspective: 1400,
                                 ease: "none",
                                 duration: 1,
@@ -127,7 +125,6 @@ const WhatWeDoSequence = () => {
                                 z: mobile ? -160 : -340,
                                 rotateZ: -8,
                                 opacity: 0,
-                                filter: "blur(9px)",
                                 transformPerspective: 1400,
                             },
                             {
@@ -136,7 +133,6 @@ const WhatWeDoSequence = () => {
                                 z: -36,
                                 rotateZ: 2.4,
                                 opacity: 1,
-                                filter: "blur(0px)",
                                 transformPerspective: 1400,
                                 ease: "none",
                                 duration: 1,
@@ -147,6 +143,8 @@ const WhatWeDoSequence = () => {
 
                     crmTl.progress(0);
                     hrTl.progress(0);
+                    let lastCrm = 0;
+                    let lastHr = 0;
 
                     const contentHeight = (panel: HTMLElement) =>
                         (panel.firstElementChild as HTMLElement | null)?.offsetHeight ?? panel.offsetHeight;
@@ -187,7 +185,7 @@ const WhatWeDoSequence = () => {
                         // .home-flow is a flex column. ScrollTrigger skips pin spacing for flex
                         // children, so everything after this section scrolls over the pin.
                         pinSpacing: true,
-                        scrub: 0.7,
+                        scrub: true,
                         anticipatePin: 1,
                         invalidateOnRefresh: true,
                         // Opt into document-order refreshes. This pin is created before the
@@ -262,10 +260,28 @@ const WhatWeDoSequence = () => {
                             }
 
                             gsap.set(intro, { opacity: introOpacity, y: introY, scale: introScale, transformOrigin: "center center" });
-                            gsap.set(crm, { opacity: crmOpacity, y: crmY, scale: crmScale, transformOrigin: "center center" });
-                            gsap.set(hr, { opacity: hrOpacity, y: hrY, scale: hrScale, transformOrigin: "center center" });
-                            crmTl.progress(crmEnter);
-                            hrTl.progress(hrEnter);
+                            gsap.set(crm, {
+                                opacity: crmOpacity,
+                                y: crmY,
+                                scale: crmScale,
+                                transformOrigin: "center center",
+                                visibility: crmEnter > 0 ? "visible" : "hidden",
+                            });
+                            gsap.set(hr, {
+                                opacity: hrOpacity,
+                                y: hrY,
+                                scale: hrScale,
+                                transformOrigin: "center center",
+                                visibility: hrEnter > 0 ? "visible" : "hidden",
+                            });
+                            if (crmEnter !== lastCrm) {
+                                lastCrm = crmEnter;
+                                crmTl.progress(crmEnter);
+                            }
+                            if (hrEnter !== lastHr) {
+                                lastHr = hrEnter;
+                                hrTl.progress(hrEnter);
+                            }
                         },
                     });
                 }

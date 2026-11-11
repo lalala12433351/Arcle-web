@@ -38,6 +38,7 @@
     align-items: center;
     padding: 12px clamp(20px, 2.6vw, 40px) clamp(112px, 14vh, 168px);
     opacity: 0;
+    visibility: hidden;
     transform: scale(0.84);
     transform-origin: center center;
     will-change: transform;
@@ -164,6 +165,7 @@
     display: block;
     padding: 0;
     opacity: 1;
+    visibility: visible;
     transform: none;
     will-change: auto;
 }
@@ -239,6 +241,7 @@
         display: block;
         padding: 0;
         opacity: 1;
+        visibility: visible;
         transform: none;
         will-change: auto;
     }

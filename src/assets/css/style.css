@@ -5567,11 +5567,15 @@ ul.list-style-two li:last-child {
 
 /* Cursor Hover Effect */
 .cursor-hover-parent {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	top: 0;
+	position: fixed;
+	inset: 0;
+	z-index: 10050;
 	pointer-events: none;
+}
+
+.cursor-hover-parent:not(.is-ready) .cursor,
+.cursor-hover-parent:not(.is-ready) .cursor-follower {
+	opacity: 0;
 }
 
 .banner-style-three-area .cursor-hover-parent div {
@@ -5579,9 +5583,8 @@ ul.list-style-two li:last-child {
 }
 
 .cursor {
-	position: absolute;
+	position: fixed;
 	background: var(--color-primary);
-	cursor: pointer;
 	width: 16px;
 	height: 16px !important;
 	border-radius: 100%;
@@ -5631,7 +5634,7 @@ ul.list-style-two li:last-child {
 }
 
 .cursor-follower {
-	position: absolute;
+	position: fixed;
 	width: 40px;
 	height: 40px !important;
 	border-radius: 100%;
@@ -5654,6 +5657,14 @@ ul.list-style-two li:last-child {
 	opacity: 0.3;
 	transform: scale(0);
 	text-align: center;
+}
+
+@media screen and (min-width: 1024px) {
+	html.arcle-custom-cursor,
+	html.arcle-custom-cursor body,
+	html.arcle-custom-cursor body * {
+		cursor: none !important;
+	}
 }
 
 /* Banner Style Eleven */

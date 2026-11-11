@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import AboutV2 from "../../components/about/AboutV2";
-import CursorEffect from "../../components/animation/CursorEffect";
 import BannerV2 from "../../components/banner/BannerV2";
 import BlogV1 from "../../components/blog/BlogV1";
 import FooterV2 from "../../components/footer/FooterV2";
@@ -30,7 +29,6 @@ const Home2 = () => {
                 <TeamV3 hasTitle={true} />
                 <TestimonialV2 sectionClass='bg-gray' />
                 <BlogV1 />
-                <CursorEffect />
                 <FooterV2 />
                 <DarkClass />
                 <ThemeDark />

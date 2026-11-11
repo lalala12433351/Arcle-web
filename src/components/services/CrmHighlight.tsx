@@ -91,10 +91,10 @@ const CrmHighlight = ({ embedded = false }: { embedded?: boolean }) => {
 
                     <div className="crm-highlight__stage">
                         <figure className="crm-highlight__shot crm-highlight__shot--dashboard">
-                            <img src={dashboard} alt="CRM dashboard with today's calls, talk time, and the due follow-up queue" width={1280} height={720} />
+                            <img src={leads} alt="CRM leads list with contact numbers and follow-up actions" width={1280} height={720} />
                         </figure>
                         <figure className="crm-highlight__shot crm-highlight__shot--leads">
-                            <img src={leads} alt="CRM leads list with contact numbers and follow-up actions" width={1280} height={720} />
+                            <img src={dashboard} alt="CRM dashboard with today's calls, talk time, and the due follow-up queue" width={1280} height={720} />
                         </figure>
                     </div>
                 </div>

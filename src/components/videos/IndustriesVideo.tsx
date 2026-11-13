@@ -9,9 +9,9 @@ const videoStyle: CSSProperties = {
 };
 
 const sideVideos = [
-    { src: "/assets/video/nambiar-reel.mp4?v=3", poster: "/assets/video/nambiar-reel-poster.jpg", label: "", ratio: 9 / 16, aspect: "9 / 16", position: "center" },
+    { src: "/assets/client/kite-aviation/kite-reel-2.mp4", poster: "/assets/client/kite-aviation/kite-aviation-poster.jpg", label: "", ratio: 9 / 16, aspect: "9 / 16", position: "center" },
     // Width share matches each frame so both films share one height and the titles line up.
-    { src: "/assets/video/industry-phone.mp4", label: "", ratio: 2 / 3, aspect: "2 / 3", position: "center top" },
+    { src: "/assets/client/mirai/mirai.mp4", poster: "/assets/client/mirai/mirai-poster.jpg", label: "", ratio: 9 / 16, aspect: "9 / 16", position: "center" },
 ];
 
 const brandPosters = [

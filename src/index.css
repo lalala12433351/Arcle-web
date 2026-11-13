@@ -436,6 +436,314 @@ nav.navbar.validnavs.arcle-compact-nav.arcle-nav--on-dark.no-background .navbar-
     padding-bottom: 18px !important;
   }
 }
+
+/* Samara-style header: logo | frosted menu pill | accent CTA.
+   The bar itself stays fully transparent — only the pill + CTA are opaque. */
+nav.navbar.validnavs.arcle-samara-nav,
+nav.navbar.validnavs.arcle-samara-nav.sticked,
+nav.navbar.validnavs.arcle-samara-nav.no-background,
+nav.navbar.validnavs.navbar-fixed.arcle-samara-nav.no-background,
+nav.navbar.validnavs.navbar-fixed.arcle-samara-nav.sticked,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.sticked,
+body.bg-dark nav.navbar.validnavs.sticked.arcle-samara-nav {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Kill validnavs sticky frosted sheet behind the bar */
+nav.navbar.validnavs.arcle-samara-nav.sticked::before,
+nav.navbar.validnavs.arcle-samara-nav::before,
+nav.navbar.validnavs.arcle-samara-nav.sticked::after,
+nav.navbar.validnavs.arcle-samara-nav::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
+
+nav.navbar.validnavs.arcle-samara-nav > .arcle-samara-nav__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  /* Symmetric padding so flex-centered logo/CTA share midY with absolute pill */
+  padding: 14px 32px;
+  min-height: 75px;
+  position: relative;
+}
+
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+  min-height: 47px;
+}
+
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__logo {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  height: auto;
+  /* A-mark peeks above the wordmark — nudge so letters optically match pill/CTA */
+  transform: translateY(1px);
+}
+
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__logo img {
+  display: block;
+  vertical-align: top;
+}
+
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__desktop {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+}
+
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__actions {
+  float: none;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  min-height: 47px;
+}
+
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 47px;
+  padding: 0 18px;
+  border-radius: 24px;
+  background: #236BFF;
+  box-shadow: 0 2px 1.5px rgba(4, 0, 11, 0.1);
+  color: #fff !important;
+  font-family: "Manrope", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.15px;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__cta:hover,
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__cta:focus-visible {
+  background: color-mix(in srgb, #236BFF 86%, #04000b);
+  color: #fff !important;
+  text-decoration: none;
+}
+
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__cta:focus-visible {
+  outline: 2px solid #236BFF;
+  outline-offset: 3px;
+}
+
+nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__cta--mobile {
+  display: none;
+}
+
+/* Frosted glass menu pill — Samara's signature header element.
+   Soft ink wash so the capsule stays visible on white sticky bars
+   (pure white translucency disappears against #fff). */
+.arcle-samara-pill {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border-radius: 22px;
+  background: color-mix(in srgb, #04000b 8%, #fff);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #04000b 6%, transparent);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.arcle-samara-pill__indicator {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  z-index: 0;
+  height: 41px;
+  border-radius: 18px;
+  background: rgba(4, 0, 11, 0.06);
+  pointer-events: none;
+  transition: transform 0.24s ease, width 0.24s ease, opacity 0.16s ease, background-color 0.2s ease;
+}
+
+.arcle-samara-pill__link {
+  display: inline-flex;
+  position: relative;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 41px;
+  padding: 0 21px;
+  border-radius: 18px;
+  color: color-mix(in srgb, #04000b 60%, transparent);
+  font-family: "Manrope", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.16s ease;
+}
+
+.arcle-samara-pill__link + .arcle-samara-pill__link {
+  margin-left: -11px;
+}
+
+.arcle-samara-pill__link:hover,
+.arcle-samara-pill__link:focus-visible,
+.arcle-samara-pill__link.is-current {
+  color: #04000b;
+  text-decoration: none;
+}
+
+.arcle-samara-pill__link:focus-visible {
+  outline: 2px solid #236BFF;
+  outline-offset: 2px;
+}
+
+/* Over dark hero — inverted frosted pill like Samara */
+nav.navbar.validnavs.arcle-samara-nav.arcle-nav--on-dark.no-background .arcle-samara-pill,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.no-background .arcle-samara-pill {
+  background: rgba(4, 0, 11, 0.28);
+}
+
+nav.navbar.validnavs.arcle-samara-nav.arcle-nav--on-dark.no-background .arcle-samara-pill__indicator,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.no-background .arcle-samara-pill__indicator {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+nav.navbar.validnavs.arcle-samara-nav.arcle-nav--on-dark.no-background .arcle-samara-pill__link,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.no-background .arcle-samara-pill__link {
+  color: color-mix(in srgb, #fff 60%, transparent);
+}
+
+nav.navbar.validnavs.arcle-samara-nav.arcle-nav--on-dark.no-background .arcle-samara-pill__link:hover,
+nav.navbar.validnavs.arcle-samara-nav.arcle-nav--on-dark.no-background .arcle-samara-pill__link:focus-visible,
+nav.navbar.validnavs.arcle-samara-nav.arcle-nav--on-dark.no-background .arcle-samara-pill__link.is-current,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.no-background .arcle-samara-pill__link:hover,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.no-background .arcle-samara-pill__link:focus-visible,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.no-background .arcle-samara-pill__link.is-current {
+  color: #fff;
+}
+
+/* Sticky keeps the grey glass capsule readable on the light bar */
+nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill {
+  background: color-mix(in srgb, #04000b 9%, #fff);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #04000b 8%, transparent);
+}
+
+nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__indicator {
+  background: rgba(4, 0, 11, 0.08);
+}
+
+nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__link {
+  color: color-mix(in srgb, #04000b 60%, transparent);
+}
+
+nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__link:hover,
+nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__link:focus-visible,
+nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__link.is-current {
+  color: #04000b;
+}
+
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__indicator {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__link {
+  color: color-mix(in srgb, #fff 60%, transparent);
+}
+
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__link:hover,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__link:focus-visible,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.sticked .arcle-samara-pill__link.is-current {
+  color: #fff;
+}
+
+/* Dark-hero inverted pill should not keep the light inset ring */
+nav.navbar.validnavs.arcle-samara-nav.arcle-nav--on-dark.no-background .arcle-samara-pill,
+body.bg-dark nav.navbar.validnavs.arcle-samara-nav.no-background .arcle-samara-pill {
+  box-shadow: none;
+}
+
+@media (min-width: 1024px) {
+  nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__toggle {
+    display: none !important;
+  }
+
+  /* Hide Bootstrap collapse chrome on desktop — pill replaces it */
+  nav.navbar.validnavs.arcle-samara-nav > .navbar-collapse {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  nav.navbar.validnavs.arcle-samara-nav > .arcle-samara-nav__bar {
+    align-items: center;
+    min-height: 64px;
+    padding: 10px 16px;
+    gap: 10px;
+  }
+
+  nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__desktop {
+    display: none;
+  }
+
+  nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__actions {
+    margin-left: auto;
+    margin-right: 48px; /* room for fixed theme switch */
+  }
+
+  nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__cta {
+    height: 40px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  nav.navbar.validnavs.arcle-samara-nav .arcle-samara-nav__cta--mobile {
+    display: inline-flex;
+    margin: 24px 15px 8px;
+    width: calc(100% - 30px);
+    height: 48px;
+    border-radius: 24px;
+  }
+}
 @media (max-width: 991px) {
   .footer-bottom .text-end {
     text-align: left !important;
